@@ -2,1327 +2,489 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🌊 Our Honeymoon — Indonesia 2026</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5">
+<title>Our Honeymoon · Indonesia 2026</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-/* ═══════════════════════════════════════
-   HORIZON DESIGN SYSTEM — LIGHT PALETTE
-═══════════════════════════════════════ */
-:root {
-  --sky:        #EEF6FF;
-  --sky-mid:    #DAEEFF;
-  --horizon:    #B8D9F0;
-  --ocean:      #2E7DAA;
-  --ocean-deep: #1A5C82;
-  --gold:       #D4912A;h
-  --gold-light: #F6E4C0;
-  --gold-pale:  #FDF6E8;
-  --sand:       #F7F1E8;
-  --sand-dark:  #EDE4D5;
-  --white:      #FFFFFF;
-  --text-dark:  #1A2B3C;
-  --text-mid:   #3D5A72;
-  --text-light: #6B8A9E;
-  --success:    #2A9D65;
-  --warn:       #D4912A;
-  --danger:     #C0392B;
-  --glass:      rgba(255,255,255,0.72);
-  --glass-border: rgba(180,210,235,0.5);
-  --shadow-sm:  0 2px 12px rgba(46,125,170,0.10);
-  --shadow-md:  0 6px 28px rgba(46,125,170,0.15);
-  --shadow-lg:  0 16px 48px rgba(46,125,170,0.18);
-  --r-sm: 12px;
-  --r-md: 20px;
-  --r-lg: 28px;
-  --r-pill: 50px;
+/* ═══════════════════════════════════════════════════════
+   HORIZON · EDITORIAL LIGHT — photo-driven luxury
+═══════════════════════════════════════════════════════ */
+:root{
+  --sky:#F2F7FB; --sky-2:#E4F0F8; --horizon:#C4DCEC;
+  --ocean:#2E7DAA; --ocean-deep:#1A5C82;
+  --gold:#C2922F; --gold-2:#E9D2A0; --gold-pale:#FBF5E9;
+  --sand:#F8F3EA; --sand-2:#ECE2D2;
+  --ink:#1B2A38; --ink-2:#41596E; --ink-3:#7B96A8;
+  --ok:#2A9D65; --warn:#C2922F; --bad:#C0503B;
+  --glass:rgba(255,255,255,.74); --line:rgba(170,200,224,.45);
+  --sh-1:0 2px 14px rgba(40,110,150,.10);
+  --sh-2:0 10px 36px rgba(40,110,150,.16);
+  --sh-3:0 24px 70px rgba(40,110,150,.22);
+  --r:18px; --r-lg:26px; --r-pill:50px;
 }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  font-family:'DM Sans',sans-serif;color:var(--ink);
+  background:linear-gradient(175deg,#F2F7FB 0%,#E4F0F8 38%,#F8F3EA 100%);
+  min-height:100vh;overflow-x:hidden;line-height:1.5;
+}
+.serif{font-family:'Cormorant Garamond',serif}
+.mono{font-family:'JetBrains Mono',monospace}
+img{display:block;max-width:100%}
 
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+/* small-caps label */
+.eyebrow{font-size:11px;letter-spacing:.22em;text-transform:uppercase;font-weight:600;color:var(--ink-3)}
 
-html { scroll-behavior: smooth; font-size: 16px; }
+/* ── HEADER ───────────────────────────────────────────── */
+#hdr{
+  position:sticky;top:0;z-index:100;
+  background:rgba(242,247,251,.82);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);
+  border-bottom:1px solid var(--line);
+}
+.hdr-in{max-width:780px;margin:0 auto;display:flex;align-items:center;gap:10px;height:58px;padding:0 16px}
+.brand{display:flex;flex-direction:column;line-height:1.05;flex-shrink:0;cursor:pointer}
+.brand .t{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:600;font-size:19px;color:var(--ocean-deep)}
+.brand .s{font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);font-weight:600}
+.nav{display:flex;gap:3px;flex:1;overflow-x:auto;scrollbar-width:none;justify-content:flex-end}
+.nav::-webkit-scrollbar{display:none}
+.np{padding:5px 11px;border:1px solid transparent;border-radius:var(--r-pill);background:none;color:var(--ink-2);font:500 12px 'DM Sans';cursor:pointer;white-space:nowrap;transition:.2s}
+.np:hover{background:rgba(46,125,170,.08);color:var(--ocean)}
+.np.on{background:var(--ocean);color:#fff;box-shadow:0 2px 8px rgba(46,125,170,.3)}
+.hdr-r{display:flex;align-items:center;gap:8px;flex-shrink:0}
+#sync{font-size:15px;opacity:.6;cursor:default}
+/* lang */
+.lang{position:relative}
+.lang-cur{display:flex;align-items:center;gap:5px;background:var(--glass);border:1px solid var(--line);border-radius:var(--r-pill);padding:4px 9px 4px 6px;color:var(--ink-2);cursor:pointer;font:500 12px 'DM Sans';transition:.2s}
+.lang-cur:hover{background:#fff}
+.flag{font-size:17px;line-height:1}
+.chev{font-size:8px;color:var(--ink-3)}
+.lang-d{position:absolute;top:calc(100% + 8px);right:0;background:#fff;border:1px solid var(--line);border-radius:14px;padding:6px;min-width:158px;display:none;z-index:200;box-shadow:var(--sh-2);animation:pop .16s ease}
+.lang-d.open{display:block}
+@keyframes pop{from{opacity:0;transform:translateY(-6px) scale(.97)}to{opacity:1;transform:none}}
+.lang-o{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:9px;cursor:pointer;color:var(--ink-2);font-size:13px;transition:.12s}
+.lang-o:hover{background:var(--sky)}
+.lang-ck{margin-left:auto;color:var(--ocean);font-weight:700;font-size:12px}
 
-body {
-  font-family: 'DM Sans', sans-serif;
-  background: linear-gradient(160deg, #EEF6FF 0%, #DAEEFF 40%, #F7F1E8 100%);
-  min-height: 100vh;
-  color: var(--text-dark);
-  overflow-x: hidden;
-}
+/* ── HERO (full-bleed photo) ──────────────────────────── */
+#hero{position:relative;height:78vh;min-height:520px;max-height:760px;display:flex;align-items:flex-end;justify-content:center;overflow:hidden}
+.hero-img{position:absolute;inset:0;background-size:cover;background-position:center;transform:scale(1.06);animation:slowzoom 18s ease-out forwards}
+@keyframes slowzoom{to{transform:scale(1)}}
+.hero-veil{position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,50,75,.18) 0%,rgba(20,50,75,0) 30%,rgba(20,50,75,.08) 60%,rgba(20,50,75,.62) 100%)}
+.hero-c{position:relative;z-index:2;text-align:center;color:#fff;padding:0 22px 52px;max-width:720px}
+.hero-eyebrow{font-size:11px;letter-spacing:.28em;text-transform:uppercase;font-weight:600;color:rgba(255,255,255,.92);margin-bottom:14px;text-shadow:0 1px 12px rgba(0,0,0,.4)}
+.hero-num{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(82px,22vw,150px);line-height:.82;letter-spacing:-.02em;text-shadow:0 4px 30px rgba(0,0,0,.35)}
+.hero-title{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:400;font-size:clamp(24px,5vw,34px);margin-top:6px;text-shadow:0 2px 18px rgba(0,0,0,.4)}
+.hero-sub{font-size:13px;color:rgba(255,255,255,.9);margin-top:10px;letter-spacing:.02em;text-shadow:0 1px 10px rgba(0,0,0,.4)}
+.scroll-cue{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);z-index:3;color:rgba(255,255,255,.8);font-size:18px;animation:bob 1.8s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(6px)}}
 
-/* ── BACKGROUND DECORATION ── */
-body::before {
-  content:'';
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  background:
-    radial-gradient(ellipse 60% 40% at 80% 20%, rgba(46,125,170,0.08) 0%, transparent 70%),
-    radial-gradient(ellipse 40% 30% at 10% 80%, rgba(212,145,42,0.07) 0%, transparent 70%);
-  z-index: 0;
-}
-body > * { position: relative; z-index: 1; }
+/* ── LAYOUT ───────────────────────────────────────────── */
+main{max-width:780px;margin:0 auto;padding:0 16px 90px}
+section{padding:44px 0 8px;scroll-margin-top:64px}
+.s-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:18px;gap:12px}
+.s-title{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:600;font-size:30px;color:var(--ocean-deep);line-height:1.05}
+.s-note{font-size:12px;color:var(--ink-3)}
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .6s ease,transform .6s ease}
+.reveal.in{opacity:1;transform:none}
 
-/* ── TYPOGRAPHY ── */
-.display { font-family: 'Cormorant Garamond', serif; }
-.mono    { font-family: 'JetBrains Mono', monospace; }
+/* ── JOURNEY TIMELINE ─────────────────────────────────── */
+.timeline{background:var(--glass);border:1px solid var(--line);border-radius:var(--r-lg);padding:22px;box-shadow:var(--sh-1)}
+.tl-solo{display:flex;align-items:center;gap:10px;font-size:11.5px;color:var(--ink-3);background:var(--sand);border:1px dashed var(--sand-2);border-radius:12px;padding:9px 13px;margin-bottom:16px}
+.tl-solo b{color:var(--ink-2);font-weight:600}
+.tl-phases{display:flex;justify-content:space-between;gap:4px;margin-bottom:9px}
+.tl-ph{flex:1;text-align:center}
+.tl-ph .ic{font-size:17px}
+.tl-ph .lb{font-size:9.5px;letter-spacing:.04em;text-transform:uppercase;font-weight:600;color:var(--ink-3);margin-top:2px}
+.tl-ph.cur .lb{color:var(--ocean)}
+.tl-ph.cur .ic{filter:drop-shadow(0 2px 6px rgba(46,125,170,.5))}
+.tl-track{height:9px;background:var(--sky-2);border-radius:99px;overflow:hidden}
+.tl-fill{height:100%;background:linear-gradient(90deg,var(--ocean),var(--gold));border-radius:99px;transition:width 1.1s ease}
+.tl-dates{display:flex;justify-content:space-between;margin-top:8px;font:500 11px 'JetBrains Mono';color:var(--ink-3)}
 
-/* ══════════════════════════════════════
-   STICKY HEADER
-══════════════════════════════════════ */
-#header {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  background: rgba(238,246,255,0.88);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border-bottom: 1px solid var(--glass-border);
-  box-shadow: 0 2px 16px rgba(46,125,170,0.10);
-  padding: 0 16px;
-}
-.header-inner {
-  max-width: 760px;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  height: 60px;
-}
-.header-brand {
-  display: flex;
-  flex-direction: column;
-  line-height: 1.1;
-  flex-shrink: 0;
-}
-.header-brand .title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 18px;
-  font-style: italic;
-  font-weight: 600;
-  color: var(--ocean-deep);
-  letter-spacing: 0.01em;
-}
-.header-brand .sub {
-  font-size: 10px;
-  color: var(--text-light);
-  letter-spacing: 0.04em;
-  font-weight: 500;
-  text-transform: uppercase;
-}
-.header-nav {
-  display: flex;
-  gap: 4px;
-  flex: 1;
-  overflow-x: auto;
-  scrollbar-width: none;
-}
-.header-nav::-webkit-scrollbar { display: none; }
-.nav-pill {
-  padding: 5px 12px;
-  border-radius: var(--r-pill);
-  border: 1px solid transparent;
-  background: transparent;
-  color: var(--text-mid);
-  font-size: 12px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s;
-  white-space: nowrap;
-  font-family: inherit;
-}
-.nav-pill:hover { background: rgba(46,125,170,0.08); color: var(--ocean); }
-.nav-pill.active {
-  background: var(--ocean);
-  color: white;
-  border-color: var(--ocean);
-  box-shadow: 0 2px 8px rgba(46,125,170,0.3);
-}
-.header-right {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-shrink: 0;
-}
-.budget-pill {
-  padding: 4px 10px;
-  border-radius: var(--r-pill);
-  font-size: 11px;
-  font-weight: 600;
-  background: var(--gold-pale);
-  color: var(--gold);
-  border: 1px solid var(--gold-light);
-  cursor: pointer;
-  transition: all 0.2s;
-}
-.budget-pill:hover { transform: scale(1.03); }
+/* ── PHOTO DESTINATION CARDS ──────────────────────────── */
+.dest{position:relative;border-radius:var(--r-lg);overflow:hidden;margin-bottom:16px;box-shadow:var(--sh-1);cursor:pointer;transition:box-shadow .3s,transform .25s;background:var(--glass)}
+.dest:hover{box-shadow:var(--sh-2);transform:translateY(-2px)}
+.dest-photo{position:relative;height:200px;background-size:cover;background-position:center}
+.dest-photo::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,50,75,.05) 0%,rgba(20,50,75,.55) 100%)}
+.dest-badge{position:absolute;top:13px;left:13px;z-index:2;background:rgba(255,255,255,.92);color:var(--gold);border-radius:var(--r-pill);font:700 10px 'DM Sans';letter-spacing:.06em;text-transform:uppercase;padding:4px 11px;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+.dest-cap{position:absolute;left:16px;right:16px;bottom:13px;z-index:2;color:#fff}
+.dest-cap .nm{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:23px;line-height:1.1;text-shadow:0 2px 14px rgba(0,0,0,.45)}
+.dest-cap .lc{font-size:11.5px;opacity:.92;margin-top:1px;text-shadow:0 1px 8px rgba(0,0,0,.5)}
+.dest-arrow{position:absolute;right:14px;bottom:14px;z-index:2;color:#fff;font-size:13px;transition:transform .35s;text-shadow:0 1px 8px rgba(0,0,0,.5)}
+.dest.open .dest-arrow{transform:rotate(180deg)}
+.dest-body{max-height:0;overflow:hidden;transition:max-height .5s ease}
+.dest.open .dest-body{max-height:2200px}
+.dest-in{padding:18px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:14px}
+.cell{background:#fff;border:1px solid var(--sand-2);border-radius:12px;padding:11px 13px}
+.cell .k{font-size:9px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--ink-3);margin-bottom:3px}
+.cell .v{font:500 13px 'JetBrains Mono';color:var(--ink)}
+.hl{background:var(--sky);border:1px solid var(--horizon);border-radius:12px;padding:13px 15px;margin-bottom:12px}
+.hl h4{font-size:10px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--ocean);margin-bottom:9px}
+.hl-i{display:flex;gap:8px;font-size:13px;color:var(--ink-2);margin-bottom:6px;line-height:1.4}
+.hl-i::before{content:'✦';color:var(--gold);font-size:10px;margin-top:3px;flex-shrink:0}
+.allergy{background:#EAF7F0;border:1px solid #A6D6B8;border-radius:12px;padding:10px 14px;font-size:12.5px;color:#1A6B40;font-weight:500;margin-bottom:12px}
+.ta{width:100%;background:#fff;border:1px solid var(--sand-2);border-radius:12px;padding:11px 13px;font:400 13px 'DM Sans';color:var(--ink);resize:vertical;min-height:74px;outline:none;transition:.2s;margin-bottom:8px}
+.ta:focus{border-color:var(--ocean)}
+.btn{border:none;border-radius:var(--r-pill);font:600 13px 'DM Sans';cursor:pointer;transition:.2s;padding:9px 20px}
+.btn-o{background:var(--ocean);color:#fff}
+.btn-o:hover{background:var(--ocean-deep)}
+.btn-g{background:var(--gold-pale);color:var(--gold);border:1.5px solid var(--gold-2)}
+.btn-g:hover{background:var(--gold-2)}
 
-/* ── LANGUAGE SWITCHER ── */
-.lang-switcher { position: relative; }
-.lang-current {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  background: var(--glass);
-  border: 1px solid var(--glass-border);
-  border-radius: var(--r-pill);
-  padding: 4px 10px 4px 5px;
-  color: var(--text-mid);
-  cursor: pointer;
-  font-size: 12px;
-  font-weight: 500;
-  font-family: inherit;
-  transition: background 0.2s;
-}
-.lang-current:hover { background: white; }
-.lang-flag { font-size: 18px; line-height: 1; }
-.lang-chevron { font-size: 9px; color: var(--text-light); margin-left: 2px; }
-.lang-dropdown {
-  position: absolute;
-  top: calc(100% + 8px);
-  right: 0;
-  background: white;
-  border: 1px solid var(--glass-border);
-  border-radius: 16px;
-  padding: 6px;
-  min-width: 160px;
-  display: none;
-  z-index: 200;
-  box-shadow: var(--shadow-lg);
-  animation: dropIn 0.18s ease;
-}
-.lang-dropdown.open { display: block; }
-@keyframes dropIn {
-  from { opacity:0; transform: translateY(-6px) scale(0.97); }
-  to   { opacity:1; transform: translateY(0) scale(1); }
-}
-.lang-option {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 8px 10px;
-  border-radius: 10px;
-  cursor: pointer;
-  color: var(--text-mid);
-  font-size: 13px;
-  transition: background 0.12s;
-}
-.lang-option:hover { background: var(--sky); }
-.lang-check { margin-left: auto; color: var(--ocean); font-size: 12px; font-weight: 700; }
+/* ── BUDGET ───────────────────────────────────────────── */
+.budget{background:var(--glass);border:1px solid var(--line);border-radius:var(--r-lg);padding:22px;box-shadow:var(--sh-1)}
+.bud-top{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:12px}
+.bud-spent{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:38px;color:var(--ocean-deep);line-height:1}
+.bud-of{font-size:13px;color:var(--ink-3);margin-top:3px}
+.bud-pill{font:600 12px 'DM Sans';padding:6px 13px;border-radius:var(--r-pill)}
+.bud-pill.green{background:#EAF7F0;color:var(--ok);border:1px solid #A6D6B8}
+.bud-pill.yellow{background:var(--gold-pale);color:var(--gold);border:1px solid var(--gold-2)}
+.bud-pill.red{background:#FBEDEA;color:var(--bad);border:1px solid #E8B3A8}
+.bud-track{height:11px;background:var(--sky-2);border-radius:99px;overflow:hidden;margin-bottom:8px}
+.bud-fill{height:100%;border-radius:99px;transition:width .6s ease,background .4s}
+.bud-meta{display:flex;justify-content:space-between;font:500 11px 'JetBrains Mono';color:var(--ink-3)}
+.bud-tip{margin-top:14px;background:var(--sky);border:1px solid var(--horizon);border-radius:12px;padding:11px 14px;font-size:12.5px;color:var(--ink-2);line-height:1.5;display:flex;gap:9px}
+.bud-tip .ai-ic{font-size:16px;flex-shrink:0}
+.bud-break{margin-top:12px;border-top:1px solid var(--sand-2);padding-top:10px}
+.bud-row{display:flex;justify-content:space-between;font-size:12.5px;color:var(--ink-2);padding:4px 0}
+.bud-row .amt{font:500 12.5px 'JetBrains Mono';color:var(--ink)}
 
-/* ══════════════════════════════════════
-   MAIN LAYOUT
-══════════════════════════════════════ */
-main {
-  max-width: 760px;
-  margin: 0 auto;
-  padding: 0 16px 80px;
-}
-section { padding: 40px 0 20px; }
-.section-label {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 28px;
-  font-style: italic;
-  font-weight: 600;
-  color: var(--ocean-deep);
-  margin-bottom: 20px;
-  letter-spacing: 0.01em;
-}
+/* ── PACKING ──────────────────────────────────────────── */
+.pk-g{background:var(--glass);border:1px solid var(--line);border-radius:var(--r-lg);padding:18px;margin-bottom:13px;box-shadow:var(--sh-1)}
+.pk-t{font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--ocean);margin-bottom:13px;display:flex;align-items:center;gap:8px}
+.pk-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+@media(max-width:480px){.pk-grid{grid-template-columns:1fr}}
+.pk-i{display:flex;align-items:flex-start;gap:10px;background:#fff;border:1px solid var(--sand-2);border-radius:11px;padding:10px 12px;cursor:pointer;transition:.15s;user-select:none}
+.pk-i:hover{background:var(--sky);border-color:var(--horizon)}
+.pk-i.ck{background:#EAF7F0;border-color:#A6D6B8}
+.pk-cb{width:18px;height:18px;border:2px solid var(--horizon);border-radius:5px;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:.2s;margin-top:1px;background:#fff;font-size:11px;color:#fff}
+.pk-i.ck .pk-cb{background:var(--ok);border-color:var(--ok)}
+.pk-i.ck .pk-cb::after{content:'✓'}
+.pk-x{font-size:12px;color:var(--ink-2);line-height:1.4}
+.pk-i.ck .pk-x{color:var(--ok);text-decoration:line-through;opacity:.7}
 
-/* ── REVEAL ANIMATION ── */
-.reveal {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.5s ease, transform 0.5s ease;
-}
-.reveal.visible { opacity: 1; transform: translateY(0); }
+/* ── ACTIVITIES (photo cards) ─────────────────────────── */
+.filters{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:4px;margin-bottom:16px}
+.filters::-webkit-scrollbar{display:none}
+.fp{padding:6px 14px;border:1.5px solid var(--line);background:var(--glass);color:var(--ink-2);border-radius:var(--r-pill);font:600 12px 'DM Sans';cursor:pointer;white-space:nowrap;transition:.2s}
+.fp:hover{border-color:var(--ocean);color:var(--ocean);background:var(--sky)}
+.fp.on{background:var(--ocean);color:#fff;border-color:var(--ocean)}
+.acts{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:480px){.acts{grid-template-columns:1fr}}
+.act{position:relative;border-radius:var(--r);overflow:hidden;cursor:pointer;box-shadow:var(--sh-1);transition:.25s;background:var(--glass);min-height:158px;display:flex;flex-direction:column;justify-content:flex-end}
+.act:hover{box-shadow:var(--sh-2);transform:translateY(-2px)}
+.act-photo{position:absolute;inset:0;background-size:cover;background-position:center}
+.act-photo::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,50,75,.1) 30%,rgba(20,50,75,.72) 100%)}
+.act-c{position:relative;z-index:2;padding:13px;color:#fff}
+.act-nm{font:600 14px 'DM Sans';line-height:1.25;text-shadow:0 2px 10px rgba(0,0,0,.5)}
+.act-pr{font:600 12px 'JetBrains Mono';color:var(--gold-2);margin-top:3px;text-shadow:0 1px 8px rgba(0,0,0,.6)}
+.act-ph{font-size:11px;opacity:.9;margin-top:1px;text-shadow:0 1px 8px rgba(0,0,0,.6)}
+.act-tick{position:absolute;top:10px;right:10px;z-index:3;background:var(--ok);color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font:700 12px 'DM Sans';box-shadow:0 2px 8px rgba(0,0,0,.3)}
 
-/* ══════════════════════════════════════
-   HERO
-══════════════════════════════════════ */
-#hero {
-  text-align: center;
-  padding: 48px 0 32px;
-}
-.hero-wave {
-  font-size: 13px;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--text-light);
-  font-weight: 500;
-  margin-bottom: 8px;
-}
-.hero-number {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(72px, 18vw, 120px);
-  font-weight: 300;
-  color: var(--ocean);
-  line-height: 0.9;
-  letter-spacing: -0.02em;
-  position: relative;
-  display: inline-block;
-}
-.hero-number::after {
-  content: '';
-  position: absolute;
-  bottom: -4px;
-  left: 10%;
-  width: 80%;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, var(--gold), transparent);
-}
-.hero-label {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 22px;
-  font-style: italic;
-  color: var(--text-mid);
-  margin: 12px 0 4px;
-}
-.hero-sub {
-  font-size: 14px;
-  color: var(--text-light);
-}
-.hero-badges {
-  display: flex;
-  gap: 8px;
-  justify-content: center;
-  flex-wrap: wrap;
-  margin-top: 24px;
-}
-.hero-badge {
-  background: var(--glass);
-  border: 1px solid var(--glass-border);
-  border-radius: var(--r-pill);
-  padding: 6px 14px;
-  font-size: 12px;
-  color: var(--text-mid);
-  font-weight: 500;
-}
-.hero-badge.active-badge {
-  background: var(--ocean);
-  color: white;
-  border-color: var(--ocean);
-}
+/* ── BOTTOM SHEET ─────────────────────────────────────── */
+.veil{position:fixed;inset:0;background:rgba(20,40,60,.42);z-index:150;opacity:0;pointer-events:none;transition:.3s;backdrop-filter:blur(2px)}
+.veil.open{opacity:1;pointer-events:all}
+.sheet{position:fixed;bottom:0;left:50%;transform:translateX(-50%) translateY(100%);width:100%;max-width:780px;background:var(--sand);border-radius:26px 26px 0 0;max-height:90vh;overflow-y:auto;z-index:151;transition:transform .4s cubic-bezier(.32,.72,0,1);padding-bottom:34px}
+.sheet.open{transform:translateX(-50%) translateY(0)}
+.sheet-hero{height:160px;background-size:cover;background-position:center;position:relative;border-radius:26px 26px 0 0}
+.sheet-hero::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,50,75,.1),rgba(248,243,234,.95) 100%);border-radius:26px 26px 0 0}
+.sheet-grab{position:absolute;top:10px;left:50%;transform:translateX(-50%);width:40px;height:4px;background:rgba(255,255,255,.8);border-radius:2px;z-index:3}
+.sheet-in{padding:0 20px;margin-top:-30px;position:relative;z-index:2}
+.sheet-emoji{font-size:38px}
+.sheet-t{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:25px;color:var(--ocean-deep);margin-top:2px}
+.sheet-pr{font:600 15px 'JetBrains Mono';color:var(--gold);margin:5px 0 12px}
+.sheet-d{font-size:14px;color:var(--ink-2);line-height:1.6;margin-bottom:13px}
+.sheet-a{background:#EAF7F0;border:1px solid #A6D6B8;border-radius:12px;padding:10px 14px;font-size:13px;color:#1A6B40;font-weight:500;margin-bottom:15px}
+.prov-l{font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:var(--ink-3);margin-bottom:9px}
+.prov{background:#fff;border:1px solid var(--sand-2);border-radius:12px;padding:12px 14px;margin-bottom:8px}
+.prov-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:5px}
+.prov-nm{font:600 13px 'DM Sans';color:var(--ink)}
+.prov-pr{font:700 13px 'JetBrains Mono';color:var(--gold)}
+.prov-ad{font-size:12px;color:var(--ink-3);margin-bottom:8px}
+.prov-b{display:flex;gap:6px}
+.pb{flex:1;padding:7px;border-radius:8px;border:1px solid var(--line);background:var(--sky);font:600 12px 'DM Sans';color:var(--ocean);cursor:pointer;text-align:center;text-decoration:none;transition:.15s}
+.pb:hover{background:var(--sky-2)}
+.sheet-impact{background:var(--sky);border:1px solid var(--horizon);border-radius:12px;padding:11px 14px;margin:14px 0;font-size:12.5px;color:var(--ink-2);display:flex;gap:8px}
+.sheet-acts{display:flex;gap:10px;margin-top:8px}
+.sheet-acts .btn{flex:1}
+.dp{margin-top:14px;background:#fff;border:1px solid var(--sand-2);border-radius:var(--r);padding:16px;display:none}
+.dp.show{display:block}
+.dp-r{display:flex;gap:10px;margin-bottom:10px}
+.dp-i{flex:1;padding:9px 12px;border:1px solid var(--sand-2);border-radius:11px;font:400 13px 'DM Sans';color:var(--ink);outline:none;background:var(--sky);transition:.2s;width:100%}
+.dp-i:focus{border-color:var(--ocean)}
+.dp-l{font-size:11px;color:var(--ink-3);font-weight:600;text-transform:uppercase;letter-spacing:.07em;margin-bottom:4px}
+.dp-c{width:100%;padding:10px;background:var(--ok);color:#fff;border:none;border-radius:var(--r-pill);font:600 13px 'DM Sans';cursor:pointer;transition:.2s}
+.dp-c:hover{background:#218a56}
 
-/* ══════════════════════════════════════
-   JOURNEY PROGRESS
-══════════════════════════════════════ */
-.progress-wrap {
-  background: var(--glass);
-  border: 1px solid var(--glass-border);
-  border-radius: var(--r-lg);
-  padding: 24px;
-  box-shadow: var(--shadow-sm);
-}
-.progress-phases {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 8px;
-  gap: 4px;
-}
-.phase-label {
-  font-size: 10px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--text-light);
-  text-align: center;
-  flex: 1;
-}
-.phase-label.current { color: var(--ocean); }
-.progress-bar-track {
-  height: 10px;
-  background: var(--sky-mid);
-  border-radius: 99px;
-  overflow: hidden;
-  position: relative;
-}
-.progress-bar-fill {
-  height: 100%;
-  background: linear-gradient(90deg, var(--ocean) 0%, var(--gold) 100%);
-  border-radius: 99px;
-  transition: width 1s ease;
-}
-.progress-dates {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 8px;
-  font-size: 11px;
-  color: var(--text-light);
-  font-family: 'JetBrains Mono', monospace;
-}
+/* ── AGENDA ───────────────────────────────────────────── */
+.ag-empty{text-align:center;padding:38px 20px;color:var(--ink-3);font-size:14px;background:var(--glass);border:1px dashed var(--horizon);border-radius:var(--r-lg)}
+.ag-i{background:var(--glass);border:1px solid var(--line);border-radius:var(--r);padding:13px 15px;margin-bottom:10px;display:flex;gap:13px;align-items:flex-start;box-shadow:var(--sh-1)}
+.ag-ic{font-size:26px;flex-shrink:0}
+.ag-info{flex:1}
+.ag-nm{font:600 14px 'DM Sans';color:var(--ink);margin-bottom:2px}
+.ag-dt{font:500 12px 'JetBrains Mono';color:var(--ocean)}
+.ag-pr{font:500 12px 'JetBrains Mono';color:var(--gold);margin-top:2px}
+.ag-nt{font-size:12px;color:var(--ink-3);margin-top:2px}
+.ag-x{background:none;border:none;color:var(--ink-3);font-size:19px;cursor:pointer;line-height:1;padding:2px;flex-shrink:0;transition:.2s}
+.ag-x:hover{color:var(--bad)}
 
-/* ══════════════════════════════════════
-   DESTINATION CARDS
-══════════════════════════════════════ */
-.dest-card {
-  background: var(--glass);
-  border: 1px solid var(--glass-border);
-  border-radius: var(--r-lg);
-  box-shadow: var(--shadow-sm);
-  overflow: hidden;
-  margin-bottom: 16px;
-  transition: box-shadow 0.2s;
-}
-.dest-card:hover { box-shadow: var(--shadow-md); }
-.dest-header {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 18px 20px;
-  cursor: pointer;
-  user-select: none;
-}
-.week-badge {
-  background: var(--gold-light);
-  color: var(--gold);
-  border: 1px solid rgba(212,145,42,0.25);
-  border-radius: var(--r-pill);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  padding: 3px 9px;
-  flex-shrink: 0;
-}
-.dest-emoji { font-size: 26px; flex-shrink: 0; }
-.dest-name {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 20px;
-  font-weight: 600;
-  color: var(--ocean-deep);
-  flex: 1;
-  line-height: 1.2;
-}
-.dest-loc {
-  font-size: 11px;
-  color: var(--text-light);
-  margin-top: 1px;
-}
-.expand-arrow {
-  color: var(--text-light);
-  font-size: 13px;
-  transition: transform 0.35s ease;
-  flex-shrink: 0;
-}
-.dest-card.open .expand-arrow { transform: rotate(180deg); }
-.dest-body {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.45s ease;
-}
-.dest-card.open .dest-body { max-height: 2000px; }
-.dest-inner { padding: 0 20px 20px; }
-.info-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-bottom: 16px;
-}
-.info-cell {
-  background: white;
-  border: 1px solid var(--sand-dark);
-  border-radius: var(--r-sm);
-  padding: 12px 14px;
-}
-.info-cell-label {
-  font-size: 9px;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  font-weight: 700;
-  color: var(--text-light);
-  margin-bottom: 4px;
-}
-.info-cell-val {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--text-dark);
-}
-.highlights-block {
-  background: var(--sky);
-  border: 1px solid var(--horizon);
-  border-radius: var(--r-sm);
-  padding: 14px 16px;
-  margin-bottom: 12px;
-}
-.highlights-block h4 {
-  font-size: 10px;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  font-weight: 700;
-  color: var(--ocean);
-  margin-bottom: 10px;
-}
-.highlight-item {
-  display: flex;
-  gap: 8px;
-  font-size: 13px;
-  color: var(--text-mid);
-  margin-bottom: 7px;
-  line-height: 1.4;
-}
-.highlight-item::before {
-  content: '✦';
-  color: var(--gold);
-  flex-shrink: 0;
-  font-size: 10px;
-  margin-top: 2px;
-}
-.allergy-note {
-  background: #EBF7F0;
-  border: 1px solid #A8D5B9;
-  border-radius: var(--r-sm);
-  padding: 10px 14px;
-  font-size: 12px;
-  color: #1A6B40;
-  margin-bottom: 12px;
-  font-weight: 500;
-}
-.notes-area {
-  width: 100%;
-  background: white;
-  border: 1px solid var(--sand-dark);
-  border-radius: var(--r-sm);
-  padding: 12px 14px;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 13px;
-  color: var(--text-dark);
-  resize: vertical;
-  min-height: 80px;
-  outline: none;
-  transition: border-color 0.2s;
-  margin-bottom: 8px;
-}
-.notes-area:focus { border-color: var(--ocean); }
-.save-note-btn {
-  background: var(--ocean);
-  color: white;
-  border: none;
-  border-radius: var(--r-pill);
-  padding: 8px 20px;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  font-family: inherit;
-  transition: background 0.2s, transform 0.1s;
-}
-.save-note-btn:hover { background: var(--ocean-deep); }
-.save-note-btn:active { transform: scale(0.97); }
+/* ── AI ASSISTANT (full-width "extension") ────────────── */
+.ai-wrap{background:var(--glass);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--sh-1);display:flex;flex-direction:column;height:560px}
+.ai-banner{display:flex;align-items:center;gap:10px;padding:14px 16px;border-bottom:1px solid var(--line);background:linear-gradient(100deg,rgba(46,125,170,.08),rgba(194,146,47,.06))}
+.ai-orb{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--ocean),var(--gold));display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;box-shadow:0 2px 10px rgba(46,125,170,.35)}
+.ai-banner .ti{font:600 14px 'DM Sans';color:var(--ink)}
+.ai-banner .su{font-size:11px;color:var(--ink-3)}
+.chips{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding:12px 16px 0;flex-shrink:0}
+.chips::-webkit-scrollbar{display:none}
+.chip{background:#fff;border:1px solid var(--horizon);border-radius:var(--r-pill);padding:6px 12px;font:500 11px 'DM Sans';color:var(--ocean);cursor:pointer;white-space:nowrap;transition:.15s;flex-shrink:0}
+.chip:hover{background:var(--ocean);color:#fff;border-color:var(--ocean)}
+.msgs{flex:1;overflow-y:auto;padding:14px 16px;display:flex;flex-direction:column;gap:11px;scrollbar-width:thin}
+.msg{display:flex;gap:8px;align-items:flex-end;max-width:92%}
+.msg.user{align-self:flex-end;flex-direction:row-reverse}
+.bub{padding:10px 14px;border-radius:17px;font-size:13px;line-height:1.5}
+.msg.user .bub{background:var(--ocean);color:#fff;border-bottom-right-radius:4px}
+.msg.ai .bub{background:#fff;border:1px solid var(--sand-2);border-bottom-left-radius:4px;color:var(--ink)}
+.av{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;background:var(--sky-2)}
+.msg.ai .av{background:linear-gradient(135deg,var(--ocean),var(--gold))}
+.act-note{align-self:center;font-size:11px;color:var(--ink-3);background:var(--sand);border:1px solid var(--sand-2);border-radius:var(--r-pill);padding:4px 12px}
+.typ{display:flex;gap:4px;align-items:center;padding:11px 14px;background:#fff;border:1px solid var(--sand-2);border-radius:17px;border-bottom-left-radius:4px}
+.dot{width:6px;height:6px;background:var(--horizon);border-radius:50%;animation:bnc 1.2s infinite}
+.dot:nth-child(2){animation-delay:.2s}.dot:nth-child(3){animation-delay:.4s}
+@keyframes bnc{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-6px)}}
+.ai-in{display:flex;gap:8px;padding:12px 16px;border-top:1px solid var(--line);background:#fff;flex-shrink:0}
+.ai-tx{flex:1;padding:10px 14px;border:1px solid var(--sand-2);border-radius:var(--r-pill);font:400 13px 'DM Sans';color:var(--ink);outline:none;background:var(--sky);transition:.2s}
+.ai-tx:focus{border-color:var(--ocean);background:#fff}
+.ai-snd{width:38px;height:38px;border-radius:50%;background:var(--ocean);border:none;color:#fff;font-size:16px;cursor:pointer;flex-shrink:0;transition:.2s;display:flex;align-items:center;justify-content:center}
+.ai-snd:hover{background:var(--ocean-deep)}
 
-/* ══════════════════════════════════════
-   PACKING CHECKLIST
-══════════════════════════════════════ */
-.pack-group {
-  background: var(--glass);
-  border: 1px solid var(--glass-border);
-  border-radius: var(--r-lg);
-  padding: 20px;
-  margin-bottom: 14px;
-  box-shadow: var(--shadow-sm);
-}
-.pack-group-title {
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  font-weight: 700;
-  color: var(--ocean);
-  margin-bottom: 14px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.pack-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-}
-@media(max-width:480px){ .pack-grid { grid-template-columns: 1fr; } }
-.pack-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  background: white;
-  border: 1px solid var(--sand-dark);
-  border-radius: var(--r-sm);
-  padding: 10px 12px;
-  cursor: pointer;
-  transition: background 0.15s, border-color 0.15s;
-  user-select: none;
-}
-.pack-item:hover { background: var(--sky); border-color: var(--horizon); }
-.pack-item.checked { background: #EBF7F0; border-color: #A8D5B9; }
-.pack-cb {
-  width: 18px;
-  height: 18px;
-  border: 2px solid var(--horizon);
-  border-radius: 5px;
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s;
-  margin-top: 1px;
-  background: white;
-}
-.pack-item.checked .pack-cb {
-  background: var(--success);
-  border-color: var(--success);
-  color: white;
-  font-size: 11px;
-}
-.pack-item.checked .pack-cb::after { content: '✓'; }
-.pack-text {
-  font-size: 12px;
-  color: var(--text-mid);
-  line-height: 1.4;
-}
-.pack-item.checked .pack-text { color: var(--success); text-decoration: line-through; opacity:0.7; }
-
-/* ══════════════════════════════════════
-   ACTIVITIES
-══════════════════════════════════════ */
-.filter-bar {
-  display: flex;
-  gap: 6px;
-  overflow-x: auto;
-  scrollbar-width: none;
-  padding-bottom: 4px;
-  margin-bottom: 20px;
-}
-.filter-bar::-webkit-scrollbar { display: none; }
-.filter-pill {
-  padding: 6px 14px;
-  border-radius: var(--r-pill);
-  border: 1.5px solid var(--glass-border);
-  background: var(--glass);
-  color: var(--text-mid);
-  font-size: 12px;
-  font-weight: 600;
-  cursor: pointer;
-  white-space: nowrap;
-  font-family: inherit;
-  transition: all 0.2s;
-}
-.filter-pill:hover { border-color: var(--ocean); color: var(--ocean); background: var(--sky); }
-.filter-pill.active { background: var(--ocean); color: white; border-color: var(--ocean); }
-.act-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-}
-@media(max-width:480px){ .act-grid { grid-template-columns: 1fr; } }
-.act-card {
-  background: var(--glass);
-  border: 1px solid var(--glass-border);
-  border-radius: var(--r-md);
-  padding: 16px;
-  cursor: pointer;
-  transition: box-shadow 0.2s, transform 0.15s;
-  box-shadow: var(--shadow-sm);
-  position: relative;
-  overflow: hidden;
-}
-.act-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
-.act-card.in-agenda::before {
-  content: '✓';
-  position: absolute;
-  top: 10px; right: 10px;
-  background: var(--success);
-  color: white;
-  border-radius: 50%;
-  width: 20px; height: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 11px;
-  font-weight: 700;
-}
-.act-icon { font-size: 36px; margin-bottom: 10px; display: block; }
-.act-name { font-size: 14px; font-weight: 600; color: var(--text-dark); margin-bottom: 4px; line-height: 1.3; }
-.act-price { font-size: 12px; color: var(--gold); font-weight: 600; margin-bottom: 4px; }
-.act-phase { font-size: 11px; color: var(--text-light); }
-
-/* ── BOTTOM SHEET ── */
-.sheet-backdrop {
-  position: fixed;
-  inset: 0;
-  background: rgba(26,43,60,0.35);
-  z-index: 150;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s;
-}
-.sheet-backdrop.open { opacity: 1; pointer-events: all; }
-.bottom-sheet {
-  position: fixed;
-  bottom: 0; left: 0; right: 0;
-  background: var(--sand);
-  border-radius: 24px 24px 0 0;
-  max-height: 88vh;
-  overflow-y: auto;
-  z-index: 151;
-  transform: translateY(100%);
-  transition: transform 0.38s cubic-bezier(0.32,0.72,0,1);
-  padding: 0 20px 32px;
-  max-width: 760px;
-  margin: 0 auto;
-}
-@media(min-width:760px){
-  .bottom-sheet {
-    left: 50%;
-    right: auto;
-    transform: translateX(-50%) translateY(100%);
-    width: 760px;
-  }
-  .sheet-backdrop.open ~ .bottom-sheet,
-  .bottom-sheet.open {
-    transform: translateX(-50%) translateY(0);
-  }
-}
-.bottom-sheet.open { transform: translateY(0); }
-.sheet-handle {
-  width: 40px; height: 4px;
-  background: var(--horizon);
-  border-radius: 2px;
-  margin: 12px auto 16px;
-}
-.sheet-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 24px;
-  font-weight: 600;
-  color: var(--ocean-deep);
-  margin-bottom: 4px;
-}
-.sheet-price {
-  font-size: 15px;
-  color: var(--gold);
-  font-weight: 600;
-  margin-bottom: 14px;
-}
-.sheet-desc {
-  font-size: 14px;
-  color: var(--text-mid);
-  line-height: 1.6;
-  margin-bottom: 14px;
-}
-.sheet-allergy {
-  background: #EBF7F0;
-  border: 1px solid #A8D5B9;
-  border-radius: var(--r-sm);
-  padding: 10px 14px;
-  font-size: 13px;
-  color: #1A6B40;
-  margin-bottom: 16px;
-  font-weight: 500;
-}
-.providers-label {
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  font-weight: 700;
-  color: var(--text-light);
-  margin-bottom: 10px;
-}
-.provider-card {
-  background: white;
-  border: 1px solid var(--sand-dark);
-  border-radius: var(--r-sm);
-  padding: 12px 14px;
-  margin-bottom: 8px;
-}
-.provider-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 6px;
-}
-.provider-name { font-size: 13px; font-weight: 600; color: var(--text-dark); }
-.provider-price { font-size: 13px; color: var(--gold); font-weight: 700; }
-.provider-addr { font-size: 12px; color: var(--text-light); margin-bottom: 8px; }
-.provider-rating { font-size: 12px; color: var(--text-mid); }
-.provider-btns { display: flex; gap: 6px; margin-top: 8px; }
-.p-btn {
-  flex: 1;
-  padding: 7px;
-  border-radius: 8px;
-  border: 1px solid var(--glass-border);
-  background: var(--sky);
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--ocean);
-  cursor: pointer;
-  font-family: inherit;
-  transition: background 0.15s;
-  text-decoration: none;
-  text-align: center;
-  display: block;
-}
-.p-btn:hover { background: var(--sky-mid); }
-.sheet-actions {
-  display: flex;
-  gap: 10px;
-  margin-top: 20px;
-  padding-top: 16px;
-  border-top: 1px solid var(--sand-dark);
-}
-.sheet-btn {
-  flex: 1;
-  padding: 12px;
-  border-radius: var(--r-pill);
-  border: none;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  font-family: inherit;
-  transition: all 0.2s;
-}
-.sheet-btn-save {
-  background: var(--gold-pale);
-  color: var(--gold);
-  border: 1.5px solid var(--gold-light);
-}
-.sheet-btn-save:hover { background: var(--gold-light); }
-.sheet-btn-agenda {
-  background: var(--ocean);
-  color: white;
-  box-shadow: 0 4px 14px rgba(46,125,170,0.3);
-}
-.sheet-btn-agenda:hover { background: var(--ocean-deep); }
-/* date picker in sheet */
-.date-picker-wrap {
-  margin-top: 14px;
-  background: white;
-  border: 1px solid var(--sand-dark);
-  border-radius: var(--r-md);
-  padding: 16px;
-  display: none;
-}
-.date-picker-wrap.show { display: block; }
-.dp-row { display: flex; gap: 10px; margin-bottom: 10px; }
-.dp-input {
-  flex: 1;
-  padding: 8px 12px;
-  border: 1px solid var(--sand-dark);
-  border-radius: var(--r-sm);
-  font-family: inherit;
-  font-size: 13px;
-  color: var(--text-dark);
-  outline: none;
-  transition: border-color 0.2s;
-  background: var(--sky);
-}
-.dp-input:focus { border-color: var(--ocean); }
-.dp-label { font-size: 11px; color: var(--text-light); font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 4px; }
-.dp-confirm {
-  width: 100%;
-  padding: 10px;
-  background: var(--success);
-  color: white;
-  border: none;
-  border-radius: var(--r-pill);
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  font-family: inherit;
-  transition: background 0.2s;
-}
-.dp-confirm:hover { background: #218a56; }
-
-/* ══════════════════════════════════════
-   AGENDA
-══════════════════════════════════════ */
-.agenda-empty {
-  text-align: center;
-  padding: 40px 20px;
-  color: var(--text-light);
-  font-size: 14px;
-  background: var(--glass);
-  border: 1px dashed var(--horizon);
-  border-radius: var(--r-lg);
-}
-.agenda-item {
-  background: var(--glass);
-  border: 1px solid var(--glass-border);
-  border-radius: var(--r-md);
-  padding: 14px 16px;
-  margin-bottom: 10px;
-  display: flex;
-  gap: 14px;
-  align-items: flex-start;
-  box-shadow: var(--shadow-sm);
-}
-.agenda-icon { font-size: 28px; flex-shrink: 0; }
-.agenda-info { flex: 1; }
-.agenda-name { font-size: 14px; font-weight: 600; color: var(--text-dark); margin-bottom: 3px; }
-.agenda-date { font-size: 12px; color: var(--ocean); font-family: 'JetBrains Mono', monospace; }
-.agenda-note-txt { font-size: 12px; color: var(--text-light); margin-top: 3px; }
-.agenda-del {
-  background: none;
-  border: none;
-  color: var(--text-light);
-  font-size: 18px;
-  cursor: pointer;
-  line-height: 1;
-  padding: 2px;
-  flex-shrink: 0;
-  transition: color 0.2s;
-}
-.agenda-del:hover { color: var(--danger); }
-
-/* ══════════════════════════════════════
-   AI CHAT
-══════════════════════════════════════ */
-.chat-wrap {
-  background: var(--glass);
-  border: 1px solid var(--glass-border);
-  border-radius: var(--r-lg);
-  overflow: hidden;
-  box-shadow: var(--shadow-sm);
-  display: flex;
-  flex-direction: column;
-  height: 520px;
-}
-.quick-chips {
-  display: flex;
-  gap: 6px;
-  overflow-x: auto;
-  scrollbar-width: none;
-  padding: 14px 16px 0;
-  flex-shrink: 0;
-}
-.quick-chips::-webkit-scrollbar { display: none; }
-.chip {
-  background: white;
-  border: 1px solid var(--horizon);
-  border-radius: var(--r-pill);
-  padding: 6px 12px;
-  font-size: 11px;
-  font-weight: 500;
-  color: var(--ocean);
-  cursor: pointer;
-  white-space: nowrap;
-  font-family: inherit;
-  transition: all 0.15s;
-  flex-shrink: 0;
-}
-.chip:hover { background: var(--ocean); color: white; border-color: var(--ocean); }
-.chat-messages {
-  flex: 1;
-  overflow-y: auto;
-  padding: 14px 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  scrollbar-width: thin;
-  scrollbar-color: var(--horizon) transparent;
-}
-.msg {
-  display: flex;
-  gap: 8px;
-  align-items: flex-end;
-  max-width: 90%;
-}
-.msg.user { align-self: flex-end; flex-direction: row-reverse; }
-.msg-bubble {
-  padding: 10px 14px;
-  border-radius: 18px;
-  font-size: 13px;
-  line-height: 1.5;
-  color: var(--text-dark);
-}
-.msg.user .msg-bubble {
-  background: var(--ocean);
-  color: white;
-  border-bottom-right-radius: 4px;
-}
-.msg.ai .msg-bubble {
-  background: white;
-  border: 1px solid var(--sand-dark);
-  border-bottom-left-radius: 4px;
-  color: var(--text-dark);
-}
-.msg-avatar {
-  width: 28px; height: 28px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 14px;
-  flex-shrink: 0;
-  background: var(--sky-mid);
-}
-.msg.user .msg-avatar { background: rgba(46,125,170,0.15); }
-.typing-dots {
-  display: flex;
-  gap: 4px;
-  align-items: center;
-  padding: 10px 14px;
-  background: white;
-  border: 1px solid var(--sand-dark);
-  border-radius: 18px;
-  border-bottom-left-radius: 4px;
-}
-.dot {
-  width: 6px; height: 6px;
-  background: var(--horizon);
-  border-radius: 50%;
-  animation: bounce 1.2s infinite;
-}
-.dot:nth-child(2) { animation-delay: 0.2s; }
-.dot:nth-child(3) { animation-delay: 0.4s; }
-@keyframes bounce {
-  0%,80%,100% { transform: translateY(0); }
-  40% { transform: translateY(-6px); }
-}
-.chat-input-row {
-  display: flex;
-  gap: 8px;
-  padding: 12px 16px;
-  border-top: 1px solid var(--glass-border);
-  background: white;
-  flex-shrink: 0;
-}
-.chat-input {
-  flex: 1;
-  padding: 10px 14px;
-  border: 1px solid var(--sand-dark);
-  border-radius: var(--r-pill);
-  font-family: inherit;
-  font-size: 13px;
-  color: var(--text-dark);
-  outline: none;
-  background: var(--sky);
-  transition: border-color 0.2s;
-}
-.chat-input:focus { border-color: var(--ocean); background: white; }
-.chat-send {
-  width: 38px; height: 38px;
-  border-radius: 50%;
-  background: var(--ocean);
-  border: none;
-  color: white;
-  font-size: 16px;
-  cursor: pointer;
-  flex-shrink: 0;
-  transition: background 0.2s, transform 0.1s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.chat-send:hover { background: var(--ocean-deep); }
-.chat-send:active { transform: scale(0.93); }
-
-/* ══════════════════════════════════════
-   TOAST
-══════════════════════════════════════ */
-.toast {
-  position: fixed;
-  bottom: 24px;
-  left: 50%;
-  transform: translateX(-50%) translateY(80px);
-  background: var(--text-dark);
-  color: white;
-  padding: 10px 20px;
-  border-radius: var(--r-pill);
-  font-size: 13px;
-  font-weight: 600;
-  z-index: 300;
-  transition: transform 0.3s cubic-bezier(0.32,0.72,0,1);
-  pointer-events: none;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.25);
-}
-.toast.show { transform: translateX(-50%) translateY(0); }
-
-/* ── UTILS ── */
-.divider { height: 1px; background: var(--glass-border); margin: 12px 0; }
+/* ── TOAST ────────────────────────────────────────────── */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--ink);color:#fff;padding:10px 20px;border-radius:var(--r-pill);font:600 13px 'DM Sans';z-index:300;transition:transform .3s cubic-bezier(.32,.72,0,1);pointer-events:none;box-shadow:0 4px 20px rgba(0,0,0,.3)}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.divider{height:1px;background:var(--line);margin:12px 0}
 </style>
 </head>
 <body>
-
-<!-- ══════════════════════════════════════
-     STICKY HEADER
-══════════════════════════════════════ -->
-<header id="header">
-  <div class="header-inner">
-    <div class="header-brand">
-      <span class="title display">🌊 Our Honeymoon</span>
-      <span class="sub" id="h-tagline">Indonesia 2026 · 6 Weeks of Adventure &amp; Love</span>
+<!-- ═══ HEADER ═══ -->
+<header id="hdr">
+  <div class="hdr-in">
+    <div class="brand" onclick="goSection('hero')">
+      <span class="t serif">Our Honeymoon</span>
+      <span class="s" id="brand-sub">Indonesia · 2026</span>
     </div>
-    <nav class="header-nav">
-      <button class="nav-pill active" onclick="scrollToSection('hero')" data-i18n="navHome">Home</button>
-      <button class="nav-pill" onclick="scrollToSection('journey')" data-i18n="navJourney">Journey</button>
-      <button class="nav-pill" onclick="scrollToSection('activities')" data-i18n="navActivities">Activities</button>
-      <button class="nav-pill" onclick="scrollToSection('agenda')" data-i18n="navAgenda">Agenda</button>
-      <button class="nav-pill" onclick="scrollToSection('ai')" data-i18n="navAI">AI Chat</button>
+    <nav class="nav">
+      <button class="np on" onclick="goSection('hero')" data-i18n="navHome">Home</button>
+      <button class="np" onclick="goSection('journey')" data-i18n="navJourney">Journey</button>
+      <button class="np" onclick="goSection('activities')" data-i18n="navActivities">Activities</button>
+      <button class="np" onclick="goSection('budget')" data-i18n="navBudget">Budget</button>
+      <button class="np" onclick="goSection('agenda')" data-i18n="navAgenda">Agenda</button>
+      <button class="np" onclick="goSection('ai')" data-i18n="navAI">AI Chat</button>
     </nav>
-    <div class="header-right">
-      <div class="budget-pill" id="budget-pill" title="Budget status">🟢 On track</div>
-      <div class="lang-switcher" id="lang-switcher">
-        <button class="lang-current" onclick="toggleLangDrop()">
-          <span class="lang-flag" id="cur-flag">🇬🇧</span>
-          <span id="cur-lang-name" style="font-size:11px">EN</span>
-          <span class="lang-chevron">▾</span>
+    <div class="hdr-r">
+      <span id="sync" title="Sync">⚙️</span>
+      <div class="lang" id="lang">
+        <button class="lang-cur" onclick="toggleLang()">
+          <span class="flag" id="cur-flag">🇬🇧</span>
+          <span id="cur-lang" style="font-size:11px">EN</span>
+          <span class="chev">▾</span>
         </button>
-        <div class="lang-dropdown" id="lang-drop">
-          <div class="lang-option" onclick="setLang('en')">
-            <span class="lang-flag">🇬🇧</span><span>English</span><span class="lang-check" id="ck-en">✓</span>
-          </div>
-          <div class="lang-option" onclick="setLang('nl')">
-            <span class="lang-flag">🇳🇱</span><span>Nederlands</span><span class="lang-check" id="ck-nl"></span>
-          </div>
-          <div class="lang-option" onclick="setLang('hy')">
-            <span class="lang-flag">🇦🇲</span><span>Հայերեն</span><span class="lang-check" id="ck-hy"></span>
-          </div>
+        <div class="lang-d" id="lang-d">
+          <div class="lang-o" onclick="setLang('en')"><span class="flag">🇬🇧</span><span>English</span><span class="lang-ck" id="ck-en">✓</span></div>
+          <div class="lang-o" onclick="setLang('nl')"><span class="flag">🇳🇱</span><span>Nederlands</span><span class="lang-ck" id="ck-nl"></span></div>
+          <div class="lang-o" onclick="setLang('hy')"><span class="flag">🇦🇲</span><span>Հայերեն</span><span class="lang-ck" id="ck-hy"></span></div>
         </div>
       </div>
     </div>
   </div>
 </header>
 
-<!-- ══════════════════════════════════════
-     MAIN
-══════════════════════════════════════ -->
-<main>
-
-  <!-- ── HERO ── -->
-  <section id="hero">
-    <div class="hero-wave" data-i18n="heroLabel">Days until our honeymoon</div>
-    <div class="hero-number display" id="hero-number">—</div>
-    <div class="hero-label display" id="hero-label"></div>
+<!-- ═══ HERO ═══ -->
+<section id="hero">
+  <div class="hero-img" id="hero-img"></div>
+  <div class="hero-veil"></div>
+  <div class="hero-c">
+    <div class="hero-eyebrow" id="hero-eyebrow" data-i18n="heroLabel">Until our honeymoon begins</div>
+    <div class="hero-num serif" id="hero-num">—</div>
+    <div class="hero-title serif" id="hero-title"></div>
     <div class="hero-sub" id="hero-sub"></div>
-    <div class="hero-badges">
-      <span class="hero-badge">🇳🇱 Jun 8 — Wedding</span>
-      <span class="hero-badge" id="phase-badge-lombok">🇮🇩 Jun 12 — Lombok</span>
-      <span class="hero-badge" id="phase-badge-bali">🏝️ Jul 10 — Gili/Bali</span>
-      <span class="hero-badge">✈️ Jul 24 — Home</span>
+  </div>
+  <div class="scroll-cue" onclick="goSection('journey')">▾</div>
+</section>
+
+<main>
+  <!-- ═══ JOURNEY ═══ -->
+  <section id="journey">
+    <div class="s-head reveal"><div class="s-title serif" data-i18n="journeyProgress">The Journey</div></div>
+    <div class="timeline reveal">
+      <div class="tl-solo">
+        <span>✈️</span>
+        <span><b data-i18n="soloLeg">Abdul solo:</b> <span data-i18n="soloLegTxt">Netherlands → Yerevan · Jun 8 (before we meet)</span></span>
+      </div>
+      <div class="tl-phases">
+        <div class="tl-ph" id="tp0"><div class="ic">💍</div><div class="lb" data-i18n="phWed">Yerevan</div></div>
+        <div class="tl-ph" id="tp1"><div class="ic">✈️</div><div class="lb" data-i18n="phFly">Fly together</div></div>
+        <div class="tl-ph" id="tp2"><div class="ic">🌴</div><div class="lb" data-i18n="phLombok">Lombok</div></div>
+        <div class="tl-ph" id="tp3"><div class="ic">🏝️</div><div class="lb" data-i18n="phBali">Gili/Bali</div></div>
+      </div>
+      <div class="tl-track"><div class="tl-fill" id="tl-fill" style="width:0%"></div></div>
+      <div class="tl-dates"><span>Jun 12, 2026</span><span id="tl-pct">0%</span><span>Jul 24, 2026</span></div>
     </div>
   </section>
 
-  <!-- ── JOURNEY ── -->
-  <section id="journey" data-section="journey">
-    <div class="section-label reveal" data-i18n="journeyProgress">Journey Progress</div>
-    <div class="progress-wrap reveal">
-      <div class="progress-phases">
-        <div class="phase-label" id="ph0" data-i18n-phase="pre">🇳🇱 Prep</div>
-        <div class="phase-label" id="ph1" data-i18n-phase="arm">🇦🇲 Armenia</div>
-        <div class="phase-label" id="ph2" data-i18n-phase="l1">🇮🇩 Lombok</div>
-        <div class="phase-label" id="ph3" data-i18n-phase="l2">✨ Bali</div>
-      </div>
-      <div class="progress-bar-track">
-        <div class="progress-bar-fill" id="prog-fill" style="width:0%"></div>
-      </div>
-      <div class="progress-dates">
-        <span>Jun 8, 2026</span>
-        <span id="prog-pct">0%</span>
-        <span>Jul 24, 2026</span>
-      </div>
-    </div>
-  </section>
+  <!-- ═══ DESTINATIONS ═══ -->
+  <section id="destinations">
+    <div class="s-head reveal"><div class="s-title serif" data-i18n="destTitle">Where We Stay</div></div>
 
-  <!-- ── DESTINATIONS ── -->
-  <section id="destinations" data-section="destinations">
-    <div class="section-label reveal" data-i18n="dest1Name-head">Destinations</div>
-
-    <!-- Card 1 — Lombok -->
-    <div class="dest-card reveal" id="card-lombok">
-      <div class="dest-header" onclick="toggleCard('lombok')">
-        <span class="week-badge" data-i18n="weekBadge1">Weeks 1–4</span>
-        <span class="dest-emoji">🌴</span>
-        <div>
-          <div class="dest-name" data-i18n="dest1Name">Selong Belanak, Lombok</div>
-          <div class="dest-loc">Selong Belanak, South Lombok, Indonesia</div>
+    <!-- Lombok -->
+    <div class="dest reveal" id="d-lombok">
+      <div class="dest-photo" id="ph-lombok" onclick="toggleDest('lombok')">
+        <span class="dest-badge" data-i18n="weekBadge1">Weeks 1–4</span>
+        <div class="dest-cap"><div class="nm serif" data-i18n="dest1Name">Selong Belanak, Lombok</div><div class="lc">South Lombok, Indonesia</div></div>
+        <span class="dest-arrow">▼</span>
+      </div>
+      <div class="dest-body"><div class="dest-in">
+        <div class="grid2">
+          <div class="cell"><div class="k" data-i18n="checkIn">Check-in</div><div class="v">12 Jun 2026</div></div>
+          <div class="cell"><div class="k" data-i18n="checkOut">Check-out</div><div class="v">10 Jul 2026</div></div>
+          <div class="cell"><div class="k" data-i18n="duration">Duration</div><div class="v">28 <span data-i18n="nights">nights</span></div></div>
+          <div class="cell"><div class="k" data-i18n="booking">Booking</div><div class="v">Selong Selo</div></div>
         </div>
-        <span class="expand-arrow">▼</span>
-      </div>
-      <div class="dest-body">
-        <div class="dest-inner">
-          <div class="info-grid">
-            <div class="info-cell">
-              <div class="info-cell-label" data-i18n="checkIn">Check-in</div>
-              <div class="info-cell-val">12 Jun 2026</div>
-            </div>
-            <div class="info-cell">
-              <div class="info-cell-label" data-i18n="checkOut">Check-out</div>
-              <div class="info-cell-val">10 Jul 2026</div>
-            </div>
-            <div class="info-cell">
-              <div class="info-cell-label" data-i18n="duration">Duration</div>
-              <div class="info-cell-val">28 <span data-i18n="nights">nights</span></div>
-            </div>
-            <div class="info-cell">
-              <div class="info-cell-label" data-i18n="booking">Booking</div>
-              <div class="info-cell-val">Selong Selo Resort</div>
-            </div>
-          </div>
-          <div class="info-cell" style="margin-bottom:12px">
-            <div class="info-cell-label" data-i18n="address">Address</div>
-            <div class="info-cell-val" style="font-family:inherit;font-size:12px">Selong Belanak, Lombok Tengah, NTB 83573</div>
-          </div>
-          <div class="highlights-block">
-            <h4 data-i18n="highlights">Highlights</h4>
-            <div id="hl-lombok"></div>
-          </div>
-          <div class="allergy-note">🌿 No jungle or rice fields — directly by the sea ✓</div>
-          <div class="divider"></div>
-          <div style="font-size:11px;text-transform:uppercase;letter-spacing:.08em;font-weight:700;color:var(--text-light);margin-bottom:8px" data-i18n="notesWishes">Notes &amp; wishes</div>
-          <textarea class="notes-area" id="note-lombok" data-i18n-ph="notePlaceholder" placeholder="Write something special here..."></textarea>
-          <button class="save-note-btn" onclick="saveNote('lombok')" data-i18n="saveNote">Save note</button>
-        </div>
-      </div>
+        <div class="cell" style="margin-bottom:12px"><div class="k" data-i18n="address">Address</div><div class="v" style="font-family:'DM Sans';font-size:12px">Selong Belanak, Lombok Tengah, NTB 83573</div></div>
+        <div class="hl"><h4 data-i18n="highlights">Highlights</h4><div id="hl-lombok"></div></div>
+        <div class="allergy">🌿 <span data-i18n="lombokAllergy">No jungle or rice fields — right by the sea</span></div>
+        <div class="divider"></div>
+        <div class="eyebrow" style="margin-bottom:8px" data-i18n="notesWishes">Notes & wishes</div>
+        <textarea class="ta" id="note-lombok" data-i18n-ph="notePh" placeholder="Write something special..."></textarea>
+        <button class="btn btn-o" onclick="saveNote('lombok')" data-i18n="saveNote">Save note</button>
+      </div></div>
     </div>
 
-    <!-- Card 2 — Bali -->
-    <div class="dest-card reveal" id="card-bali">
-      <div class="dest-header" onclick="toggleCard('bali')">
-        <span class="week-badge" data-i18n="weekBadge2">Weeks 5–6</span>
-        <span class="dest-emoji">🏝️</span>
-        <div>
-          <div class="dest-name" data-i18n="dest2Name">Gili Air or Uluwatu, Bali</div>
-          <div class="dest-loc">Gili Islands / Bali, Indonesia</div>
-        </div>
-        <span class="expand-arrow">▼</span>
+    <!-- Bali -->
+    <div class="dest reveal" id="d-bali">
+      <div class="dest-photo" id="ph-bali" onclick="toggleDest('bali')">
+        <span class="dest-badge" data-i18n="weekBadge2">Weeks 5–6</span>
+        <div class="dest-cap"><div class="nm serif" data-i18n="dest2Name">Gili Air or Uluwatu, Bali</div><div class="lc">Gili Islands / Bali</div></div>
+        <span class="dest-arrow">▼</span>
       </div>
-      <div class="dest-body">
-        <div class="dest-inner">
-          <div class="info-grid">
-            <div class="info-cell">
-              <div class="info-cell-label" data-i18n="checkIn">Check-in</div>
-              <div class="info-cell-val">10 Jul 2026</div>
-            </div>
-            <div class="info-cell">
-              <div class="info-cell-label" data-i18n="checkOut">Check-out</div>
-              <div class="info-cell-val">24 Jul 2026</div>
-            </div>
-            <div class="info-cell">
-              <div class="info-cell-label" data-i18n="duration">Duration</div>
-              <div class="info-cell-val">14 <span data-i18n="nights">nights</span></div>
-            </div>
-            <div class="info-cell">
-              <div class="info-cell-label" data-i18n="booking">Booking</div>
-              <div class="info-cell-val">PinkCoco Gili Air</div>
-            </div>
-          </div>
-          <div class="highlights-block">
-            <h4 data-i18n="highlights">Highlights</h4>
-            <div class="highlight-item">No cars or motorbikes on Gili Air — just bicycles</div>
-            <div class="highlight-item">Sea turtles swimming directly off the shore</div>
-            <div class="highlight-item">Uluwatu: dramatic cliffs above the Indian Ocean</div>
-            <div class="highlight-item">Skydive Bali and tandem parasailing available</div>
-            <div class="highlight-item">Romantic sunset beach dinner</div>
-          </div>
-          <div class="divider"></div>
-          <div style="font-size:11px;text-transform:uppercase;letter-spacing:.08em;font-weight:700;color:var(--text-light);margin-bottom:8px" data-i18n="notesWishes">Notes &amp; wishes</div>
-          <textarea class="notes-area" id="note-bali" data-i18n-ph="notePlaceholder" placeholder="Write something special here..."></textarea>
-          <button class="save-note-btn" onclick="saveNote('bali')" data-i18n="saveNote">Save note</button>
+      <div class="dest-body"><div class="dest-in">
+        <div class="grid2">
+          <div class="cell"><div class="k" data-i18n="checkIn">Check-in</div><div class="v">10 Jul 2026</div></div>
+          <div class="cell"><div class="k" data-i18n="checkOut">Check-out</div><div class="v">24 Jul 2026</div></div>
+          <div class="cell"><div class="k" data-i18n="duration">Duration</div><div class="v">14 <span data-i18n="nights">nights</span></div></div>
+          <div class="cell"><div class="k" data-i18n="booking">Booking</div><div class="v">PinkCoco</div></div>
         </div>
-      </div>
+        <div class="hl"><h4 data-i18n="highlights">Highlights</h4><div id="hl-bali"></div></div>
+        <div class="divider"></div>
+        <div class="eyebrow" style="margin-bottom:8px" data-i18n="notesWishes">Notes & wishes</div>
+        <textarea class="ta" id="note-bali" data-i18n-ph="notePh" placeholder="Write something special..."></textarea>
+        <button class="btn btn-o" onclick="saveNote('bali')" data-i18n="saveNote">Save note</button>
+      </div></div>
     </div>
 
-    <!-- Card 3 — TBD -->
-    <div class="dest-card reveal" id="card-tbd">
-      <div class="dest-header" onclick="toggleCard('tbd')">
-        <span class="week-badge" style="background:rgba(46,125,170,0.12);color:var(--ocean);border-color:rgba(46,125,170,0.25)">✨ Optional</span>
-        <span class="dest-emoji">✨</span>
-        <div>
-          <div class="dest-name" data-i18n="dest3Name">Third Destination — To Be Decided</div>
-          <div class="dest-loc" data-i18n="toBeConfirmed">— to be confirmed —</div>
-        </div>
-        <span class="expand-arrow">▼</span>
+    <!-- TBD -->
+    <div class="dest reveal" id="d-tbd">
+      <div class="dest-photo" id="ph-tbd" onclick="toggleDest('tbd')">
+        <span class="dest-badge" style="color:var(--ocean)">✨ Optional</span>
+        <div class="dest-cap"><div class="nm serif" data-i18n="dest3Name">Third Stop — To Decide</div><div class="lc" data-i18n="toBeConfirmed">— to be confirmed —</div></div>
+        <span class="dest-arrow">▼</span>
       </div>
-      <div class="dest-body">
-        <div class="dest-inner">
-          <div class="highlights-block">
-            <h4 data-i18n="highlights">Options</h4>
-            <div id="hl-tbd"></div>
-          </div>
-          <div class="divider"></div>
-          <textarea class="notes-area" id="note-tbd" data-i18n-ph="notePlaceholder" placeholder="Write something special here..."></textarea>
-          <button class="save-note-btn" onclick="saveNote('tbd')" data-i18n="saveNote">Save note</button>
-        </div>
-      </div>
+      <div class="dest-body"><div class="dest-in">
+        <div class="hl"><h4 data-i18n="options">Options</h4><div id="hl-tbd"></div></div>
+        <div class="divider"></div>
+        <textarea class="ta" id="note-tbd" data-i18n-ph="notePh" placeholder="Write something special..."></textarea>
+        <button class="btn btn-o" onclick="saveNote('tbd')" data-i18n="saveNote">Save note</button>
+      </div></div>
     </div>
   </section>
 
-  <!-- ── PACKING ── -->
-  <section id="packing" data-section="packing">
-    <div class="section-label reveal" data-i18n="packingTitle">Packing Checklist</div>
+  <!-- ═══ ACTIVITIES ═══ -->
+  <section id="activities">
+    <div class="s-head reveal"><div class="s-title serif" data-i18n="activitiesTitle">Experiences</div><div class="s-note" data-i18n="actNote">tap to explore</div></div>
+    <div class="filters reveal" id="filters"></div>
+    <div class="acts" id="acts"></div>
+  </section>
 
-    <div class="pack-group reveal">
-      <div class="pack-group-title">📄 <span data-i18n="packingDocs">Documents</span></div>
-      <div class="pack-grid" id="pg-docs"></div>
-    </div>
-    <div class="pack-group reveal">
-      <div class="pack-group-title">💊 <span data-i18n="packingHealth">Health &amp; Allergy</span></div>
-      <div class="pack-grid" id="pg-health"></div>
-    </div>
-    <div class="pack-group reveal">
-      <div class="pack-group-title">👗 <span data-i18n="packingClothes">Clothing</span></div>
-      <div class="pack-grid" id="pg-clothes"></div>
-    </div>
-    <div class="pack-group reveal">
-      <div class="pack-group-title">📱 <span data-i18n="packingTech">Tech &amp; Extras</span></div>
-      <div class="pack-grid" id="pg-tech"></div>
+  <!-- ═══ BUDGET ═══ -->
+  <section id="budget">
+    <div class="s-head reveal"><div class="s-title serif" data-i18n="budgetTitle">Budget</div><div class="s-note" data-i18n="budgetNote">live · updates as you plan</div></div>
+    <div class="budget reveal">
+      <div class="bud-top">
+        <div><div class="bud-spent" id="bud-spent">€0</div><div class="bud-of" id="bud-of">of €7,000 planned</div></div>
+        <div class="bud-pill green" id="bud-pill">🟢 On track</div>
+      </div>
+      <div class="bud-track"><div class="bud-fill" id="bud-fill" style="width:0%;background:var(--ok)"></div></div>
+      <div class="bud-meta"><span id="bud-left">€7,000 left</span><span id="bud-pct">0%</span></div>
+      <div class="bud-tip"><span class="ai-ic">✨</span><span id="bud-tip-txt" data-i18n="budgetEmpty">Add experiences to your agenda and I'll track the cost here, with tips to stay on budget.</span></div>
+      <div class="bud-break" id="bud-break" style="display:none"></div>
     </div>
   </section>
 
-  <!-- ── ACTIVITIES ── -->
-  <section id="activities" data-section="activities">
-    <div class="section-label reveal" data-i18n="activitiesTitle">Activities</div>
-    <div class="filter-bar reveal" id="filter-bar"></div>
-    <div class="act-grid" id="act-grid"></div>
+  <!-- ═══ PACKING ═══ -->
+  <section id="packing">
+    <div class="s-head reveal"><div class="s-title serif" data-i18n="packingTitle">Packing</div></div>
+    <div class="pk-g reveal"><div class="pk-t">📄 <span data-i18n="packingDocs">Documents</span></div><div class="pk-grid" id="pg-docs"></div></div>
+    <div class="pk-g reveal"><div class="pk-t">💊 <span data-i18n="packingHealth">Health & Allergy</span></div><div class="pk-grid" id="pg-health"></div></div>
+    <div class="pk-g reveal"><div class="pk-t">👗 <span data-i18n="packingClothes">Clothing</span></div><div class="pk-grid" id="pg-clothes"></div></div>
+    <div class="pk-g reveal"><div class="pk-t">📱 <span data-i18n="packingTech">Tech & Extras</span></div><div class="pk-grid" id="pg-tech"></div></div>
   </section>
 
-  <!-- ── AGENDA ── -->
-  <section id="agenda" data-section="agenda">
-    <div class="section-label reveal" data-i18n="agendaTitle">Our Agenda</div>
-    <div id="agenda-list"></div>
+  <!-- ═══ AGENDA ═══ -->
+  <section id="agenda">
+    <div class="s-head reveal"><div class="s-title serif" data-i18n="agendaTitle">Our Agenda</div></div>
+    <div id="ag-list"></div>
   </section>
 
-  <!-- ── AI CHAT ── -->
-  <section id="ai" data-section="ai">
-    <div class="section-label reveal" data-i18n="aiTitle">AI Assistant</div>
-    <div class="chat-wrap reveal">
-      <div class="quick-chips" id="quick-chips"></div>
-      <div class="chat-messages" id="chat-messages"></div>
-      <div class="chat-input-row">
-        <input class="chat-input" id="chat-input" data-i18n-ph="aiPlaceholder" placeholder="Ask something..." onkeydown="if(event.key==='Enter')sendMsg()">
-        <button class="chat-send" onclick="sendMsg()">➤</button>
+  <!-- ═══ AI ═══ -->
+  <section id="ai">
+    <div class="s-head reveal"><div class="s-title serif" data-i18n="aiTitle">Your Assistant</div></div>
+    <div class="ai-wrap reveal">
+      <div class="ai-banner">
+        <div class="ai-orb">✦</div>
+        <div><div class="ti" data-i18n="aiName">Honeymoon Assistant</div><div class="su" data-i18n="aiTagline">I can plan, add to your agenda & track budget</div></div>
+      </div>
+      <div class="chips" id="chips"></div>
+      <div class="msgs" id="msgs"></div>
+      <div class="ai-in">
+        <input class="ai-tx" id="ai-tx" data-i18n-ph="aiPh" placeholder="Ask me anything, or tell me what to plan..." onkeydown="if(event.key==='Enter')send()">
+        <button class="ai-snd" onclick="send()">➤</button>
       </div>
     </div>
   </section>
-
 </main>
 
-<!-- ── BOTTOM SHEET ── -->
-<div class="sheet-backdrop" id="backdrop" onclick="closeSheet()"></div>
-<div class="bottom-sheet" id="sheet">
-  <div class="sheet-handle"></div>
-  <div id="sheet-icon" style="font-size:40px;margin-bottom:8px"></div>
-  <div class="sheet-title display" id="sheet-title"></div>
-  <div class="sheet-price" id="sheet-price"></div>
-  <div class="sheet-desc" id="sheet-desc"></div>
-  <div class="sheet-allergy" id="sheet-allergy" style="display:none"></div>
-  <div class="providers-label" id="prov-label"></div>
-  <div id="providers-list"></div>
-  <div class="sheet-actions">
-    <button class="sheet-btn sheet-btn-save" id="btn-save" onclick="saveActivity()" data-i18n="saveBtn">Save for later</button>
-    <button class="sheet-btn sheet-btn-agenda" id="btn-agenda" onclick="showDatePicker()" data-i18n="addAgendaBtn">Add to Agenda</button>
-  </div>
-  <div class="date-picker-wrap" id="dp-wrap">
-    <div class="dp-label" data-i18n="dateLabel">Date</div>
-    <div class="dp-row">
-      <input type="date" class="dp-input" id="dp-date" min="2026-06-12" max="2026-07-24">
-      <input type="time" class="dp-input" id="dp-time">
+<!-- ═══ BOTTOM SHEET ═══ -->
+<div class="veil" id="veil" onclick="closeSheet()"></div>
+<div class="sheet" id="sheet">
+  <div class="sheet-hero" id="sheet-hero"><div class="sheet-grab"></div></div>
+  <div class="sheet-in">
+    <div class="sheet-emoji" id="sheet-emoji"></div>
+    <div class="sheet-t serif" id="sheet-t"></div>
+    <div class="sheet-pr" id="sheet-pr"></div>
+    <div class="sheet-d" id="sheet-d"></div>
+    <div class="sheet-a" id="sheet-a" style="display:none"></div>
+    <div class="sheet-impact" id="sheet-impact"><span>📊</span><span id="sheet-impact-txt"></span></div>
+    <div class="prov-l" id="prov-l"></div>
+    <div id="prov-list"></div>
+    <div class="sheet-acts">
+      <button class="btn btn-g" onclick="saveActivity()" data-i18n="saveBtn">Save for later</button>
+      <button class="btn btn-o" onclick="toggleDP()" data-i18n="addAgendaBtn">Add to Agenda</button>
     </div>
-    <div class="dp-label" data-i18n="noteLabel">Note</div>
-    <input type="text" class="dp-input" id="dp-note" data-i18n-ph="notePlaceholder2" placeholder="e.g. Confirm reservation" style="margin-bottom:12px">
-    <button class="dp-confirm" onclick="confirmAgenda()" data-i18n="confirmBtn">Confirm</button>
+    <div class="dp" id="dp">
+      <div class="dp-l" data-i18n="dateLabel">Date</div>
+      <div class="dp-r">
+        <input type="date" class="dp-i" id="dp-date" min="2026-06-12" max="2026-07-24">
+        <input type="time" class="dp-i" id="dp-time">
+      </div>
+      <div class="dp-l" data-i18n="noteLabel">Note</div>
+      <input type="text" class="dp-i" id="dp-note" data-i18n-ph="notePh2" placeholder="e.g. Confirm reservation" style="margin-bottom:12px">
+      <button class="dp-c" onclick="confirmAgenda()" data-i18n="confirmBtn">Confirm</button>
+    </div>
   </div>
 </div>
 
-<!-- ── TOAST ── -->
 <div class="toast" id="toast"></div>
 
 <script>
@@ -1535,672 +697,519 @@ const QUICK_QS = {
   hy:["Կaroyq enq djiavarut. ev loyov zaghvel nuyн oрǝ?","Inchpes hасtel Lombok-it Gili Air?","Lav restoranner Selong Belanak-i mot?","Mаkcаyin kanonner voski Hayastan?","Inch aнel ete andzrev ga Lombok-um?","Scooter vardzakaret artsakarq?","APM-ic gumар havrelik аnvtаng e?","Vor gorczolutyunner harkir en mez?"],
 };
 
+/* ── ADDED KEYS (journey logic, budget, editorial) ── */
+Object.assign(TRANSLATIONS, {
+  navBudget: { en:"Budget", nl:"Budget", hy:"Բյուջե" },
+  destTitle: { en:"Where We Stay", nl:"Waar We Verblijven", hy:"Որտեղ Ենք Մնում" },
+  actNote:   { en:"tap to explore", nl:"tik om te ontdekken", hy:"հպեք՝ բացելու" },
+  budgetTitle:{ en:"Budget", nl:"Budget", hy:"Բյուջե" },
+  budgetNote:{ en:"live · updates as you plan", nl:"live · werkt bij terwijl je plant", hy:"կենդանի · թարմացվում է" },
+  budgetEmpty:{ en:"Add experiences to your agenda and I'll track the cost here, with tips to stay on budget.", nl:"Voeg activiteiten toe aan je agenda — ik houd de kosten hier bij, met tips om binnen budget te blijven.", hy:"Ավելացրեք փորձառություններ օրակարգում, և ես կհետևեմ ծախսերին այստեղ:" },
+  options:   { en:"Options", nl:"Opties", hy:"Տարբերակներ" },
+  lombokAllergy:{ en:"No jungle or rice fields — right by the sea", nl:"Geen jungle of rijstvelden — direct aan zee", hy:"Ոչ ջունգլի, ոչ բրնձի դաշտեր — ծովի մոտ" },
+  soloLeg:   { en:"Abdul solo:", nl:"Abdul solo:", hy:"Աբդուլ մենակ:" },
+  soloLegTxt:{ en:"Netherlands → Yerevan · Jun 8 (before we meet)", nl:"Nederland → Yerevan · 8 jun (voordat we samen zijn)", hy:"Նիդեռլանդներ → Երևան · հունիս 8" },
+  phWed:     { en:"Yerevan", nl:"Yerevan", hy:"Երևան" },
+  phFly:     { en:"Fly together", nl:"Samen vliegen", hy:"Միասին թռչել" },
+  phLombok:  { en:"Lombok", nl:"Lombok", hy:"Լոմբոկ" },
+  phBali:    { en:"Gili/Bali", nl:"Gili/Bali", hy:"Գիլի/Բալի" },
+  aiName:    { en:"Honeymoon Assistant", nl:"Honeymoon Assistent", hy:"Մեղրամսի Օգնական" },
+  aiTagline: { en:"I can plan, add to your agenda & track budget", nl:"Ik kan plannen, agenda vullen & budget bijhouden", hy:"Կարող եմ պլանավորել և հետևել բյուջեին" },
+  heroLabel: { en:"Until our honeymoon begins", nl:"Tot onze huwelijksreis begint", hy:"Մինչև մեր մեղրամիսը" },
+  heroSubTpl:{ en:"days until we fly together to Indonesia 🌺", nl:"dagen tot we samen naar Indonesië vliegen 🌺", hy:"օր մինչև միասին թռչենք Ինդոնեզիա 🌺" },
+  heroDayOf: { en:"Day {X} together in paradise", nl:"Dag {X} samen in het paradijs", hy:"{X}-րդ օրը դրախտում" },
+  heroAfter: { en:"What a journey it was ✨", nl:"Wat een reis was dat ✨", hy:"Ինչ ճանապարհ էր ✨" },
+  notePh:    { en:"Write something special...", nl:"Schrijf iets bijzonders...", hy:"Գրեք ինչ-որ հատուկ բան..." },
+  notePh2:   { en:"e.g. Confirm reservation", nl:"Bijv. reservering bevestigen", hy:"Օր. հաստատել ամրագրումը" },
+  aiPh:      { en:"Ask me anything, or tell me what to plan...", nl:"Vraag iets, of zeg wat ik moet plannen...", hy:"Հարցրեք կամ ասեք ինչ պլանավորել..." },
+  budgetOf:  { en:"of {T} planned", nl:"van {T} gepland", hy:"{T}-ից պլանավորված" },
+  budgetLeft:{ en:"{X} left", nl:"{X} over", hy:"{X} մնացած" },
+  budgetGreenTip:{ en:"You're comfortably on track. Plenty of room for a few more experiences.", nl:"Je zit ruim op schema. Genoeg ruimte voor nog wat activiteiten.", hy:"Դուք լավ ուղու վրա եք:" },
+  budgetYellowTip:{ en:"Getting close to your target. Consider cheaper alternatives for big-ticket items.", nl:"Je nadert je doel. Overweeg goedkopere alternatieven voor de dure posten.", hy:"Մոտենում եք նպատակին:" },
+  budgetRedTip:{ en:"Over the planned budget. Want me to suggest what to trim or swap?", nl:"Boven het geplande budget. Zal ik voorstellen wat je kunt schrappen of vervangen?", hy:"Բյուջեից վեր:" },
+  baseLabel: { en:"Flights & stays (est.)", nl:"Vluchten & verblijf (schatting)", hy:"Թռիչքներ & կացարան" },
+  plannedLabel:{ en:"Planned experiences", nl:"Geplande activiteiten", hy:"Պլանավորված փորձառություններ" },
+  callBtn:   { en:"Call", nl:"Bellen", hy:"Զանգել" },
+  websiteBtn:{ en:"Website", nl:"Website", hy:"Կայք" },
+  providerFound:{ en:"providers", nl:"aanbieders", hy:"մատակարար" },
+  impactTpl: { en:"Adds about {X} to your planned budget", nl:"Voegt ongeveer {X} toe aan je budget", hy:"Ավելացնում է մոտ {X}" },
+  aiOffline: { en:"No connection right now — back when you're online 🌐", nl:"Even geen verbinding — ik ben er als je weer online bent 🌐", hy:"Կապ չկա — կվերադառնամ 🌐" },
+});
 /* ═══════════════════════════════════════════════════════
-   SUPABASE CONFIG — FILL IN YOUR KEYS BELOW
-   Get these from: supabase.com → your project → Settings → API
+   📸 IMAGES — swap these URLs for your own trip photos later.
+   These are free Unsplash photos. If one ever fails to load,
+   it falls back to a tasteful gradient automatically.
 ═══════════════════════════════════════════════════════ */
-const SUPABASE_URL  = 'https://krvjhuvgjywhhxycirub.supabase.co';      // e.g. https://xxxx.supabase.co
-const SUPABASE_KEY  = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtydmpodXZnanl3aGh4eWNpcnViIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAxNzMzMzAsImV4cCI6MjA5NTc0OTMzMH0.qtiAHsYp2EeW0H8VgG--lddbSaSPAuKSDPrRtD24xGA'; // anon public key
-const DEVICE_ID     = 'honeymoon_shared';                   // same on BOTH phones → data syncs
+const IMAGES = {
+  hero:   'https://images.unsplash.com/photo-1537956965359-7573183d1f57?w=1600&q=80&auto=format&fit=crop',
+  lombok: 'https://images.unsplash.com/photo-1559628233-100c798642d4?w=1000&q=80&auto=format&fit=crop',
+  bali:   'https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?w=1000&q=80&auto=format&fit=crop',
+  tbd:    'https://images.unsplash.com/photo-1604999333679-b86d54738315?w=1000&q=80&auto=format&fit=crop',
+  // activity photos (keyed by activity id)
+  swim:    'https://images.unsplash.com/photo-1530549387789-4c1017266635?w=800&q=80&auto=format&fit=crop',
+  horse:   'https://images.unsplash.com/photo-1553284965-83fd3e82fa5a?w=800&q=80&auto=format&fit=crop',
+  skydive: 'https://images.unsplash.com/photo-1521673252667-e05da380b252?w=800&q=80&auto=format&fit=crop',
+  parasail:'https://images.unsplash.com/photo-1599580546666-c26bca85d6a1?w=800&q=80&auto=format&fit=crop',
+  snorkel: 'https://images.unsplash.com/photo-1582967788606-a171c1080cb0?w=800&q=80&auto=format&fit=crop',
+  dinner:  'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&q=80&auto=format&fit=crop',
+  phinisi: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&q=80&auto=format&fit=crop',
+  massage: 'https://images.unsplash.com/photo-1600334129128-685c5582fd35?w=800&q=80&auto=format&fit=crop',
+  cooking: 'https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=800&q=80&auto=format&fit=crop',
+  gold:    'https://images.unsplash.com/photo-1610375461246-83df859d849d?w=800&q=80&auto=format&fit=crop',
+  dive:    'https://images.unsplash.com/photo-1544551763-7ef420be5dd6?w=800&q=80&auto=format&fit=crop'
+};
+const FALLBACK_GRAD = {
+  hero:'linear-gradient(135deg,#2E7DAA,#1A5C82 60%,#C2922F)',
+  default:'linear-gradient(135deg,#2E7DAA,#1A5C82)'
+};
+/* set a background image with graceful gradient fallback */
+function setBg(el, url, gradKey){
+  if(!el) return;
+  const grad = FALLBACK_GRAD[gradKey] || FALLBACK_GRAD.default;
+  el.style.backgroundImage = grad; // show gradient immediately
+  if(!url){ return; }
+  const img = new Image();
+  img.onload = ()=>{ el.style.backgroundImage = `url("${url}")`; };
+  img.onerror = ()=>{ el.style.backgroundImage = grad; };
+  img.src = url;
+}
 
-/* ── SUPABASE REST HELPERS ── */
-async function sbGet(table) {
-  try {
-    const r = await fetch(`${SUPABASE_URL}/rest/v1/${table}?device_id=eq.${DEVICE_ID}&select=*`, {
-      headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` }
-    });
+/* ═══════════════════════════════════════════════════════
+   ☁️ SUPABASE — keys get filled in by Chrome Claude / you
+═══════════════════════════════════════════════════════ */
+const SUPABASE_URL = 'PASTE_YOUR_SUPABASE_URL_HERE';
+const SUPABASE_KEY = 'PASTE_YOUR_SUPABASE_ANON_KEY_HERE';
+const DEVICE_ID    = 'honeymoon_shared';
+
+/* AI endpoint: the Netlify Function proxy (keeps the API key server-side & secret).
+   Leave as-is once the function is deployed. */
+const AI_ENDPOINT = '/.netlify/functions/chat';
+
+async function sbGet(table){
+  try{
+    const r = await fetch(`${SUPABASE_URL}/rest/v1/${table}?device_id=eq.${DEVICE_ID}&select=*`,
+      {headers:{apikey:SUPABASE_KEY,Authorization:`Bearer ${SUPABASE_KEY}`}});
     const rows = await r.json();
     return rows.length ? rows[0] : null;
-  } catch(e) { return null; }
+  }catch(e){ return null; }
+}
+async function sbUpsert(table,payload){
+  try{
+    await fetch(`${SUPABASE_URL}/rest/v1/${table}`,{method:'POST',
+      headers:{apikey:SUPABASE_KEY,Authorization:`Bearer ${SUPABASE_KEY}`,'Content-Type':'application/json',Prefer:'resolution=merge-duplicates'},
+      body:JSON.stringify({device_id:DEVICE_ID,...payload,updated_at:new Date().toISOString()})});
+  }catch(e){}
+}
+let syncEl=null, lastHash='', pollT=null;
+function setSync(s){ if(!syncEl)return; const m={syncing:'⏳',ok:'☁️',off:'📵',unconf:'⚙️'}; syncEl.textContent=m[s]||'☁️';
+  syncEl.title={syncing:'Syncing…',ok:'Synced',off:'Offline — local only',unconf:'Set up Supabase to sync'}[s]; }
+function startPoll(){
+  if(pollT||SUPABASE_URL.includes('PASTE'))return;
+  pollT=setInterval(async()=>{
+    if(document.hidden)return;
+    const row=await sbGet('hhq_state'); if(!row)return;
+    if(row.updated_at===lastHash)return; lastHash=row.updated_at;
+    const remote=JSON.parse(row.data||'{}');
+    state=Object.assign({},state,remote,{lang:state.lang});
+    saveLocal(); applyLang(); restoreNotes(); renderAgenda(); renderActs(curFilter); renderPacking(); renderBudget();
+    showToast('🔄 Synced with partner');
+  },8000);
 }
 
-async function sbUpsert(table, payload) {
-  try {
-    await fetch(`${SUPABASE_URL}/rest/v1/${table}`, {
-      method: 'POST',
-      headers: {
-        apikey: SUPABASE_KEY,
-        Authorization: `Bearer ${SUPABASE_KEY}`,
-        'Content-Type': 'application/json',
-        Prefer: 'resolution=merge-duplicates'
-      },
-      body: JSON.stringify({ device_id: DEVICE_ID, ...payload, updated_at: new Date().toISOString() })
-    });
-  } catch(e) {}
-}
-
-/* ── REALTIME POLLING (every 8 seconds, only when tab is visible) ── */
-let pollTimer = null;
-let lastRemoteHash = '';
-
-function startPolling() {
-  if (pollTimer) return;
-  pollTimer = setInterval(async () => {
-    if (document.hidden) return;
-    if (SUPABASE_URL.includes('PASTE')) return; // not configured yet
-    const row = await sbGet('hhq_state');
-    if (!row) return;
-    const remoteHash = row.updated_at || '';
-    if (remoteHash === lastRemoteHash) return; // nothing changed
-    lastRemoteHash = remoteHash;
-    const remote = JSON.parse(row.data || '{}');
-    // merge remote into state — remote wins on shared keys
-    const merged = Object.assign({}, state, remote, { lang: state.lang }); // keep local language pref
-    state = merged;
-    saveLocalOnly();
-    applyLang();
-    restoreNotes();
-    renderAgenda();
-    renderActivities(currentFilter);
-    renderPacking();
-    showToast('🔄 Synced with partner!');
-  }, 8000);
-}
-
-/* ── SYNC STATUS UI ── */
-let syncStatusEl = null;
-function setSyncStatus(status) {
-  // status: 'syncing' | 'ok' | 'offline' | 'unconfigured'
-  if (!syncStatusEl) return;
-  const icons = { syncing:'⏳', ok:'☁️', offline:'📵', unconfigured:'⚙️' };
-  syncStatusEl.textContent = icons[status] || '☁️';
-  syncStatusEl.title = { syncing:'Syncing...', ok:'Synced', offline:'Offline — local only', unconfigured:'Set up Supabase to sync' }[status];
-}
+/* ═══════════════════════════════════════════════════════
+   💰 BUDGET — estimated cost per activity (EUR, midpoint).
+   Used for live budget tracking when added to agenda.
+═══════════════════════════════════════════════════════ */
+const BUDGET_TOTAL = 7000;            // target total honeymoon budget
+const ACT_COST = {                    // per booking, EUR (rough midpoint)
+  swim:70, horse:45, skydive:2100, parasail:55, snorkel:80,
+  dinner:90, phinisi:120, massage:60, cooking:35, gold:300, dive:140
+};
+/* baseline fixed costs already roughly committed (flights, stays) — shown for context */
+const BUDGET_BASE = 4200;             // flights + accommodation estimate
+function fmtEur(n){ return '€'+Math.round(n).toLocaleString('en-US'); }
 
 /* ═══════════════════════════════════════════════════════
    STATE
 ═══════════════════════════════════════════════════════ */
-const KEY = 'honeymoon_hq_v3';
-let state = {
-  lang: 'en',
-  checklist: {},
-  notes: { lombok:'', bali:'', tbd:'' },
-  agenda: [],
-  chat: [],
-  savedActivities: [],
-  agendaActivities: [],
-  budgetStatus: 'green'
-};
-let currentSheet = null;
+const KEY='honeymoon_hq_v4';
+let state={ lang:'en', checklist:{}, notes:{lombok:'',bali:'',tbd:''}, agenda:[], chat:[], saved:[], inAgenda:[] };
+let curSheet=null, curFilter='all';
 
-/* Load from localStorage (instant, offline-first) */
-function loadState() {
-  try {
-    const s = JSON.parse(localStorage.getItem(KEY));
-    if (s) state = Object.assign(state, s);
-  } catch(e){}
+function loadState(){ try{const s=JSON.parse(localStorage.getItem(KEY)); if(s)state=Object.assign(state,s);}catch(e){} }
+function saveLocal(){ try{localStorage.setItem(KEY,JSON.stringify(state));}catch(e){} }
+async function saveState(){
+  saveLocal();
+  if(SUPABASE_URL.includes('PASTE'))return;
+  setSync('syncing');
+  try{ await sbUpsert('hhq_state',{data:JSON.stringify(state)}); setSync('ok'); }catch(e){ setSync('off'); }
 }
-
-/* Save to localStorage only (called during polling merge) */
-function saveLocalOnly() {
-  try { localStorage.setItem(KEY, JSON.stringify(state)); } catch(e){}
-}
-
-/* Save to localStorage AND push to Supabase */
-async function saveState() {
-  try { localStorage.setItem(KEY, JSON.stringify(state)); } catch(e){}
-  if (SUPABASE_URL.includes('PASTE')) return; // not configured
-  setSyncStatus('syncing');
-  try {
-    await sbUpsert('hhq_state', { data: JSON.stringify(state) });
-    setSyncStatus('ok');
-  } catch(e) {
-    setSyncStatus('offline');
-  }
-}
-
-/* Load remote state on first open (merges with local) */
-async function loadRemoteState() {
-  if (SUPABASE_URL.includes('PASTE')) { setSyncStatus('unconfigured'); return; }
-  setSyncStatus('syncing');
-  const row = await sbGet('hhq_state');
-  if (row) {
-    lastRemoteHash = row.updated_at || '';
-    const remote = JSON.parse(row.data || '{}');
-    const langPref = state.lang;
-    state = Object.assign({}, state, remote, { lang: langPref });
-    saveLocalOnly();
-    applyLang();
-    restoreNotes();
-    renderAgenda();
-    renderActivities(currentFilter);
-    renderPacking();
-    setSyncStatus('ok');
-  } else {
-    // First time: push local state to Supabase
-    await saveState();
-    setSyncStatus('ok');
-  }
-  startPolling();
+async function loadRemote(){
+  if(SUPABASE_URL.includes('PASTE')){ setSync('unconf'); return; }
+  setSync('syncing');
+  const row=await sbGet('hhq_state');
+  if(row){ lastHash=row.updated_at||''; const r=JSON.parse(row.data||'{}'); const lp=state.lang;
+    state=Object.assign({},state,r,{lang:lp}); saveLocal();
+    applyLang(); restoreNotes(); renderAgenda(); renderActs(curFilter); renderPacking(); renderBudget(); setSync('ok');
+  } else { await saveState(); setSync('ok'); }
+  startPoll();
 }
 
 /* ═══════════════════════════════════════════════════════
    I18N
 ═══════════════════════════════════════════════════════ */
-function t(key, lang=state.lang) {
-  const tr = TRANSLATIONS[key];
-  if (!tr) return key;
-  return tr[lang] || tr['en'] || key;
+function t(k,lang=state.lang){ const tr=TRANSLATIONS[k]; if(!tr)return k; return tr[lang]||tr.en||k; }
+function setLang(lang){ state.lang=lang; saveState(); document.getElementById('lang-d').classList.remove('open');
+  document.body.style.transition='opacity .18s'; document.body.style.opacity='0';
+  setTimeout(()=>{ applyLang(); document.body.style.opacity='1'; },180); }
+function applyLang(){
+  const lang=state.lang; document.documentElement.lang=lang;
+  document.querySelectorAll('[data-i18n]').forEach(el=>{ const v=t(el.dataset.i18n,lang); if(v!==el.dataset.i18n)el.textContent=v; });
+  document.querySelectorAll('[data-i18n-ph]').forEach(el=>{ el.placeholder=t(el.dataset.i18nPh,lang); });
+  document.getElementById('cur-flag').textContent={en:'🇬🇧',nl:'🇳🇱',hy:'🇦🇲'}[lang];
+  document.getElementById('cur-lang').textContent={en:'EN',nl:'NL',hy:'ՀՅ'}[lang];
+  ['en','nl','hy'].forEach(l=>document.getElementById('ck-'+l).textContent=l===lang?'✓':'');
+  updateHero(); renderHighlights(); renderPacking(); renderActs(curFilter); renderAgenda(); renderChips(); renderBudget();
 }
-
-function setLang(lang) {
-  state.lang = lang;
-  saveState();
-  document.getElementById('lang-drop').classList.remove('open');
-  document.body.style.opacity = '0';
-  document.body.style.transition = 'opacity 0.18s';
-  setTimeout(() => {
-    applyLang();
-    document.body.style.opacity = '1';
-  }, 180);
-}
-
-function applyLang() {
-  const lang = state.lang;
-  document.documentElement.lang = lang;
-  // nav / labels
-  document.querySelectorAll('[data-i18n]').forEach(el => {
-    const v = t(el.dataset.i18n, lang);
-    if (v !== el.dataset.i18n) el.textContent = v;
-  });
-  document.querySelectorAll('[data-i18n-ph]').forEach(el => {
-    el.placeholder = t(el.dataset.i18nPh, lang);
-  });
-  // flag
-  document.getElementById('cur-flag').textContent = {en:'🇬🇧',nl:'🇳🇱',hy:'🇦🇲'}[lang];
-  document.getElementById('cur-lang-name').textContent = {en:'EN',nl:'NL',hy:'ՀՅ'}[lang];
-  ['en','nl','hy'].forEach(l => { document.getElementById('ck-'+l).textContent = l===lang?'✓':''; });
-  // tagline
-  document.getElementById('h-tagline').textContent = t('appTagline', lang);
-  // budget
-  updateBudgetPill();
-  // hero
-  updateHero();
-  // highlights
-  renderHighlights();
-  // packing
-  renderPacking();
-  // activities
-  renderActivities(currentFilter);
-  // agenda
-  renderAgenda();
-  // chips
-  renderChips();
-}
-
-function toggleLangDrop() {
-  document.getElementById('lang-drop').classList.toggle('open');
-}
-document.addEventListener('click', e => {
-  if (!e.target.closest('#lang-switcher')) {
-    document.getElementById('lang-drop').classList.remove('open');
-  }
-});
+function toggleLang(){ document.getElementById('lang-d').classList.toggle('open'); }
+document.addEventListener('click',e=>{ if(!e.target.closest('#lang'))document.getElementById('lang-d').classList.remove('open'); });
 
 /* ═══════════════════════════════════════════════════════
-   DATES & HERO
+   JOURNEY — counts from the moment they fly TOGETHER (Jun 12)
+   The NL→Yerevan solo leg (Jun 8) is shown separately above.
 ═══════════════════════════════════════════════════════ */
-const DATES = {
-  departure: new Date('2026-06-08'),
-  indonesia: new Date('2026-06-12'),
-  phase2:    new Date('2026-07-10'),
-  end:       new Date('2026-07-24'),
+const DATES={
+  yerevan:   new Date('2026-06-08'),  // wedding + together in Yerevan
+  together:  new Date('2026-06-12'),  // fly Yerevan → Indonesia (HONEYMOON DAY 1)
+  bali:      new Date('2026-07-10'),
+  end:       new Date('2026-07-24')
 };
-
-function daysBetween(a, b) {
-  return Math.round((b - a) / 86400000);
+const dayDiff=(a,b)=>Math.round((b-a)/864e5);
+function updateHero(){
+  const now=new Date(), lang=state.lang;
+  const num=document.getElementById('hero-num'), eb=document.getElementById('hero-eyebrow'),
+        ti=document.getElementById('hero-title'), sb=document.getElementById('hero-sub');
+  if(now<DATES.together){
+    const d=dayDiff(now,DATES.together);
+    eb.textContent=t('heroLabel',lang); num.textContent=d; ti.textContent='';
+    sb.textContent=d+' '+t('heroSubTpl',lang);
+  } else if(now<=DATES.end){
+    const d=dayDiff(DATES.together,now)+1;
+    eb.textContent=''; num.textContent=d; ti.textContent=t('heroDayOf',lang).replace('{X}',d); sb.textContent='';
+  } else { eb.textContent=''; num.textContent='✨'; ti.textContent=t('heroAfter',lang); sb.textContent=''; }
+  // timeline (from together → end)
+  const total=dayDiff(DATES.together,DATES.end);
+  const el=Math.max(0,Math.min(total,dayDiff(DATES.together,now)));
+  const pct=Math.round(el/total*100);
+  document.getElementById('tl-fill').style.width=pct+'%';
+  document.getElementById('tl-pct').textContent=pct+'%';
+  let cur=0; if(now>=DATES.yerevan)cur=0; if(now>=DATES.together)cur=1; if(now>=DATES.together)cur=2; if(now>=DATES.bali)cur=3;
+  ['tp0','tp1','tp2','tp3'].forEach((id,i)=>document.getElementById(id).classList.toggle('cur',i===cur));
 }
 
-function updateHero() {
-  const now = new Date();
-  const lang = state.lang;
-  const num = document.getElementById('hero-number');
-  const lbl = document.getElementById('hero-label');
-  const sub = document.getElementById('hero-sub');
-
-  if (now < DATES.indonesia) {
-    const days = daysBetween(now, DATES.indonesia);
-    num.textContent = days;
-    lbl.textContent = t('heroLabel', lang);
-    sub.textContent = days + ' ' + t('heroSub', lang);
-  } else if (now <= DATES.end) {
-    const day = daysBetween(DATES.indonesia, now) + 1;
-    num.textContent = day;
-    lbl.textContent = t('heroDayOf', lang).replace('{X}', day);
-    sub.textContent = '';
-  } else {
-    num.textContent = '✨';
-    lbl.textContent = t('heroAfter', lang);
-    sub.textContent = '';
+/* ═══════════════════════════════════════════════════════
+   BUDGET ENGINE — live
+═══════════════════════════════════════════════════════ */
+function plannedSpend(){
+  let sum=0; state.agenda.forEach(it=>{ sum+=ACT_COST[it.actId]||0; }); return sum;
+}
+function budgetStatus(spent){
+  const ratio=(BUDGET_BASE+spent)/BUDGET_TOTAL;
+  if(ratio<0.85)return'green'; if(ratio<1.0)return'yellow'; return'red';
+}
+function renderBudget(){
+  const lang=state.lang;
+  const spent=plannedSpend(), all=BUDGET_BASE+spent, left=BUDGET_TOTAL-all;
+  const ratio=Math.min(1.2,all/BUDGET_TOTAL), pct=Math.round(all/BUDGET_TOTAL*100);
+  const st=budgetStatus(spent);
+  document.getElementById('bud-spent').textContent=fmtEur(all);
+  document.getElementById('bud-of').textContent=t('budgetOf',lang).replace('{T}',fmtEur(BUDGET_TOTAL));
+  document.getElementById('bud-left').textContent=t('budgetLeft',lang).replace('{X}',fmtEur(Math.max(0,left)));
+  document.getElementById('bud-pct').textContent=pct+'%';
+  const fill=document.getElementById('bud-fill');
+  fill.style.width=Math.min(100,ratio*100)+'%';
+  fill.style.background=st==='green'?'var(--ok)':st==='yellow'?'var(--gold)':'var(--bad)';
+  const pill=document.getElementById('bud-pill');
+  pill.className='bud-pill '+st;
+  pill.textContent={green:t('budgetGreen',lang),yellow:t('budgetYellow',lang),red:t('budgetRed',lang)}[st];
+  const tip=document.getElementById('bud-tip-txt');
+  if(state.agenda.length===0){ tip.textContent=t('budgetEmpty',lang); }
+  else { tip.textContent={green:t('budgetGreenTip',lang),yellow:t('budgetYellowTip',lang),red:t('budgetRedTip',lang)}[st]; }
+  // breakdown
+  const br=document.getElementById('bud-break');
+  if(state.agenda.length===0){ br.style.display='none'; }
+  else{
+    br.style.display='';
+    br.innerHTML=`<div class="bud-row"><span>${t('baseLabel',lang)}</span><span class="amt">${fmtEur(BUDGET_BASE)}</span></div>
+      <div class="bud-row"><span>${t('plannedLabel',lang)} (${state.agenda.length})</span><span class="amt">${fmtEur(spent)}</span></div>`;
   }
-
-  // progress
-  const total = daysBetween(DATES.departure, DATES.end);
-  const elapsed = Math.max(0, Math.min(total, daysBetween(DATES.departure, now)));
-  const pct = Math.round(elapsed / total * 100);
-  document.getElementById('prog-fill').style.width = pct + '%';
-  document.getElementById('prog-pct').textContent = pct + '%';
-
-  // phase highlights
-  const phases = ['ph0','ph1','ph2','ph3'];
-  let cur = 0;
-  if (now >= DATES.departure) cur = 1;
-  if (now >= DATES.indonesia) cur = 2;
-  if (now >= DATES.phase2) cur = 3;
-  phases.forEach((id,i)=>{
-    const el = document.getElementById(id);
-    el.classList.toggle('current', i===cur);
-  });
-}
-
-function updateBudgetPill() {
-  const map = { green: t('budgetGreen'), yellow: t('budgetYellow'), red: t('budgetRed') };
-  document.getElementById('budget-pill').textContent = map[state.budgetStatus] || map.green;
 }
 
 /* ═══════════════════════════════════════════════════════
-   HIGHLIGHTS
+   HIGHLIGHTS + DESTINATIONS
 ═══════════════════════════════════════════════════════ */
-function renderHighlights() {
-  const lang = state.lang;
-  ['lombok','tbd'].forEach(dest => {
-    const el = document.getElementById('hl-'+dest);
-    if (!el) return;
-    el.innerHTML = HIGHLIGHTS[dest].map(h =>
-      `<div class="highlight-item">${h[lang] || h.en}</div>`
-    ).join('');
-  });
+const BALI_HL={ en:["No cars on Gili Air — just bicycles & horse carts","Sea turtles swim right off the shore","Uluwatu: dramatic cliffs over the Indian Ocean","Skydive & tandem parasailing nearby","Romantic sunset beach dinner"],
+  nl:["Geen auto's op Gili Air — alleen fietsen & paard-en-wagen","Zeeschildpadden voor de kust","Uluwatu: dramatische kliffen boven de oceaan","Skydive & tandem parasailing dichtbij","Romantisch sunset stranddiner"],
+  hy:["Գիլի Էյրում մեքենաներ չկան","Ծովային կրիաներ ափի մոտ","Ուլուվաթու՝ ժայռեր օվկիանոսի վրա","Սկայդայվ և պարասայլինգ","Ռոմանտիկ ընթրիք ծովափին"] };
+function renderHighlights(){
+  const lang=state.lang;
+  document.getElementById('hl-lombok').innerHTML=HIGHLIGHTS.lombok.map(h=>`<div class="hl-i">${h[lang]||h.en}</div>`).join('');
+  document.getElementById('hl-tbd').innerHTML=HIGHLIGHTS.tbd.map(h=>`<div class="hl-i">${h[lang]||h.en}</div>`).join('');
+  document.getElementById('hl-bali').innerHTML=(BALI_HL[lang]||BALI_HL.en).map(x=>`<div class="hl-i">${x}</div>`).join('');
 }
-
-/* ═══════════════════════════════════════════════════════
-   DESTINATION CARDS
-═══════════════════════════════════════════════════════ */
-function toggleCard(id) {
-  const card = document.getElementById('card-'+id);
-  card.classList.toggle('open');
-}
-
-function saveNote(dest) {
-  const ta = document.getElementById('note-'+dest);
-  state.notes[dest] = ta.value;
-  saveState();
-  showToast('✓ ' + t('saveNote'));
-}
-
-// restore notes
-function restoreNotes() {
-  Object.keys(state.notes).forEach(dest => {
-    const ta = document.getElementById('note-'+dest);
-    if (ta) ta.value = state.notes[dest] || '';
-  });
-}
+function toggleDest(id){ document.getElementById('d-'+id).classList.toggle('open'); }
+function saveNote(d){ state.notes[d]=document.getElementById('note-'+d).value; saveState(); showToast('✓ '+t('saveNote')); }
+function restoreNotes(){ ['lombok','bali','tbd'].forEach(d=>{ const ta=document.getElementById('note-'+d); if(ta)ta.value=state.notes[d]||''; }); }
 
 /* ═══════════════════════════════════════════════════════
    PACKING
 ═══════════════════════════════════════════════════════ */
-function renderPacking() {
-  const lang = state.lang;
-  Object.entries(PACK_ITEMS).forEach(([group, items]) => {
-    const grid = document.getElementById('pg-'+group);
-    if (!grid) return;
-    grid.innerHTML = items.map(item => {
-      const checked = state.checklist[item.id] || false;
-      const txt = item[lang] || item.en;
-      return `<div class="pack-item ${checked?'checked':''}" onclick="togglePack('${item.id}',this)">
-        <div class="pack-cb"></div>
-        <span class="pack-text">${txt}</span>
-      </div>`;
+function renderPacking(){
+  const lang=state.lang;
+  Object.entries(PACK_ITEMS).forEach(([g,items])=>{
+    const grid=document.getElementById('pg-'+g); if(!grid)return;
+    grid.innerHTML=items.map(it=>{ const ck=state.checklist[it.id]||false; const tx=it[lang]||it.en;
+      return `<div class="pk-i ${ck?'ck':''}" onclick="togglePack('${it.id}',this)"><div class="pk-cb"></div><span class="pk-x">${tx}</span></div>`;
     }).join('');
   });
 }
-
-function togglePack(id, el) {
-  state.checklist[id] = !state.checklist[id];
-  el.classList.toggle('checked', state.checklist[id]);
-  const cb = el.querySelector('.pack-cb');
-  cb.textContent = state.checklist[id] ? '' : '';
-  el.querySelector('.pack-text').style.textDecoration = state.checklist[id] ? 'line-through' : '';
-  saveState();
-}
+function togglePack(id,el){ state.checklist[id]=!state.checklist[id]; el.classList.toggle('ck',state.checklist[id]); saveState(); }
 
 /* ═══════════════════════════════════════════════════════
-   ACTIVITIES
+   ACTIVITIES — photo cards
 ═══════════════════════════════════════════════════════ */
-let currentFilter = 'all';
-
-const FILTER_CATS = [
-  ['all','filterAll'], ['learn','filterLearn'], ['adventure','filterAdventure'],
-  ['romance','filterRomance'], ['sea','filterSea'], ['culture','filterCulture'],
-  ['relax','filterRelax'], ['other','filterOther']
-];
-
-function renderFilterBar() {
-  const bar = document.getElementById('filter-bar');
-  bar.innerHTML = FILTER_CATS.map(([cat, key]) =>
-    `<button class="filter-pill ${cat===currentFilter?'active':''}" onclick="setFilter('${cat}')">${t(key)}</button>`
-  ).join('');
-}
-
-function setFilter(cat) {
-  currentFilter = cat;
-  renderActivities(cat);
-  renderFilterBar();
-}
-
-function renderActivities(filter='all') {
-  const lang = state.lang;
-  const grid = document.getElementById('act-grid');
-  const visible = filter === 'all' ? ACTIVITIES : ACTIVITIES.filter(a => a.cat === filter);
-  grid.innerHTML = visible.map(act => {
-    const inAgenda = state.agendaActivities.includes(act.id);
-    return `<div class="act-card ${inAgenda?'in-agenda':''}" onclick="openSheet('${act.id}')">
-      <span class="act-icon">${act.icon}</span>
-      <div class="act-name">${act.name[lang] || act.name.en}</div>
-      <div class="act-price">${act.price}</div>
-      <div class="act-phase">${act.phase}</div>
+const FILTERS=[['all','filterAll'],['learn','filterLearn'],['adventure','filterAdventure'],['romance','filterRomance'],['sea','filterSea'],['culture','filterCulture'],['relax','filterRelax'],['other','filterOther']];
+function renderFilters(){ document.getElementById('filters').innerHTML=FILTERS.map(([c,k])=>`<button class="fp ${c===curFilter?'on':''}" onclick="setFilter('${c}')">${t(k)}</button>`).join(''); }
+function setFilter(c){ curFilter=c; renderActs(c); renderFilters(); }
+function renderActs(f='all'){
+  const lang=state.lang, grid=document.getElementById('acts');
+  const vis=f==='all'?ACTIVITIES:ACTIVITIES.filter(a=>a.cat===f);
+  grid.innerHTML=vis.map(a=>{
+    const inAg=state.inAgenda.includes(a.id);
+    return `<div class="act" onclick="openSheet('${a.id}')">
+      <div class="act-photo" data-img="${a.id}"></div>
+      ${inAg?'<span class="act-tick">✓</span>':''}
+      <div class="act-c"><div class="act-nm">${a.name[lang]||a.name.en}</div><div class="act-pr">${a.price}</div><div class="act-ph">${a.phase}</div></div>
     </div>`;
   }).join('');
+  // lazy set backgrounds with fallback
+  grid.querySelectorAll('.act-photo').forEach(el=>setBg(el,IMAGES[el.dataset.img],'default'));
 }
 
 /* ═══════════════════════════════════════════════════════
    BOTTOM SHEET
 ═══════════════════════════════════════════════════════ */
-function openSheet(id) {
-  const act = ACTIVITIES.find(a => a.id === id);
-  if (!act) return;
-  currentSheet = act;
-  const lang = state.lang;
-
-  document.getElementById('sheet-icon').textContent = act.icon;
-  document.getElementById('sheet-title').textContent = act.name[lang] || act.name.en;
-  document.getElementById('sheet-price').textContent = act.price;
-  document.getElementById('sheet-desc').textContent = act.desc[lang] || act.desc.en;
-
-  const allergyEl = document.getElementById('sheet-allergy');
-  if (act.allergy) {
-    allergyEl.style.display = '';
-    allergyEl.textContent = act.allergy[lang] || act.allergy.en;
-  } else {
-    allergyEl.style.display = 'none';
-  }
-
-  document.getElementById('prov-label').textContent = `${act.providers.length} ${t('providerFound') || 'providers found'}`;
-  document.getElementById('providers-list').innerHTML = act.providers.map(p => `
-    <div class="provider-card">
-      <div class="provider-top">
-        <div class="provider-name">${p.name}</div>
-        <div class="provider-price">${p.price}</div>
-      </div>
-      <div class="provider-addr">📍 ${p.addr} · ${p.rating}</div>
-      <div class="provider-btns">
-        <a class="p-btn" href="tel:${p.phone}">${t('callBtn')||'Call'} ${p.phone}</a>
-        ${p.url ? `<a class="p-btn" href="${p.url}" target="_blank" rel="noopener">${t('websiteBtn')||'Website'} ↗</a>` : ''}
-      </div>
-    </div>
-  `).join('');
-
-  document.getElementById('dp-wrap').classList.remove('show');
-  document.getElementById('btn-agenda').textContent = t('addAgendaBtn');
-
-  document.getElementById('backdrop').classList.add('open');
+function openSheet(id){
+  const a=ACTIVITIES.find(x=>x.id===id); if(!a)return; curSheet=a; const lang=state.lang;
+  setBg(document.getElementById('sheet-hero'),IMAGES[id],'default');
+  document.getElementById('sheet-emoji').textContent=a.icon;
+  document.getElementById('sheet-t').textContent=a.name[lang]||a.name.en;
+  document.getElementById('sheet-pr').textContent=a.price;
+  document.getElementById('sheet-d').textContent=a.desc[lang]||a.desc.en;
+  const al=document.getElementById('sheet-a');
+  if(a.allergy){ al.style.display=''; al.textContent=a.allergy[lang]||a.allergy.en; } else al.style.display='none';
+  // budget impact
+  const cost=ACT_COST[id]||0;
+  document.getElementById('sheet-impact-txt').textContent=t('impactTpl',lang).replace('{X}',fmtEur(cost));
+  document.getElementById('prov-l').textContent=`${a.providers.length} ${t('providerFound')}`;
+  document.getElementById('prov-list').innerHTML=a.providers.map(p=>`
+    <div class="prov"><div class="prov-top"><div class="prov-nm">${p.name}</div><div class="prov-pr">${p.price}</div></div>
+    <div class="prov-ad">📍 ${p.addr} · ${p.rating}</div>
+    <div class="prov-b"><a class="pb" href="tel:${p.phone}">${t('callBtn')} ${p.phone}</a>${p.url?`<a class="pb" href="${p.url}" target="_blank" rel="noopener">${t('websiteBtn')} ↗</a>`:''}</div></div>`).join('');
+  document.getElementById('dp').classList.remove('show');
+  document.getElementById('veil').classList.add('open');
   document.getElementById('sheet').classList.add('open');
 }
-
-function closeSheet() {
-  document.getElementById('backdrop').classList.remove('open');
-  document.getElementById('sheet').classList.remove('open');
-  currentSheet = null;
+function closeSheet(){ document.getElementById('veil').classList.remove('open'); document.getElementById('sheet').classList.remove('open'); curSheet=null; }
+function toggleDP(){ document.getElementById('dp').classList.toggle('show'); }
+function saveActivity(){ if(!curSheet)return; if(!state.saved.includes(curSheet.id))state.saved.push(curSheet.id); saveState(); showToast(t('savedToast')); }
+function confirmAgenda(){
+  if(!curSheet)return;
+  const date=document.getElementById('dp-date').value, time=document.getElementById('dp-time').value, note=document.getElementById('dp-note').value;
+  if(!date){ showToast('📅 Pick a date'); return; }
+  addAgendaItem(curSheet.id,date,time,note);
+  showToast(t('addedToast')); closeSheet();
 }
-
-function showDatePicker() {
-  document.getElementById('dp-wrap').classList.toggle('show');
-}
-
-function saveActivity() {
-  if (!currentSheet) return;
-  if (!state.savedActivities.includes(currentSheet.id)) {
-    state.savedActivities.push(currentSheet.id);
-  }
-  saveState();
-  showToast(t('savedToast'));
-}
-
-function confirmAgenda() {
-  if (!currentSheet) return;
-  const date = document.getElementById('dp-date').value;
-  const time = document.getElementById('dp-time').value;
-  const note = document.getElementById('dp-note').value;
-  if (!date) { showToast('Please pick a date'); return; }
-
-  state.agenda.push({
-    id: Date.now().toString(),
-    actId: currentSheet.id,
-    icon: currentSheet.icon,
-    name: currentSheet.name,
-    date, time, note
-  });
-  if (!state.agendaActivities.includes(currentSheet.id)) {
-    state.agendaActivities.push(currentSheet.id);
-  }
-  saveState();
-  showToast(t('addedToast'));
-  closeSheet();
-  renderAgenda();
-  renderActivities(currentFilter);
+/* shared add (used by sheet AND by the AI agent) */
+function addAgendaItem(actId,date,time,note){
+  const a=ACTIVITIES.find(x=>x.id===actId); if(!a)return false;
+  state.agenda.push({ id:Date.now().toString()+Math.random().toString(36).slice(2,5), actId, icon:a.icon, name:a.name, date, time:time||'', note:note||'' });
+  if(!state.inAgenda.includes(actId))state.inAgenda.push(actId);
+  saveState(); renderAgenda(); renderActs(curFilter); renderBudget();
+  return true;
 }
 
 /* ═══════════════════════════════════════════════════════
    AGENDA
 ═══════════════════════════════════════════════════════ */
-function renderAgenda() {
-  const lang = state.lang;
-  const list = document.getElementById('agenda-list');
-  if (state.agenda.length === 0) {
-    list.innerHTML = `<div class="agenda-empty">${t('agendaEmpty')}</div>`;
-    return;
-  }
-  const sorted = [...state.agenda].sort((a,b) => a.date.localeCompare(b.date));
-  list.innerHTML = sorted.map(item => `
-    <div class="agenda-item reveal visible">
-      <div class="agenda-icon">${item.icon}</div>
-      <div class="agenda-info">
-        <div class="agenda-name">${item.name[lang] || item.name.en}</div>
-        <div class="agenda-date">${item.date}${item.time?' · '+item.time:''}</div>
-        ${item.note ? `<div class="agenda-note-txt">${item.note}</div>` : ''}
-      </div>
-      <button class="agenda-del" onclick="deleteAgenda('${item.id}')">×</button>
-    </div>
-  `).join('');
+function renderAgenda(){
+  const lang=state.lang, list=document.getElementById('ag-list');
+  if(state.agenda.length===0){ list.innerHTML=`<div class="ag-empty">${t('agendaEmpty')}</div>`; return; }
+  const sorted=[...state.agenda].sort((a,b)=>a.date.localeCompare(b.date));
+  list.innerHTML=sorted.map(it=>{
+    const cost=ACT_COST[it.actId]||0;
+    return `<div class="ag-i"><div class="ag-ic">${it.icon}</div>
+    <div class="ag-info"><div class="ag-nm">${it.name[lang]||it.name.en}</div>
+    <div class="ag-dt">${it.date}${it.time?' · '+it.time:''}</div>
+    ${cost?`<div class="ag-pr">~${fmtEur(cost)}</div>`:''}
+    ${it.note?`<div class="ag-nt">${it.note}</div>`:''}</div>
+    <button class="ag-x" onclick="delAgenda('${it.id}')">×</button></div>`;
+  }).join('');
 }
-
-function deleteAgenda(id) {
-  const item = state.agenda.find(i => i.id === id);
-  state.agenda = state.agenda.filter(i => i.id !== id);
-  if (item) {
-    const stillInAgenda = state.agenda.some(i => i.actId === item.actId);
-    if (!stillInAgenda) {
-      state.agendaActivities = state.agendaActivities.filter(a => a !== item.actId);
-    }
-  }
-  saveState();
-  renderAgenda();
-  renderActivities(currentFilter);
+function delAgenda(id){
+  const it=state.agenda.find(i=>i.id===id);
+  state.agenda=state.agenda.filter(i=>i.id!==id);
+  if(it&&!state.agenda.some(i=>i.actId===it.actId)) state.inAgenda=state.inAgenda.filter(a=>a!==it.actId);
+  saveState(); renderAgenda(); renderActs(curFilter); renderBudget();
 }
 
 /* ═══════════════════════════════════════════════════════
-   AI CHAT
+   🤖 AI ASSISTANT — a real in-app AGENT (tool use).
+   It can read state AND act: add/remove agenda, check packing,
+   save notes, switch language, set budget context, navigate.
 ═══════════════════════════════════════════════════════ */
-function renderChips() {
-  const qs = QUICK_QS[state.lang] || QUICK_QS.en;
-  document.getElementById('quick-chips').innerHTML = qs.map(q =>
-    `<button class="chip" onclick="sendChip(this)">${q}</button>`
-  ).join('');
+function renderChips(){
+  const qs=QUICK_QS[state.lang]||QUICK_QS.en;
+  document.getElementById('chips').innerHTML=qs.map(q=>`<button class="chip" onclick="chip(this)">${q}</button>`).join('');
+}
+function chip(el){ document.getElementById('ai-tx').value=el.textContent; send(); }
+function addMsg(role,content){
+  const m=document.getElementById('msgs'); const d=document.createElement('div'); d.className='msg '+role;
+  const av=document.createElement('div'); av.className='av'; av.textContent=role==='user'?'👤':'✦';
+  const b=document.createElement('div'); b.className='bub'; b.textContent=content;
+  d.appendChild(av); d.appendChild(b); m.appendChild(d); m.scrollTop=m.scrollHeight; return d;
+}
+function addActNote(txt){
+  const m=document.getElementById('msgs'); const d=document.createElement('div'); d.className='act-note'; d.textContent=txt;
+  m.appendChild(d); m.scrollTop=m.scrollHeight;
+}
+function showTyping(){ const m=document.getElementById('msgs'); const d=document.createElement('div'); d.className='msg ai'; d.id='typ';
+  d.innerHTML='<div class="av">✦</div><div class="typ"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>'; m.appendChild(d); m.scrollTop=m.scrollHeight; }
+function hideTyping(){ const t=document.getElementById('typ'); if(t)t.remove(); }
+
+/* tools the AI can call */
+const AI_TOOLS=[
+  { name:'add_to_agenda', description:'Add an activity to the couple\'s agenda on a specific date. Updates the live budget.',
+    input_schema:{type:'object',properties:{
+      activity_id:{type:'string',enum:ACTIVITIES.map(a=>a.id),description:'Which activity'},
+      date:{type:'string',description:'YYYY-MM-DD, between 2026-06-12 and 2026-07-24'},
+      time:{type:'string',description:'optional HH:MM'},
+      note:{type:'string',description:'optional note'}},required:['activity_id','date']}},
+  { name:'remove_from_agenda', description:'Remove an agenda item by its activity id.',
+    input_schema:{type:'object',properties:{activity_id:{type:'string'}},required:['activity_id']}},
+  { name:'check_packing_item', description:'Tick or untick a packing list item.',
+    input_schema:{type:'object',properties:{item_id:{type:'string'},checked:{type:'boolean'}},required:['item_id','checked']}},
+  { name:'save_destination_note', description:'Save a note/wish for a destination (lombok, bali, or tbd).',
+    input_schema:{type:'object',properties:{destination:{type:'string',enum:['lombok','bali','tbd']},text:{type:'string'}},required:['destination','text']}},
+  { name:'set_language', description:'Switch the whole app language.',
+    input_schema:{type:'object',properties:{lang:{type:'string',enum:['en','nl','hy']}},required:['lang']}},
+  { name:'navigate', description:'Scroll the app to a section.',
+    input_schema:{type:'object',properties:{section:{type:'string',enum:['hero','journey','destinations','activities','budget','packing','agenda','ai']}},required:['section']}},
+  { name:'get_status', description:'Read current agenda, planned budget total, and packing progress.',
+    input_schema:{type:'object',properties:{},required:[]}}
+];
+
+function runTool(name,inp){
+  const lang=state.lang;
+  try{
+    if(name==='add_to_agenda'){ const ok=addAgendaItem(inp.activity_id,inp.date,inp.time,inp.note);
+      const a=ACTIVITIES.find(x=>x.id===inp.activity_id);
+      if(ok){ addActNote(`✓ ${a?a.name[lang]||a.name.en:inp.activity_id} → ${inp.date}`); return {ok:true,added:inp.activity_id,date:inp.date,cost:ACT_COST[inp.activity_id]||0,new_total:BUDGET_BASE+plannedSpend()}; }
+      return {ok:false,error:'unknown activity'}; }
+    if(name==='remove_from_agenda'){ const items=state.agenda.filter(i=>i.actId===inp.activity_id);
+      items.forEach(i=>{ state.agenda=state.agenda.filter(x=>x.id!==i.id); });
+      state.inAgenda=state.inAgenda.filter(x=>x!==inp.activity_id);
+      saveState(); renderAgenda(); renderActs(curFilter); renderBudget(); addActNote(`✓ removed ${inp.activity_id}`);
+      return {ok:true,removed:inp.activity_id,new_total:BUDGET_BASE+plannedSpend()}; }
+    if(name==='check_packing_item'){ state.checklist[inp.item_id]=inp.checked; saveState(); renderPacking();
+      addActNote(`✓ ${inp.item_id} ${inp.checked?'checked':'unchecked'}`); return {ok:true}; }
+    if(name==='save_destination_note'){ state.notes[inp.destination]=inp.text; saveState(); restoreNotes();
+      addActNote(`✓ note saved for ${inp.destination}`); return {ok:true}; }
+    if(name==='set_language'){ addActNote(`✓ language → ${inp.lang}`); setLang(inp.lang); return {ok:true}; }
+    if(name==='navigate'){ goSection(inp.section); addActNote(`→ ${inp.section}`); return {ok:true}; }
+    if(name==='get_status'){ return { agenda:state.agenda.map(i=>({activity:i.actId,date:i.date,cost:ACT_COST[i.actId]||0})),
+      planned_experiences:plannedSpend(), base_costs:BUDGET_BASE, total:BUDGET_BASE+plannedSpend(), budget_target:BUDGET_TOTAL,
+      packing_done:Object.values(state.checklist).filter(Boolean).length }; }
+  }catch(e){ return {ok:false,error:String(e)}; }
+  return {ok:false,error:'unknown tool'};
 }
 
-function sendChip(el) {
-  document.getElementById('chat-input').value = el.textContent;
-  sendMsg();
+function aiSystem(){
+  const li={en:"Respond in English.",nl:"Antwoord in het Nederlands.",hy:"Պատասխանիր հայերեն."};
+  const acts=ACTIVITIES.map(a=>`${a.id} (${a.name.en}, ~${fmtEur(ACT_COST[a.id]||0)})`).join('; ');
+  return `You are the personal in-app honeymoon assistant of Abdul and his wife — not just a chatbot, but an agent that can actually operate this app via tools.
+Trip: they marry June 8 in Yerevan, Armenia, then fly TOGETHER from Yerevan to Indonesia on June 12 (this is honeymoon day 1). Lombok (Selong Belanak) Jun 12–Jul 10, then Gili Air/Bali Jul 10–Jul 24. Abdul's Netherlands→Yerevan leg on Jun 8 is solo/separate and is NOT counted as honeymoon time.
+ALLERGIES: both grass + chlorine allergy. Always sea/beach/cliff, never jungle/rice fields, never chlorinated pools.
+ACTIVITIES available (id, name, approx cost): ${acts}.
+BUDGET: target ${fmtEur(BUDGET_TOTAL)} total; base flights+stays ~${fmtEur(BUDGET_BASE)}. When you add things, the budget updates live.
+GOLD: wife brings gold to Armenia, max €500 duty-free then 15% customs — always keep the receipt.
+You can use tools to add/remove agenda items, tick packing, save notes, switch language, navigate, and read status. When the user asks you to plan or add something, USE the tools to actually do it, then confirm warmly and mention the budget impact. Be concrete with prices and phone numbers. Keep replies under 160 words. ${li[state.lang]}`;
 }
 
-function addMsg(role, content) {
-  const msgs = document.getElementById('chat-messages');
-  const div = document.createElement('div');
-  div.className = `msg ${role}`;
-  const avatar = document.createElement('div');
-  avatar.className = 'msg-avatar';
-  avatar.textContent = role === 'user' ? '👤' : '🤖';
-  const bubble = document.createElement('div');
-  bubble.className = 'msg-bubble';
-  bubble.textContent = content;
-  div.appendChild(avatar);
-  div.appendChild(bubble);
-  msgs.appendChild(div);
-  msgs.scrollTop = msgs.scrollHeight;
-  return div;
-}
-
-function showTyping() {
-  const msgs = document.getElementById('chat-messages');
-  const div = document.createElement('div');
-  div.className = 'msg ai';
-  div.id = 'typing-msg';
-  div.innerHTML = `<div class="msg-avatar">🤖</div><div class="typing-dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>`;
-  msgs.appendChild(div);
-  msgs.scrollTop = msgs.scrollHeight;
-}
-function hideTyping() {
-  const t = document.getElementById('typing-msg');
-  if (t) t.remove();
-}
-
-function getSystemPrompt() {
-  const li = { en:"Always respond in English.", nl:"Antwoord altijd in het Nederlands.", hy:"Миshт патаshхiri haierenom." };
-  return `You are the personal honeymoon assistant of Abdul and his wife.
-They are on honeymoon in Indonesia (Lombok Selong Belanak then Gili Air/Bali) from June 12 to July 24, 2026. They got married on June 8 in Yerevan, Armenia.
-ALLERGIES: Both have grass allergy + chlorine allergy. Stay ALWAYS near sea/beach/cliff — never jungle/rice fields. Never chlorinated pool — always sea or saltwater.
-ACTIVITIES: Sea swimming lessons, horse riding on beach, snorkelling, skydiving (separately but simultaneously), tandem parasailing (together!), PADI dive, private beach dinner, buy gold (Pegadaian).
-GOLD: Wife takes gold to Armenia — max €500 duty-free, then 15% customs fee. ALWAYS keep receipt.
-BUDGET: ~€7,000 total. Suggest cheaper alternatives when asked.
-TRANSPORT: Abdul has international driving licence — can rent scooter.
-${li[state.lang] || li.en}
-Be warm, concrete, give prices and phone numbers when you know them. Keep answers concise (under 200 words).`;
-}
-
-async function sendMsg() {
-  const inp = document.getElementById('chat-input');
-  const text = inp.value.trim();
-  if (!text) return;
-  inp.value = '';
-
-  state.chat.push({ role:'user', content: text });
-  addMsg('user', text);
-  showTyping();
-
-  const messages = state.chat.slice(-12).map(m => ({ role: m.role, content: m.content }));
-
-  try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
-      method:'POST',
-      headers: { 'Content-Type':'application/json' },
-      body: JSON.stringify({
-        model:'claude-sonnet-4-20250514',
-        max_tokens: 600,
-        system: getSystemPrompt(),
-        messages
-      })
-    });
-    const data = await res.json();
-    hideTyping();
-    const reply = data.content?.[0]?.text || t('aiOffline');
-    state.chat.push({ role:'assistant', content: reply });
-    if (state.chat.length > 40) state.chat = state.chat.slice(-40);
-    addMsg('ai', reply);
-  } catch(e) {
-    hideTyping();
-    addMsg('ai', t('aiOffline'));
-  }
-  saveState();
-}
-
-function restoreChat() {
-  const msgs = document.getElementById('chat-messages');
-  if (state.chat.length === 0) {
-    addMsg('ai', t('aiWelcome'));
-    return;
-  }
-  state.chat.forEach(m => addMsg(m.role, m.content));
-  msgs.scrollTop = msgs.scrollHeight;
-}
-
-/* ═══════════════════════════════════════════════════════
-   TOAST
-═══════════════════════════════════════════════════════ */
-let toastTimer;
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => t.classList.remove('show'), 2200);
-}
-
-/* ═══════════════════════════════════════════════════════
-   NAV + SCROLL SPY
-═══════════════════════════════════════════════════════ */
-function scrollToSection(id) {
-  const el = document.getElementById(id);
-  if (el) el.scrollIntoView({ behavior:'smooth', block:'start' });
-}
-
-function initScrollSpy() {
-  const sections = ['hero','journey','activities','agenda','ai'];
-  const pills = document.querySelectorAll('.nav-pill');
-  const obs = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        const id = e.target.id;
-        pills.forEach((p,i) => p.classList.toggle('active', sections[i]===id));
+async function send(){
+  const inp=document.getElementById('ai-tx'); const text=inp.value.trim(); if(!text)return; inp.value='';
+  state.chat.push({role:'user',content:text}); addMsg('user',text); showTyping();
+  let messages=state.chat.slice(-12).map(m=>({role:m.role,content:m.content}));
+  try{
+    let loop=0;
+    while(loop++<5){
+      const res=await fetch(AI_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:800,system:aiSystem(),tools:AI_TOOLS,messages})});
+      const data=await res.json();
+      if(!data.content){ hideTyping(); addMsg('ai',t('aiOffline')); break; }
+      const toolUses=data.content.filter(c=>c.type==='tool_use');
+      const textOut=data.content.filter(c=>c.type==='text').map(c=>c.text).join('\n').trim();
+      if(toolUses.length){
+        messages.push({role:'assistant',content:data.content});
+        const results=toolUses.map(tu=>({type:'tool_result',tool_use_id:tu.id,content:JSON.stringify(runTool(tu.name,tu.input||{}))}));
+        messages.push({role:'user',content:results});
+        if(textOut){ hideTyping(); addMsg('ai',textOut); state.chat.push({role:'assistant',content:textOut}); showTyping(); }
+        continue; // get final response after tool execution
       }
-    });
-  }, { rootMargin:'-40% 0px -50% 0px' });
-  sections.forEach(id => { const el = document.getElementById(id); if (el) obs.observe(el); });
+      hideTyping();
+      const reply=textOut||t('aiOffline');
+      addMsg('ai',reply); state.chat.push({role:'assistant',content:reply});
+      break;
+    }
+    if(state.chat.length>40)state.chat=state.chat.slice(-40);
+    saveState();
+  }catch(e){ hideTyping(); addMsg('ai',t('aiOffline')); }
 }
-
-function initReveal() {
-  const obs = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-  }, { rootMargin:'0px 0px -60px 0px' });
-  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
-}
+function restoreChat(){ const m=document.getElementById('msgs');
+  if(state.chat.length===0){ addMsg('ai',t('aiWelcome')); return; }
+  state.chat.forEach(x=>addMsg(x.role,x.content)); m.scrollTop=m.scrollHeight; }
 
 /* ═══════════════════════════════════════════════════════
-   INIT
+   TOAST / NAV / REVEAL / INIT
 ═══════════════════════════════════════════════════════ */
-window.addEventListener('load', () => {
-  // Inject sync status icon into header-right
-  const hr = document.querySelector('.header-right');
-  if (hr) {
-    const span = document.createElement('span');
-    span.id = 'sync-status';
-    span.title = 'Sync status';
-    span.style.cssText = 'font-size:16px;cursor:default;opacity:0.6;';
-    span.textContent = '⚙️';
-    hr.insertBefore(span, hr.firstChild);
-    syncStatusEl = span;
-  }
+let toastT;
+function showToast(msg){ const e=document.getElementById('toast'); e.textContent=msg; e.classList.add('show');
+  clearTimeout(toastT); toastT=setTimeout(()=>e.classList.remove('show'),2200); }
+function goSection(id){ const e=document.getElementById(id); if(e)e.scrollIntoView({behavior:'smooth',block:'start'}); }
+function initSpy(){
+  const secs=['hero','journey','activities','budget','agenda','ai'];
+  const pills=document.querySelectorAll('.np');
+  const obs=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ const id=e.target.id;
+    pills.forEach((p,i)=>p.classList.toggle('on',secs[i]===id)); } }),{rootMargin:'-45% 0px -50% 0px'});
+  secs.forEach(id=>{ const el=document.getElementById(id); if(el)obs.observe(el); });
+}
+function initReveal(){ const obs=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting)e.target.classList.add('in'); }),{rootMargin:'0px 0px -60px 0px'});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el)); }
 
-  loadState();            // instant from localStorage
-  applyLang();
-  restoreNotes();
-  restoreChat();
-  renderFilterBar();
-  initScrollSpy();
-  initReveal();
-  updateHero();
-  setInterval(updateHero, 60000);
+window.addEventListener('load',()=>{
+  syncEl=document.getElementById('sync');
+  // hero + destination photos
+  setBg(document.getElementById('hero-img'),IMAGES.hero,'hero');
+  setBg(document.getElementById('ph-lombok'),IMAGES.lombok,'default');
+  setBg(document.getElementById('ph-bali'),IMAGES.bali,'default');
+  setBg(document.getElementById('ph-tbd'),IMAGES.tbd,'default');
 
-  // async: load from Supabase and start polling
-  loadRemoteState();
+  loadState();
+  applyLang(); restoreNotes(); restoreChat();
+  renderFilters(); renderActs(); renderBudget();
+  initSpy(); initReveal(); updateHero();
+  setInterval(updateHero,60000);
+  loadRemote();
 });
 </script>
 </body>

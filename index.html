@@ -16,7 +16,7 @@
   --horizon:    #B8D9F0;
   --ocean:      #2E7DAA;
   --ocean-deep: #1A5C82;
-  --gold:       #D4912A;
+  --gold:       #D4912A;h
   --gold-light: #F6E4C0;
   --gold-pale:  #FDF6E8;
   --sand:       #F7F1E8;
@@ -1051,11 +1051,11 @@ section { padding: 40px 0 20px; }
       <span class="sub" id="h-tagline">Indonesia 2026 · 6 Weeks of Adventure &amp; Love</span>
     </div>
     <nav class="header-nav">
-      <button class="nav-pill active" onclick="scrollTo('hero')" data-i18n="navHome">Home</button>
-      <button class="nav-pill" onclick="scrollTo('journey')" data-i18n="navJourney">Journey</button>
-      <button class="nav-pill" onclick="scrollTo('activities')" data-i18n="navActivities">Activities</button>
-      <button class="nav-pill" onclick="scrollTo('agenda')" data-i18n="navAgenda">Agenda</button>
-      <button class="nav-pill" onclick="scrollTo('ai')" data-i18n="navAI">AI Chat</button>
+      <button class="nav-pill active" onclick="scrollToSection('hero')" data-i18n="navHome">Home</button>
+      <button class="nav-pill" onclick="scrollToSection('journey')" data-i18n="navJourney">Journey</button>
+      <button class="nav-pill" onclick="scrollToSection('activities')" data-i18n="navActivities">Activities</button>
+      <button class="nav-pill" onclick="scrollToSection('agenda')" data-i18n="navAgenda">Agenda</button>
+      <button class="nav-pill" onclick="scrollToSection('ai')" data-i18n="navAI">AI Chat</button>
     </nav>
     <div class="header-right">
       <div class="budget-pill" id="budget-pill" title="Budget status">🟢 On track</div>
@@ -2152,7 +2152,7 @@ function showToast(msg) {
 /* ═══════════════════════════════════════════════════════
    NAV + SCROLL SPY
 ═══════════════════════════════════════════════════════ */
-function scrollTo(id) {
+function scrollToSection(id) {
   const el = document.getElementById(id);
   if (el) el.scrollIntoView({ behavior:'smooth', block:'start' });
 }

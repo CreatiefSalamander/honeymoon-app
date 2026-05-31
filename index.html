@@ -1539,6 +1539,83 @@ const QUICK_QS = {
    STATE
 ═══════════════════════════════════════════════════════ */
 const KEY = 'honeymoon_hq_v3';
+
+/* ═══════════════════════════════════════════════════════
+   SUPABASE CONFIG — FILL IN YOUR KEYS BELOW
+   Get these from: supabase.com → your project → Settings → API
+═══════════════════════════════════════════════════════ */
+const SUPABASE_URL  = 'PASTE_YOUR_SUPABASE_URL_HERE';      // e.g. https://xxxx.supabase.co
+const SUPABASE_KEY  = 'PASTE_YOUR_SUPABASE_ANON_KEY_HERE'; // anon public key
+const DEVICE_ID     = 'honeymoon_shared';                   // same on BOTH phones → data syncs
+
+/* ── SUPABASE REST HELPERS ── */
+async function sbGet(table) {
+  try {
+    const r = await fetch(`${SUPABASE_URL}/rest/v1/${table}?device_id=eq.${DEVICE_ID}&select=*`, {
+      headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` }
+    });
+    const rows = await r.json();
+    return rows.length ? rows[0] : null;
+  } catch(e) { return null; }
+}
+
+async function sbUpsert(table, payload) {
+  try {
+    await fetch(`${SUPABASE_URL}/rest/v1/${table}`, {
+      method: 'POST',
+      headers: {
+        apikey: SUPABASE_KEY,
+        Authorization: `Bearer ${SUPABASE_KEY}`,
+        'Content-Type': 'application/json',
+        Prefer: 'resolution=merge-duplicates'
+      },
+      body: JSON.stringify({ device_id: DEVICE_ID, ...payload, updated_at: new Date().toISOString() })
+    });
+  } catch(e) {}
+}
+
+/* ── REALTIME POLLING (every 8 seconds, only when tab is visible) ── */
+let pollTimer = null;
+let lastRemoteHash = '';
+
+function startPolling() {
+  if (pollTimer) return;
+  pollTimer = setInterval(async () => {
+    if (document.hidden) return;
+    if (SUPABASE_URL.includes('PASTE')) return; // not configured yet
+    const row = await sbGet('hhq_state');
+    if (!row) return;
+    const remoteHash = row.updated_at || '';
+    if (remoteHash === lastRemoteHash) return; // nothing changed
+    lastRemoteHash = remoteHash;
+    const remote = JSON.parse(row.data || '{}');
+    // merge remote into state — remote wins on shared keys
+    const merged = Object.assign({}, state, remote, { lang: state.lang }); // keep local language pref
+    state = merged;
+    saveLocalOnly();
+    applyLang();
+    restoreNotes();
+    renderAgenda();
+    renderActivities(currentFilter);
+    renderPacking();
+    showToast('🔄 Synced with partner!');
+  }, 8000);
+}
+
+/* ── SYNC STATUS UI ── */
+let syncStatusEl = null;
+function setSyncStatus(status) {
+  // status: 'syncing' | 'ok' | 'offline' | 'unconfigured'
+  if (!syncStatusEl) return;
+  const icons = { syncing:'⏳', ok:'☁️', offline:'📵', unconfigured:'⚙️' };
+  syncStatusEl.textContent = icons[status] || '☁️';
+  syncStatusEl.title = { syncing:'Syncing...', ok:'Synced', offline:'Offline — local only', unconfigured:'Set up Supabase to sync' }[status];
+}
+
+/* ═══════════════════════════════════════════════════════
+   STATE
+═══════════════════════════════════════════════════════ */
+const KEY = 'honeymoon_hq_v3';
 let state = {
   lang: 'en',
   checklist: {},
@@ -1551,14 +1628,55 @@ let state = {
 };
 let currentSheet = null;
 
+/* Load from localStorage (instant, offline-first) */
 function loadState() {
   try {
     const s = JSON.parse(localStorage.getItem(KEY));
     if (s) state = Object.assign(state, s);
   } catch(e){}
 }
-function saveState() {
+
+/* Save to localStorage only (called during polling merge) */
+function saveLocalOnly() {
   try { localStorage.setItem(KEY, JSON.stringify(state)); } catch(e){}
+}
+
+/* Save to localStorage AND push to Supabase */
+async function saveState() {
+  try { localStorage.setItem(KEY, JSON.stringify(state)); } catch(e){}
+  if (SUPABASE_URL.includes('PASTE')) return; // not configured
+  setSyncStatus('syncing');
+  try {
+    await sbUpsert('hhq_state', { data: JSON.stringify(state) });
+    setSyncStatus('ok');
+  } catch(e) {
+    setSyncStatus('offline');
+  }
+}
+
+/* Load remote state on first open (merges with local) */
+async function loadRemoteState() {
+  if (SUPABASE_URL.includes('PASTE')) { setSyncStatus('unconfigured'); return; }
+  setSyncStatus('syncing');
+  const row = await sbGet('hhq_state');
+  if (row) {
+    lastRemoteHash = row.updated_at || '';
+    const remote = JSON.parse(row.data || '{}');
+    const langPref = state.lang;
+    state = Object.assign({}, state, remote, { lang: langPref });
+    saveLocalOnly();
+    applyLang();
+    restoreNotes();
+    renderAgenda();
+    renderActivities(currentFilter);
+    renderPacking();
+    setSyncStatus('ok');
+  } else {
+    // First time: push local state to Supabase
+    await saveState();
+    setSyncStatus('ok');
+  }
+  startPolling();
 }
 
 /* ═══════════════════════════════════════════════════════
@@ -2064,7 +2182,19 @@ function initReveal() {
    INIT
 ═══════════════════════════════════════════════════════ */
 window.addEventListener('load', () => {
-  loadState();
+  // Inject sync status icon into header-right
+  const hr = document.querySelector('.header-right');
+  if (hr) {
+    const span = document.createElement('span');
+    span.id = 'sync-status';
+    span.title = 'Sync status';
+    span.style.cssText = 'font-size:16px;cursor:default;opacity:0.6;';
+    span.textContent = '⚙️';
+    hr.insertBefore(span, hr.firstChild);
+    syncStatusEl = span;
+  }
+
+  loadState();            // instant from localStorage
   applyLang();
   restoreNotes();
   restoreChat();
@@ -2073,6 +2203,9 @@ window.addEventListener('load', () => {
   initReveal();
   updateHero();
   setInterval(updateHero, 60000);
+
+  // async: load from Supabase and start polling
+  loadRemoteState();
 });
 </script>
 </body>

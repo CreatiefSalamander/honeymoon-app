@@ -1,0 +1,2212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🌊 Our Honeymoon — Indonesia 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════
+   HORIZON DESIGN SYSTEM — LIGHT PALETTE
+═══════════════════════════════════════ */
+:root {
+  --sky:        #EEF6FF;
+  --sky-mid:    #DAEEFF;
+  --horizon:    #B8D9F0;
+  --ocean:      #2E7DAA;
+  --ocean-deep: #1A5C82;
+  --gold:       #D4912A;
+  --gold-light: #F6E4C0;
+  --gold-pale:  #FDF6E8;
+  --sand:       #F7F1E8;
+  --sand-dark:  #EDE4D5;
+  --white:      #FFFFFF;
+  --text-dark:  #1A2B3C;
+  --text-mid:   #3D5A72;
+  --text-light: #6B8A9E;
+  --success:    #2A9D65;
+  --warn:       #D4912A;
+  --danger:     #C0392B;
+  --glass:      rgba(255,255,255,0.72);
+  --glass-border: rgba(180,210,235,0.5);
+  --shadow-sm:  0 2px 12px rgba(46,125,170,0.10);
+  --shadow-md:  0 6px 28px rgba(46,125,170,0.15);
+  --shadow-lg:  0 16px 48px rgba(46,125,170,0.18);
+  --r-sm: 12px;
+  --r-md: 20px;
+  --r-lg: 28px;
+  --r-pill: 50px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; font-size: 16px; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: linear-gradient(160deg, #EEF6FF 0%, #DAEEFF 40%, #F7F1E8 100%);
+  min-height: 100vh;
+  color: var(--text-dark);
+  overflow-x: hidden;
+}
+
+/* ── BACKGROUND DECORATION ── */
+body::before {
+  content:'';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 60% 40% at 80% 20%, rgba(46,125,170,0.08) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 30% at 10% 80%, rgba(212,145,42,0.07) 0%, transparent 70%);
+  z-index: 0;
+}
+body > * { position: relative; z-index: 1; }
+
+/* ── TYPOGRAPHY ── */
+.display { font-family: 'Cormorant Garamond', serif; }
+.mono    { font-family: 'JetBrains Mono', monospace; }
+
+/* ══════════════════════════════════════
+   STICKY HEADER
+══════════════════════════════════════ */
+#header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(238,246,255,0.88);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-bottom: 1px solid var(--glass-border);
+  box-shadow: 0 2px 16px rgba(46,125,170,0.10);
+  padding: 0 16px;
+}
+.header-inner {
+  max-width: 760px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 60px;
+}
+.header-brand {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+  flex-shrink: 0;
+}
+.header-brand .title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px;
+  font-style: italic;
+  font-weight: 600;
+  color: var(--ocean-deep);
+  letter-spacing: 0.01em;
+}
+.header-brand .sub {
+  font-size: 10px;
+  color: var(--text-light);
+  letter-spacing: 0.04em;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+.header-nav {
+  display: flex;
+  gap: 4px;
+  flex: 1;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.header-nav::-webkit-scrollbar { display: none; }
+.nav-pill {
+  padding: 5px 12px;
+  border-radius: var(--r-pill);
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--text-mid);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+  font-family: inherit;
+}
+.nav-pill:hover { background: rgba(46,125,170,0.08); color: var(--ocean); }
+.nav-pill.active {
+  background: var(--ocean);
+  color: white;
+  border-color: var(--ocean);
+  box-shadow: 0 2px 8px rgba(46,125,170,0.3);
+}
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.budget-pill {
+  padding: 4px 10px;
+  border-radius: var(--r-pill);
+  font-size: 11px;
+  font-weight: 600;
+  background: var(--gold-pale);
+  color: var(--gold);
+  border: 1px solid var(--gold-light);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.budget-pill:hover { transform: scale(1.03); }
+
+/* ── LANGUAGE SWITCHER ── */
+.lang-switcher { position: relative; }
+.lang-current {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--r-pill);
+  padding: 4px 10px 4px 5px;
+  color: var(--text-mid);
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  font-family: inherit;
+  transition: background 0.2s;
+}
+.lang-current:hover { background: white; }
+.lang-flag { font-size: 18px; line-height: 1; }
+.lang-chevron { font-size: 9px; color: var(--text-light); margin-left: 2px; }
+.lang-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  background: white;
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 6px;
+  min-width: 160px;
+  display: none;
+  z-index: 200;
+  box-shadow: var(--shadow-lg);
+  animation: dropIn 0.18s ease;
+}
+.lang-dropdown.open { display: block; }
+@keyframes dropIn {
+  from { opacity:0; transform: translateY(-6px) scale(0.97); }
+  to   { opacity:1; transform: translateY(0) scale(1); }
+}
+.lang-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  color: var(--text-mid);
+  font-size: 13px;
+  transition: background 0.12s;
+}
+.lang-option:hover { background: var(--sky); }
+.lang-check { margin-left: auto; color: var(--ocean); font-size: 12px; font-weight: 700; }
+
+/* ══════════════════════════════════════
+   MAIN LAYOUT
+══════════════════════════════════════ */
+main {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 0 16px 80px;
+}
+section { padding: 40px 0 20px; }
+.section-label {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 28px;
+  font-style: italic;
+  font-weight: 600;
+  color: var(--ocean-deep);
+  margin-bottom: 20px;
+  letter-spacing: 0.01em;
+}
+
+/* ── REVEAL ANIMATION ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ══════════════════════════════════════
+   HERO
+══════════════════════════════════════ */
+#hero {
+  text-align: center;
+  padding: 48px 0 32px;
+}
+.hero-wave {
+  font-size: 13px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-light);
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+.hero-number {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(72px, 18vw, 120px);
+  font-weight: 300;
+  color: var(--ocean);
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+  position: relative;
+  display: inline-block;
+}
+.hero-number::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 10%;
+  width: 80%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+.hero-label {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-style: italic;
+  color: var(--text-mid);
+  margin: 12px 0 4px;
+}
+.hero-sub {
+  font-size: 14px;
+  color: var(--text-light);
+}
+.hero-badges {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 24px;
+}
+.hero-badge {
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--r-pill);
+  padding: 6px 14px;
+  font-size: 12px;
+  color: var(--text-mid);
+  font-weight: 500;
+}
+.hero-badge.active-badge {
+  background: var(--ocean);
+  color: white;
+  border-color: var(--ocean);
+}
+
+/* ══════════════════════════════════════
+   JOURNEY PROGRESS
+══════════════════════════════════════ */
+.progress-wrap {
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--r-lg);
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+}
+.progress-phases {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  gap: 4px;
+}
+.phase-label {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-light);
+  text-align: center;
+  flex: 1;
+}
+.phase-label.current { color: var(--ocean); }
+.progress-bar-track {
+  height: 10px;
+  background: var(--sky-mid);
+  border-radius: 99px;
+  overflow: hidden;
+  position: relative;
+}
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--ocean) 0%, var(--gold) 100%);
+  border-radius: 99px;
+  transition: width 1s ease;
+}
+.progress-dates {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+  font-size: 11px;
+  color: var(--text-light);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* ══════════════════════════════════════
+   DESTINATION CARDS
+══════════════════════════════════════ */
+.dest-card {
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  margin-bottom: 16px;
+  transition: box-shadow 0.2s;
+}
+.dest-card:hover { box-shadow: var(--shadow-md); }
+.dest-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 20px;
+  cursor: pointer;
+  user-select: none;
+}
+.week-badge {
+  background: var(--gold-light);
+  color: var(--gold);
+  border: 1px solid rgba(212,145,42,0.25);
+  border-radius: var(--r-pill);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 3px 9px;
+  flex-shrink: 0;
+}
+.dest-emoji { font-size: 26px; flex-shrink: 0; }
+.dest-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--ocean-deep);
+  flex: 1;
+  line-height: 1.2;
+}
+.dest-loc {
+  font-size: 11px;
+  color: var(--text-light);
+  margin-top: 1px;
+}
+.expand-arrow {
+  color: var(--text-light);
+  font-size: 13px;
+  transition: transform 0.35s ease;
+  flex-shrink: 0;
+}
+.dest-card.open .expand-arrow { transform: rotate(180deg); }
+.dest-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.45s ease;
+}
+.dest-card.open .dest-body { max-height: 2000px; }
+.dest-inner { padding: 0 20px 20px; }
+.info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.info-cell {
+  background: white;
+  border: 1px solid var(--sand-dark);
+  border-radius: var(--r-sm);
+  padding: 12px 14px;
+}
+.info-cell-label {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+  color: var(--text-light);
+  margin-bottom: 4px;
+}
+.info-cell-val {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-dark);
+}
+.highlights-block {
+  background: var(--sky);
+  border: 1px solid var(--horizon);
+  border-radius: var(--r-sm);
+  padding: 14px 16px;
+  margin-bottom: 12px;
+}
+.highlights-block h4 {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+  color: var(--ocean);
+  margin-bottom: 10px;
+}
+.highlight-item {
+  display: flex;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--text-mid);
+  margin-bottom: 7px;
+  line-height: 1.4;
+}
+.highlight-item::before {
+  content: '✦';
+  color: var(--gold);
+  flex-shrink: 0;
+  font-size: 10px;
+  margin-top: 2px;
+}
+.allergy-note {
+  background: #EBF7F0;
+  border: 1px solid #A8D5B9;
+  border-radius: var(--r-sm);
+  padding: 10px 14px;
+  font-size: 12px;
+  color: #1A6B40;
+  margin-bottom: 12px;
+  font-weight: 500;
+}
+.notes-area {
+  width: 100%;
+  background: white;
+  border: 1px solid var(--sand-dark);
+  border-radius: var(--r-sm);
+  padding: 12px 14px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  color: var(--text-dark);
+  resize: vertical;
+  min-height: 80px;
+  outline: none;
+  transition: border-color 0.2s;
+  margin-bottom: 8px;
+}
+.notes-area:focus { border-color: var(--ocean); }
+.save-note-btn {
+  background: var(--ocean);
+  color: white;
+  border: none;
+  border-radius: var(--r-pill);
+  padding: 8px 20px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.2s, transform 0.1s;
+}
+.save-note-btn:hover { background: var(--ocean-deep); }
+.save-note-btn:active { transform: scale(0.97); }
+
+/* ══════════════════════════════════════
+   PACKING CHECKLIST
+══════════════════════════════════════ */
+.pack-group {
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--r-lg);
+  padding: 20px;
+  margin-bottom: 14px;
+  box-shadow: var(--shadow-sm);
+}
+.pack-group-title {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+  color: var(--ocean);
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.pack-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+@media(max-width:480px){ .pack-grid { grid-template-columns: 1fr; } }
+.pack-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: white;
+  border: 1px solid var(--sand-dark);
+  border-radius: var(--r-sm);
+  padding: 10px 12px;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+  user-select: none;
+}
+.pack-item:hover { background: var(--sky); border-color: var(--horizon); }
+.pack-item.checked { background: #EBF7F0; border-color: #A8D5B9; }
+.pack-cb {
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--horizon);
+  border-radius: 5px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  margin-top: 1px;
+  background: white;
+}
+.pack-item.checked .pack-cb {
+  background: var(--success);
+  border-color: var(--success);
+  color: white;
+  font-size: 11px;
+}
+.pack-item.checked .pack-cb::after { content: '✓'; }
+.pack-text {
+  font-size: 12px;
+  color: var(--text-mid);
+  line-height: 1.4;
+}
+.pack-item.checked .pack-text { color: var(--success); text-decoration: line-through; opacity:0.7; }
+
+/* ══════════════════════════════════════
+   ACTIVITIES
+══════════════════════════════════════ */
+.filter-bar {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding-bottom: 4px;
+  margin-bottom: 20px;
+}
+.filter-bar::-webkit-scrollbar { display: none; }
+.filter-pill {
+  padding: 6px 14px;
+  border-radius: var(--r-pill);
+  border: 1.5px solid var(--glass-border);
+  background: var(--glass);
+  color: var(--text-mid);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  font-family: inherit;
+  transition: all 0.2s;
+}
+.filter-pill:hover { border-color: var(--ocean); color: var(--ocean); background: var(--sky); }
+.filter-pill.active { background: var(--ocean); color: white; border-color: var(--ocean); }
+.act-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+@media(max-width:480px){ .act-grid { grid-template-columns: 1fr; } }
+.act-card {
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--r-md);
+  padding: 16px;
+  cursor: pointer;
+  transition: box-shadow 0.2s, transform 0.15s;
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  overflow: hidden;
+}
+.act-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+.act-card.in-agenda::before {
+  content: '✓';
+  position: absolute;
+  top: 10px; right: 10px;
+  background: var(--success);
+  color: white;
+  border-radius: 50%;
+  width: 20px; height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+}
+.act-icon { font-size: 36px; margin-bottom: 10px; display: block; }
+.act-name { font-size: 14px; font-weight: 600; color: var(--text-dark); margin-bottom: 4px; line-height: 1.3; }
+.act-price { font-size: 12px; color: var(--gold); font-weight: 600; margin-bottom: 4px; }
+.act-phase { font-size: 11px; color: var(--text-light); }
+
+/* ── BOTTOM SHEET ── */
+.sheet-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(26,43,60,0.35);
+  z-index: 150;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+.sheet-backdrop.open { opacity: 1; pointer-events: all; }
+.bottom-sheet {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  background: var(--sand);
+  border-radius: 24px 24px 0 0;
+  max-height: 88vh;
+  overflow-y: auto;
+  z-index: 151;
+  transform: translateY(100%);
+  transition: transform 0.38s cubic-bezier(0.32,0.72,0,1);
+  padding: 0 20px 32px;
+  max-width: 760px;
+  margin: 0 auto;
+}
+@media(min-width:760px){
+  .bottom-sheet {
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%) translateY(100%);
+    width: 760px;
+  }
+  .sheet-backdrop.open ~ .bottom-sheet,
+  .bottom-sheet.open {
+    transform: translateX(-50%) translateY(0);
+  }
+}
+.bottom-sheet.open { transform: translateY(0); }
+.sheet-handle {
+  width: 40px; height: 4px;
+  background: var(--horizon);
+  border-radius: 2px;
+  margin: 12px auto 16px;
+}
+.sheet-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--ocean-deep);
+  margin-bottom: 4px;
+}
+.sheet-price {
+  font-size: 15px;
+  color: var(--gold);
+  font-weight: 600;
+  margin-bottom: 14px;
+}
+.sheet-desc {
+  font-size: 14px;
+  color: var(--text-mid);
+  line-height: 1.6;
+  margin-bottom: 14px;
+}
+.sheet-allergy {
+  background: #EBF7F0;
+  border: 1px solid #A8D5B9;
+  border-radius: var(--r-sm);
+  padding: 10px 14px;
+  font-size: 13px;
+  color: #1A6B40;
+  margin-bottom: 16px;
+  font-weight: 500;
+}
+.providers-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  color: var(--text-light);
+  margin-bottom: 10px;
+}
+.provider-card {
+  background: white;
+  border: 1px solid var(--sand-dark);
+  border-radius: var(--r-sm);
+  padding: 12px 14px;
+  margin-bottom: 8px;
+}
+.provider-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 6px;
+}
+.provider-name { font-size: 13px; font-weight: 600; color: var(--text-dark); }
+.provider-price { font-size: 13px; color: var(--gold); font-weight: 700; }
+.provider-addr { font-size: 12px; color: var(--text-light); margin-bottom: 8px; }
+.provider-rating { font-size: 12px; color: var(--text-mid); }
+.provider-btns { display: flex; gap: 6px; margin-top: 8px; }
+.p-btn {
+  flex: 1;
+  padding: 7px;
+  border-radius: 8px;
+  border: 1px solid var(--glass-border);
+  background: var(--sky);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ocean);
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s;
+  text-decoration: none;
+  text-align: center;
+  display: block;
+}
+.p-btn:hover { background: var(--sky-mid); }
+.sheet-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--sand-dark);
+}
+.sheet-btn {
+  flex: 1;
+  padding: 12px;
+  border-radius: var(--r-pill);
+  border: none;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.2s;
+}
+.sheet-btn-save {
+  background: var(--gold-pale);
+  color: var(--gold);
+  border: 1.5px solid var(--gold-light);
+}
+.sheet-btn-save:hover { background: var(--gold-light); }
+.sheet-btn-agenda {
+  background: var(--ocean);
+  color: white;
+  box-shadow: 0 4px 14px rgba(46,125,170,0.3);
+}
+.sheet-btn-agenda:hover { background: var(--ocean-deep); }
+/* date picker in sheet */
+.date-picker-wrap {
+  margin-top: 14px;
+  background: white;
+  border: 1px solid var(--sand-dark);
+  border-radius: var(--r-md);
+  padding: 16px;
+  display: none;
+}
+.date-picker-wrap.show { display: block; }
+.dp-row { display: flex; gap: 10px; margin-bottom: 10px; }
+.dp-input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid var(--sand-dark);
+  border-radius: var(--r-sm);
+  font-family: inherit;
+  font-size: 13px;
+  color: var(--text-dark);
+  outline: none;
+  transition: border-color 0.2s;
+  background: var(--sky);
+}
+.dp-input:focus { border-color: var(--ocean); }
+.dp-label { font-size: 11px; color: var(--text-light); font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 4px; }
+.dp-confirm {
+  width: 100%;
+  padding: 10px;
+  background: var(--success);
+  color: white;
+  border: none;
+  border-radius: var(--r-pill);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.2s;
+}
+.dp-confirm:hover { background: #218a56; }
+
+/* ══════════════════════════════════════
+   AGENDA
+══════════════════════════════════════ */
+.agenda-empty {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--text-light);
+  font-size: 14px;
+  background: var(--glass);
+  border: 1px dashed var(--horizon);
+  border-radius: var(--r-lg);
+}
+.agenda-item {
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--r-md);
+  padding: 14px 16px;
+  margin-bottom: 10px;
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  box-shadow: var(--shadow-sm);
+}
+.agenda-icon { font-size: 28px; flex-shrink: 0; }
+.agenda-info { flex: 1; }
+.agenda-name { font-size: 14px; font-weight: 600; color: var(--text-dark); margin-bottom: 3px; }
+.agenda-date { font-size: 12px; color: var(--ocean); font-family: 'JetBrains Mono', monospace; }
+.agenda-note-txt { font-size: 12px; color: var(--text-light); margin-top: 3px; }
+.agenda-del {
+  background: none;
+  border: none;
+  color: var(--text-light);
+  font-size: 18px;
+  cursor: pointer;
+  line-height: 1;
+  padding: 2px;
+  flex-shrink: 0;
+  transition: color 0.2s;
+}
+.agenda-del:hover { color: var(--danger); }
+
+/* ══════════════════════════════════════
+   AI CHAT
+══════════════════════════════════════ */
+.chat-wrap {
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  height: 520px;
+}
+.quick-chips {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding: 14px 16px 0;
+  flex-shrink: 0;
+}
+.quick-chips::-webkit-scrollbar { display: none; }
+.chip {
+  background: white;
+  border: 1px solid var(--horizon);
+  border-radius: var(--r-pill);
+  padding: 6px 12px;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--ocean);
+  cursor: pointer;
+  white-space: nowrap;
+  font-family: inherit;
+  transition: all 0.15s;
+  flex-shrink: 0;
+}
+.chip:hover { background: var(--ocean); color: white; border-color: var(--ocean); }
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--horizon) transparent;
+}
+.msg {
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
+  max-width: 90%;
+}
+.msg.user { align-self: flex-end; flex-direction: row-reverse; }
+.msg-bubble {
+  padding: 10px 14px;
+  border-radius: 18px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--text-dark);
+}
+.msg.user .msg-bubble {
+  background: var(--ocean);
+  color: white;
+  border-bottom-right-radius: 4px;
+}
+.msg.ai .msg-bubble {
+  background: white;
+  border: 1px solid var(--sand-dark);
+  border-bottom-left-radius: 4px;
+  color: var(--text-dark);
+}
+.msg-avatar {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  flex-shrink: 0;
+  background: var(--sky-mid);
+}
+.msg.user .msg-avatar { background: rgba(46,125,170,0.15); }
+.typing-dots {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  padding: 10px 14px;
+  background: white;
+  border: 1px solid var(--sand-dark);
+  border-radius: 18px;
+  border-bottom-left-radius: 4px;
+}
+.dot {
+  width: 6px; height: 6px;
+  background: var(--horizon);
+  border-radius: 50%;
+  animation: bounce 1.2s infinite;
+}
+.dot:nth-child(2) { animation-delay: 0.2s; }
+.dot:nth-child(3) { animation-delay: 0.4s; }
+@keyframes bounce {
+  0%,80%,100% { transform: translateY(0); }
+  40% { transform: translateY(-6px); }
+}
+.chat-input-row {
+  display: flex;
+  gap: 8px;
+  padding: 12px 16px;
+  border-top: 1px solid var(--glass-border);
+  background: white;
+  flex-shrink: 0;
+}
+.chat-input {
+  flex: 1;
+  padding: 10px 14px;
+  border: 1px solid var(--sand-dark);
+  border-radius: var(--r-pill);
+  font-family: inherit;
+  font-size: 13px;
+  color: var(--text-dark);
+  outline: none;
+  background: var(--sky);
+  transition: border-color 0.2s;
+}
+.chat-input:focus { border-color: var(--ocean); background: white; }
+.chat-send {
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  background: var(--ocean);
+  border: none;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.2s, transform 0.1s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.chat-send:hover { background: var(--ocean-deep); }
+.chat-send:active { transform: scale(0.93); }
+
+/* ══════════════════════════════════════
+   TOAST
+══════════════════════════════════════ */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  background: var(--text-dark);
+  color: white;
+  padding: 10px 20px;
+  border-radius: var(--r-pill);
+  font-size: 13px;
+  font-weight: 600;
+  z-index: 300;
+  transition: transform 0.3s cubic-bezier(0.32,0.72,0,1);
+  pointer-events: none;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+}
+.toast.show { transform: translateX(-50%) translateY(0); }
+
+/* ── UTILS ── */
+.divider { height: 1px; background: var(--glass-border); margin: 12px 0; }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════
+     STICKY HEADER
+══════════════════════════════════════ -->
+<header id="header">
+  <div class="header-inner">
+    <div class="header-brand">
+      <span class="title display">🌊 Our Honeymoon</span>
+      <span class="sub" id="h-tagline">Indonesia 2026 · 6 Weeks of Adventure &amp; Love</span>
+    </div>
+    <nav class="header-nav">
+      <button class="nav-pill active" onclick="scrollTo('hero')" data-i18n="navHome">Home</button>
+      <button class="nav-pill" onclick="scrollTo('journey')" data-i18n="navJourney">Journey</button>
+      <button class="nav-pill" onclick="scrollTo('activities')" data-i18n="navActivities">Activities</button>
+      <button class="nav-pill" onclick="scrollTo('agenda')" data-i18n="navAgenda">Agenda</button>
+      <button class="nav-pill" onclick="scrollTo('ai')" data-i18n="navAI">AI Chat</button>
+    </nav>
+    <div class="header-right">
+      <div class="budget-pill" id="budget-pill" title="Budget status">🟢 On track</div>
+      <div class="lang-switcher" id="lang-switcher">
+        <button class="lang-current" onclick="toggleLangDrop()">
+          <span class="lang-flag" id="cur-flag">🇬🇧</span>
+          <span id="cur-lang-name" style="font-size:11px">EN</span>
+          <span class="lang-chevron">▾</span>
+        </button>
+        <div class="lang-dropdown" id="lang-drop">
+          <div class="lang-option" onclick="setLang('en')">
+            <span class="lang-flag">🇬🇧</span><span>English</span><span class="lang-check" id="ck-en">✓</span>
+          </div>
+          <div class="lang-option" onclick="setLang('nl')">
+            <span class="lang-flag">🇳🇱</span><span>Nederlands</span><span class="lang-check" id="ck-nl"></span>
+          </div>
+          <div class="lang-option" onclick="setLang('hy')">
+            <span class="lang-flag">🇦🇲</span><span>Հայերեն</span><span class="lang-check" id="ck-hy"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ══════════════════════════════════════
+     MAIN
+══════════════════════════════════════ -->
+<main>
+
+  <!-- ── HERO ── -->
+  <section id="hero">
+    <div class="hero-wave" data-i18n="heroLabel">Days until our honeymoon</div>
+    <div class="hero-number display" id="hero-number">—</div>
+    <div class="hero-label display" id="hero-label"></div>
+    <div class="hero-sub" id="hero-sub"></div>
+    <div class="hero-badges">
+      <span class="hero-badge">🇳🇱 Jun 8 — Wedding</span>
+      <span class="hero-badge" id="phase-badge-lombok">🇮🇩 Jun 12 — Lombok</span>
+      <span class="hero-badge" id="phase-badge-bali">🏝️ Jul 10 — Gili/Bali</span>
+      <span class="hero-badge">✈️ Jul 24 — Home</span>
+    </div>
+  </section>
+
+  <!-- ── JOURNEY ── -->
+  <section id="journey" data-section="journey">
+    <div class="section-label reveal" data-i18n="journeyProgress">Journey Progress</div>
+    <div class="progress-wrap reveal">
+      <div class="progress-phases">
+        <div class="phase-label" id="ph0" data-i18n-phase="pre">🇳🇱 Prep</div>
+        <div class="phase-label" id="ph1" data-i18n-phase="arm">🇦🇲 Armenia</div>
+        <div class="phase-label" id="ph2" data-i18n-phase="l1">🇮🇩 Lombok</div>
+        <div class="phase-label" id="ph3" data-i18n-phase="l2">✨ Bali</div>
+      </div>
+      <div class="progress-bar-track">
+        <div class="progress-bar-fill" id="prog-fill" style="width:0%"></div>
+      </div>
+      <div class="progress-dates">
+        <span>Jun 8, 2026</span>
+        <span id="prog-pct">0%</span>
+        <span>Jul 24, 2026</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── DESTINATIONS ── -->
+  <section id="destinations" data-section="destinations">
+    <div class="section-label reveal" data-i18n="dest1Name-head">Destinations</div>
+
+    <!-- Card 1 — Lombok -->
+    <div class="dest-card reveal" id="card-lombok">
+      <div class="dest-header" onclick="toggleCard('lombok')">
+        <span class="week-badge" data-i18n="weekBadge1">Weeks 1–4</span>
+        <span class="dest-emoji">🌴</span>
+        <div>
+          <div class="dest-name" data-i18n="dest1Name">Selong Belanak, Lombok</div>
+          <div class="dest-loc">Selong Belanak, South Lombok, Indonesia</div>
+        </div>
+        <span class="expand-arrow">▼</span>
+      </div>
+      <div class="dest-body">
+        <div class="dest-inner">
+          <div class="info-grid">
+            <div class="info-cell">
+              <div class="info-cell-label" data-i18n="checkIn">Check-in</div>
+              <div class="info-cell-val">12 Jun 2026</div>
+            </div>
+            <div class="info-cell">
+              <div class="info-cell-label" data-i18n="checkOut">Check-out</div>
+              <div class="info-cell-val">10 Jul 2026</div>
+            </div>
+            <div class="info-cell">
+              <div class="info-cell-label" data-i18n="duration">Duration</div>
+              <div class="info-cell-val">28 <span data-i18n="nights">nights</span></div>
+            </div>
+            <div class="info-cell">
+              <div class="info-cell-label" data-i18n="booking">Booking</div>
+              <div class="info-cell-val">Selong Selo Resort</div>
+            </div>
+          </div>
+          <div class="info-cell" style="margin-bottom:12px">
+            <div class="info-cell-label" data-i18n="address">Address</div>
+            <div class="info-cell-val" style="font-family:inherit;font-size:12px">Selong Belanak, Lombok Tengah, NTB 83573</div>
+          </div>
+          <div class="highlights-block">
+            <h4 data-i18n="highlights">Highlights</h4>
+            <div id="hl-lombok"></div>
+          </div>
+          <div class="allergy-note">🌿 No jungle or rice fields — directly by the sea ✓</div>
+          <div class="divider"></div>
+          <div style="font-size:11px;text-transform:uppercase;letter-spacing:.08em;font-weight:700;color:var(--text-light);margin-bottom:8px" data-i18n="notesWishes">Notes &amp; wishes</div>
+          <textarea class="notes-area" id="note-lombok" data-i18n-ph="notePlaceholder" placeholder="Write something special here..."></textarea>
+          <button class="save-note-btn" onclick="saveNote('lombok')" data-i18n="saveNote">Save note</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 2 — Bali -->
+    <div class="dest-card reveal" id="card-bali">
+      <div class="dest-header" onclick="toggleCard('bali')">
+        <span class="week-badge" data-i18n="weekBadge2">Weeks 5–6</span>
+        <span class="dest-emoji">🏝️</span>
+        <div>
+          <div class="dest-name" data-i18n="dest2Name">Gili Air or Uluwatu, Bali</div>
+          <div class="dest-loc">Gili Islands / Bali, Indonesia</div>
+        </div>
+        <span class="expand-arrow">▼</span>
+      </div>
+      <div class="dest-body">
+        <div class="dest-inner">
+          <div class="info-grid">
+            <div class="info-cell">
+              <div class="info-cell-label" data-i18n="checkIn">Check-in</div>
+              <div class="info-cell-val">10 Jul 2026</div>
+            </div>
+            <div class="info-cell">
+              <div class="info-cell-label" data-i18n="checkOut">Check-out</div>
+              <div class="info-cell-val">24 Jul 2026</div>
+            </div>
+            <div class="info-cell">
+              <div class="info-cell-label" data-i18n="duration">Duration</div>
+              <div class="info-cell-val">14 <span data-i18n="nights">nights</span></div>
+            </div>
+            <div class="info-cell">
+              <div class="info-cell-label" data-i18n="booking">Booking</div>
+              <div class="info-cell-val">PinkCoco Gili Air</div>
+            </div>
+          </div>
+          <div class="highlights-block">
+            <h4 data-i18n="highlights">Highlights</h4>
+            <div class="highlight-item">No cars or motorbikes on Gili Air — just bicycles</div>
+            <div class="highlight-item">Sea turtles swimming directly off the shore</div>
+            <div class="highlight-item">Uluwatu: dramatic cliffs above the Indian Ocean</div>
+            <div class="highlight-item">Skydive Bali and tandem parasailing available</div>
+            <div class="highlight-item">Romantic sunset beach dinner</div>
+          </div>
+          <div class="divider"></div>
+          <div style="font-size:11px;text-transform:uppercase;letter-spacing:.08em;font-weight:700;color:var(--text-light);margin-bottom:8px" data-i18n="notesWishes">Notes &amp; wishes</div>
+          <textarea class="notes-area" id="note-bali" data-i18n-ph="notePlaceholder" placeholder="Write something special here..."></textarea>
+          <button class="save-note-btn" onclick="saveNote('bali')" data-i18n="saveNote">Save note</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 3 — TBD -->
+    <div class="dest-card reveal" id="card-tbd">
+      <div class="dest-header" onclick="toggleCard('tbd')">
+        <span class="week-badge" style="background:rgba(46,125,170,0.12);color:var(--ocean);border-color:rgba(46,125,170,0.25)">✨ Optional</span>
+        <span class="dest-emoji">✨</span>
+        <div>
+          <div class="dest-name" data-i18n="dest3Name">Third Destination — To Be Decided</div>
+          <div class="dest-loc" data-i18n="toBeConfirmed">— to be confirmed —</div>
+        </div>
+        <span class="expand-arrow">▼</span>
+      </div>
+      <div class="dest-body">
+        <div class="dest-inner">
+          <div class="highlights-block">
+            <h4 data-i18n="highlights">Options</h4>
+            <div id="hl-tbd"></div>
+          </div>
+          <div class="divider"></div>
+          <textarea class="notes-area" id="note-tbd" data-i18n-ph="notePlaceholder" placeholder="Write something special here..."></textarea>
+          <button class="save-note-btn" onclick="saveNote('tbd')" data-i18n="saveNote">Save note</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── PACKING ── -->
+  <section id="packing" data-section="packing">
+    <div class="section-label reveal" data-i18n="packingTitle">Packing Checklist</div>
+
+    <div class="pack-group reveal">
+      <div class="pack-group-title">📄 <span data-i18n="packingDocs">Documents</span></div>
+      <div class="pack-grid" id="pg-docs"></div>
+    </div>
+    <div class="pack-group reveal">
+      <div class="pack-group-title">💊 <span data-i18n="packingHealth">Health &amp; Allergy</span></div>
+      <div class="pack-grid" id="pg-health"></div>
+    </div>
+    <div class="pack-group reveal">
+      <div class="pack-group-title">👗 <span data-i18n="packingClothes">Clothing</span></div>
+      <div class="pack-grid" id="pg-clothes"></div>
+    </div>
+    <div class="pack-group reveal">
+      <div class="pack-group-title">📱 <span data-i18n="packingTech">Tech &amp; Extras</span></div>
+      <div class="pack-grid" id="pg-tech"></div>
+    </div>
+  </section>
+
+  <!-- ── ACTIVITIES ── -->
+  <section id="activities" data-section="activities">
+    <div class="section-label reveal" data-i18n="activitiesTitle">Activities</div>
+    <div class="filter-bar reveal" id="filter-bar"></div>
+    <div class="act-grid" id="act-grid"></div>
+  </section>
+
+  <!-- ── AGENDA ── -->
+  <section id="agenda" data-section="agenda">
+    <div class="section-label reveal" data-i18n="agendaTitle">Our Agenda</div>
+    <div id="agenda-list"></div>
+  </section>
+
+  <!-- ── AI CHAT ── -->
+  <section id="ai" data-section="ai">
+    <div class="section-label reveal" data-i18n="aiTitle">AI Assistant</div>
+    <div class="chat-wrap reveal">
+      <div class="quick-chips" id="quick-chips"></div>
+      <div class="chat-messages" id="chat-messages"></div>
+      <div class="chat-input-row">
+        <input class="chat-input" id="chat-input" data-i18n-ph="aiPlaceholder" placeholder="Ask something..." onkeydown="if(event.key==='Enter')sendMsg()">
+        <button class="chat-send" onclick="sendMsg()">➤</button>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ── BOTTOM SHEET ── -->
+<div class="sheet-backdrop" id="backdrop" onclick="closeSheet()"></div>
+<div class="bottom-sheet" id="sheet">
+  <div class="sheet-handle"></div>
+  <div id="sheet-icon" style="font-size:40px;margin-bottom:8px"></div>
+  <div class="sheet-title display" id="sheet-title"></div>
+  <div class="sheet-price" id="sheet-price"></div>
+  <div class="sheet-desc" id="sheet-desc"></div>
+  <div class="sheet-allergy" id="sheet-allergy" style="display:none"></div>
+  <div class="providers-label" id="prov-label"></div>
+  <div id="providers-list"></div>
+  <div class="sheet-actions">
+    <button class="sheet-btn sheet-btn-save" id="btn-save" onclick="saveActivity()" data-i18n="saveBtn">Save for later</button>
+    <button class="sheet-btn sheet-btn-agenda" id="btn-agenda" onclick="showDatePicker()" data-i18n="addAgendaBtn">Add to Agenda</button>
+  </div>
+  <div class="date-picker-wrap" id="dp-wrap">
+    <div class="dp-label" data-i18n="dateLabel">Date</div>
+    <div class="dp-row">
+      <input type="date" class="dp-input" id="dp-date" min="2026-06-12" max="2026-07-24">
+      <input type="time" class="dp-input" id="dp-time">
+    </div>
+    <div class="dp-label" data-i18n="noteLabel">Note</div>
+    <input type="text" class="dp-input" id="dp-note" data-i18n-ph="notePlaceholder2" placeholder="e.g. Confirm reservation" style="margin-bottom:12px">
+    <button class="dp-confirm" onclick="confirmAgenda()" data-i18n="confirmBtn">Confirm</button>
+  </div>
+</div>
+
+<!-- ── TOAST ── -->
+<div class="toast" id="toast"></div>
+
+<script>
+/* ═══════════════════════════════════════════════════════
+   DATA
+═══════════════════════════════════════════════════════ */
+
+const TRANSLATIONS = {
+  appTagline: { en:"Indonesia 2026 · 6 Weeks of Adventure & Love", nl:"Indonesië 2026 · 6 Weken Avontuur & Liefde", hy:"Ինդոնեզիա 2026 · 6 Շաբաթ Արկածի & Սիրո" },
+  navHome:    { en:"Home", nl:"Home", hy:"Տուն" },
+  navJourney: { en:"Journey", nl:"Reis", hy:"Ճանապարհ" },
+  navActivities:{ en:"Activities", nl:"Activiteiten", hy:"Գործողություններ" },
+  navAgenda:  { en:"Agenda", nl:"Agenda", hy:"Օրակարգ" },
+  navAI:      { en:"AI Chat", nl:"AI Chat", hy:"AI Զրույց" },
+  heroLabel:  { en:"Days until our honeymoon", nl:"Dagen tot onze huwelijksreis", hy:"Օրեր մինչև մեր մեղրամիսը" },
+  heroSub:    { en:"days to go — can't wait! 🎉", nl:"dagen te gaan — we kunnen niet wachten! 🎉", hy:"օր մնաց — չենք կարողանում սպասել! 🎉" },
+  heroDayOf:  { en:"Day {X} of our journey 🌺", nl:"Dag {X} van onze reis 🌺", hy:"Մեր ճանապարհի {X}-րդ օրը 🌺" },
+  heroAfter:  { en:"What an incredible journey ✨", nl:"Wat een geweldige reis was dat ✨", hy:"Ինչ հիանալի ճանապարհ էր դա ✨" },
+  journeyProgress:{ en:"Journey Progress", nl:"Reis Voortgang", hy:"Ճանապարհի Առաջընթաց" },
+  checkIn:    { en:"Check-in", nl:"Inchecken", hy:"Ժամանում" },
+  checkOut:   { en:"Check-out", nl:"Uitchecken", hy:"Մեկնում" },
+  duration:   { en:"Duration", nl:"Duur", hy:"Տևողություն" },
+  booking:    { en:"Booking", nl:"Boeking", hy:"Ամրագրում" },
+  nights:     { en:"nights", nl:"nachten", hy:"գիշեր" },
+  address:    { en:"Address", nl:"Adres", hy:"Հասցե" },
+  highlights: { en:"Highlights", nl:"Hoogtepunten", hy:"Առանձնահատկություններ" },
+  notesWishes:{ en:"Notes & wishes", nl:"Notities & wensen", hy:"Նշումներ & ցանկություններ" },
+  saveNote:   { en:"Save note", nl:"Notitie opslaan", hy:"Պահпанել ншумǝ" },
+  notePlaceholder:{ en:"Write something special here...", nl:"Schrijf hier iets bijzonders...", hy:"Գрете ինч-ор հатук бан..." },
+  weekBadge1: { en:"Weeks 1–4", nl:"Weken 1–4", hy:"1–4 Շабат" },
+  weekBadge2: { en:"Weeks 5–6", nl:"Weken 5–6", hy:"5–6 Շабат" },
+  toBeConfirmed:{ en:"— to be confirmed —", nl:"— nog te bevestigen —", hy:"— հаstатман карик унي —" },
+  dest1Name:  { en:"Selong Belanak, Lombok", nl:"Selong Belanak, Lombok", hy:"Сelong Белanaq, Лombоk" },
+  dest2Name:  { en:"Gili Air or Uluwatu, Bali", nl:"Gili Air of Uluwatu, Bali", hy:"Гили Эйр кам Улувату, Бали" },
+  dest3Name:  { en:"Third Destination — To Be Decided", nl:"Derde Bestemming — Nog Te Beslissen", hy:"Еррорд Вайрǝ — Дерр Орошвад Чэ" },
+  dest3Name_head:{ en:"Third Destination", nl:"Derde Bestemming", hy:"Եррорд Вайрǝ" },
+  packingTitle:{ en:"Packing Checklist", nl:"Inpaklijst", hy:"Փаthетавoрман цuцак" },
+  packingDocs: { en:"Documents", nl:"Documenten", hy:"Փастатгhтер" },
+  packingHealth:{ en:"Health & Allergy", nl:"Gezondheid & Allergie", hy:"Аrorьджuтyун & Алеrgia" },
+  packingClothes:{ en:"Clothing", nl:"Kleding", hy:"Hагuст" },
+  packingTech: { en:"Tech & Extras", nl:"Tech & Extra's", hy:"Техн & Лрацuчич" },
+  activitiesTitle:{ en:"Activities", nl:"Activiteiten", hy:"Горцoлутyunnер" },
+  filterAll:   { en:"All", nl:"Alles", hy:"Бolor" },
+  filterLearn: { en:"Learning", nl:"Leren", hy:"Uсuцum" },
+  filterAdventure:{ en:"Adventure", nl:"Avontuur", hy:"Аркац" },
+  filterRomance:{ en:"Romance", nl:"Romantiek", hy:"Романтik" },
+  filterSea:   { en:"Sea", nl:"Zee", hy:"Цov" },
+  filterCulture:{ en:"Culture", nl:"Cultuur", hy:"Мшakuyt" },
+  filterRelax: { en:"Relax", nl:"Relaxen", hy:"Hангctyuнь" },
+  filterOther: { en:"Other", nl:"Overig", hy:"Айл" },
+  saveBtn:     { en:"Save for later", nl:"Bewaren", hy:"Пahpanel" },
+  addAgendaBtn:{ en:"Add to Agenda", nl:"Aan agenda toevoegen", hy:"Аvелацnel Oрakarg" },
+  addedToast:  { en:"✓ Added to agenda!", nl:"✓ Toegevoegd aan agenda!", hy:"✓ Аvelacvac!" },
+  savedToast:  { en:"✓ Saved", nl:"✓ Opgeslagen", hy:"✓ Пahpanvac" },
+  agendaTitle: { en:"Our Agenda", nl:"Onze Agenda", hy:"Мер Oракаrgǝ" },
+  agendaEmpty: { en:"Nothing planned yet — tap an activity to add it here", nl:"Nog niks gepland — tik op een activiteit om toe te voegen", hy:"Дерр воčinč нахатесvac če" },
+  dateLabel:   { en:"Date", nl:"Datum", hy:"Амcатiv" },
+  noteLabel:   { en:"Note", nl:"Notitie", hy:"Нших" },
+  notePlaceholder2:{ en:"e.g. Confirm reservation", nl:"Bijv. reservering bevestigen", hy:"Oр. hасtатель амрагрumǝ" },
+  cancelBtn:   { en:"Cancel", nl:"Annuleren", hy:"Čegorцel" },
+  confirmBtn:  { en:"Confirm", nl:"Bevestigen", hy:"Hаctatел" },
+  aiTitle:     { en:"AI Assistant", nl:"AI Assistent", hy:"AI Огнаkаn" },
+  aiWelcome:   { en:"Hello! 👋 I'm your honeymoon assistant. I know everything about Lombok, Gili Air and Bali — and your allergies and preferences. Ask me anything!", nl:"Hallo! 👋 Ik ben jullie honeymoon assistent. Vraag me van alles!", hy:"Барев! 👋 Эс джэр мегhamisi ognакaнн эм:" },
+  aiPlaceholder:{ en:"Ask something...", nl:"Vraag iets...", hy:"Hарцрек..." },
+  budgetGreen: { en:"🟢 On track", nl:"🟢 Op schema", hy:"🟢 Čišt ujin vra" },
+  budgetYellow:{ en:"🟡 Watch out", nl:"🟡 Let op", hy:"🟡 Ушадрутyun" },
+  budgetRed:   { en:"🔴 Discuss", nl:"🔴 Even overleggen", hy:"🔴 Qnnarkel" },
+};
+
+const ACTIVITIES = [
+  { id:"swim",    icon:"🏊", cat:"learn",     phase:"🇮🇩🏝️", price:"€25–45/les",
+    name:{ en:"Sea Swimming Lessons", nl:"Zwemlessen in zee", hy:"Ծovum loyci dacer" },
+    desc:{ en:"Private lessons in open sea with certified coach. After 5–10 lessons you'll swim confidently. Sea only — no pool (chlorine allergy).", nl:"Privélessen in open zee. Na 5–10 lessen zwem je zelfverzekerd. Alleen zee — geen zwembad ivm chloorallergie.", hy:"Անhататаgан даsер баc цovum havataqrвac марzhchi het:" },
+    allergy:{ en:"💧 100% safe — sea only, no chlorine", nl:"💧 100% veilig — alleen zee, geen chloor", hy:"💧 Анхтанг — мياйн цov, воч лouzanots" },
+    providers:[
+      { name:"JustSwim Bali", price:"€35/les", phone:"+62 813-3757-2580", addr:"Seminyak, Bali", url:"https://justswim.co.id", rating:"⭐ 4.9" },
+      { name:"Lombok Beach Coach", price:"€25/les", phone:"+62 878-6500-0001", addr:"Selong Belanak", url:"", rating:"⭐ 4.7" }
+    ]},
+  { id:"horse",   icon:"🐴", cat:"learn",     phase:"🇮🇩", price:"€25–60/sessie",
+    name:{ en:"Horse Riding on the Beach", nl:"Paardrijden op strand", hy:"Djiavarutyun covafin" },
+    desc:{ en:"Beginner lessons on the white sand beach of Selong Belanak. Ride together along the waterfront at sunset.", nl:"Beginnerslessen op het witte strand van Selong Belanak. Na een paar sessies rijd je samen langs het water.", hy:"Скusнаkineri dacer Сelong Белanaqi сpitак aвazи covafin:" },
+    allergy:null,
+    providers:[
+      { name:"Selong Belanak Horse Riding", price:"€30/uur", phone:"+62 819-1600-0001", addr:"Selong Belanak Beach", url:"https://getyourguide.com", rating:"⭐ 4.8" },
+      { name:"Lombok Horse Experience", price:"€40/2u", phone:"+62 878-1234-5678", addr:"Kuta Lombok Beach", url:"https://viator.com", rating:"⭐ 4.6" }
+    ]},
+  { id:"skydive", icon:"🪂", cat:"adventure", phase:"🏝️", price:"$1.200 p.p.",
+    name:{ en:"Tandem Skydive Bali", nl:"Tandem Skydive Bali", hy:"Тандем Скайдайв Бали" },
+    desc:{ en:"15,000 feet, 60 seconds freefall above the Bali coast. Each jumps separately with own instructor but simultaneously — side by side in the air. Video + photo included.", nl:"15.000 voet, 60 sec vrije val. Elk apart met eigen instructor maar tegelijk naast elkaar. Video + foto inbegrepen.", hy:"15.000 voti, 60 vayrkan azat anкum Балики afи verevum:" },
+    allergy:{ en:"⚠️ Each jumps SEPARATELY with own instructor — not together on 1 parachute. But at the same time!", nl:"⚠️ Elk APART met eigen instructor — niet samen op 1 parachute. Wel tegelijk!", hy:"⚠️ Ամен voк АРАЖIN ir marzhchi het — voч мiасин 1 парашютi vra:" },
+    providers:[
+      { name:"The Skydive Bali", price:"$1.200 p.p.", phone:"+62 361-849-6050", addr:"Buleleng, Nord-Bali", url:"https://theskydivebali.com", rating:"⭐ 4.9" }
+    ]},
+  { id:"parasail",icon:"🪁", cat:"romance",   phase:"🏝️", price:"€40–70 voor 2",
+    name:{ en:"Tandem Parasailing (together!)", nl:"Tandem Parasailing (samen!)", hy:"Тандем Парасайлинг (мiasin!)" },
+    desc:{ en:"You and your wife on the same rope above the Indian Ocean. THIS can be done together! The romantic alternative to flying together.", nl:"Jij en je vrouw aan hetzelfde touw boven de Indische Oceaan. KAN WEL samen!", hy:"Դuք ev djez kinǝ nayin рaранi vra Hнtkaкан oвkiаnоsi verevum:" },
+    allergy:{ en:"✅ CAN be done together on 1 rope — you really fly as one!", nl:"✅ KAN samen aan 1 touw — jullie vliegen echt als één!", hy:"✅ KARELि ЭH мiasin 1 рarани vrа — тrchum eq orbes mi:" },
+    providers:[
+      { name:"Tanjung Benoa Water Sports", price:"€55 voor 2", phone:"+62 361-771-757", addr:"Tanjung Benoa, Bali", url:"https://viator.com", rating:"⭐ 4.6" },
+      { name:"Bali Parasailing Center", price:"€65 voor 2", phone:"+62 361-700-001", addr:"Nusa Dua, Bali", url:"https://klook.com", rating:"⭐ 4.5" }
+    ]},
+  { id:"snorkel", icon:"🤿", cat:"sea",       phase:"🇮🇩🏝️", price:"€30–80 p.p.",
+    name:{ en:"Snorkelling + Sea Turtles", nl:"Snorkelen + Zeeschildpadden", hy:"Снорклинг + Ծovayin кrias" },
+    desc:{ en:"Snorkelling at the Gili Islands — sea turtles literally swim beside you. PADI intro dive also available.", nl:"Snorkelen bij de Gili eilanden — zeeschildpadden zwemmen letterlijk naast je.", hy:"Снорклинг Гили кghzinerum — ծovаyin крianerǝ ugrecorinakiorpen loyum en koghqit:" },
+    allergy:null,
+    providers:[
+      { name:"Gili Air Dive Center", price:"€35 p.p.", phone:"+62 370-642-337", addr:"Gili Air pier", url:"https://divegiliair.com", rating:"⭐ 4.8" },
+      { name:"Blue Marlin Dive", price:"€45 p.p.", phone:"+62 370-614-497", addr:"Gili Trawangan", url:"https://bluemarlindive.com", rating:"⭐ 4.7" }
+    ]},
+  { id:"dinner",  icon:"🕯️", cat:"romance",  phase:"🇮🇩🏝️", price:"€60–120 voor 2",
+    name:{ en:"Private Beach Dinner", nl:"Privé Stranddiner", hy:"Маснавор loyafi нthriq" },
+    desc:{ en:"Candlelit dinner on the beach at sunset. Private chef, fresh seafood, flower petal decoration. The most romantic moment of the honeymoon.", nl:"Candlelit diner op het strand bij zonsondergang. Eigen chef, verse zeevruchten, bloemblaadjes.", hy:"Мomнeri luysу nеркойum нthriq loyafin mayramutic zhаманак:" },
+    allergy:null,
+    providers:[
+      { name:"Selong Belanak Beach Dinner", price:"€80 voor 2", phone:"Via resort", addr:"Selong Belanak Beach", url:"", rating:"⭐ 5.0" },
+      { name:"Jimbaran Bay Seafood BBQ", price:"€65 voor 2", phone:"+62 361-701-010", addr:"Jimbaran Bay, Bali", url:"https://jimbaran-seafood.com", rating:"⭐ 4.7" }
+    ]},
+  { id:"phinisi", icon:"⛵", cat:"sea",       phase:"🇮🇩🏝️", price:"€80–150 voor 2",
+    name:{ en:"Private Gili Island Boat Tour", nl:"Privé Bootdagtocht Gili", hy:"Маснавор нав Гили кghziner" },
+    desc:{ en:"Your own private boat to all 3 Gili Islands. Snorkelling with manta rays, lunch on board, swimming from the boat.", nl:"Eigen privéboot langs alle 3 Gili eilanden. Snorkelen bij mantaroggen, lunch aan boord.", hy:"Jер sexnakan навǝ 3 Гили кghziner: Снорклинг манта ճаghагайtнeri hет:" },
+    allergy:null,
+    providers:[
+      { name:"Lombok Phinisi Charter", price:"€120 (hele dag)", phone:"+62 817-5700-1234", addr:"Bangsal Haven, Lombok", url:"https://getyourguide.com", rating:"⭐ 4.8" }
+    ]},
+  { id:"massage", icon:"💆", cat:"relax",     phase:"🇮🇩🏝️", price:"€20–45/uur",
+    name:{ en:"In-villa Massage", nl:"In-villa Massage", hy:"Виллаюм масаж" },
+    desc:{ en:"Masseuse comes to your villa. Balinese massage, aromatherapy. Together in your own private space.", nl:"Masseur komt naar jullie villa. Balinese massage, aromatherapie. Samen in jullie eigen privéruimte.", hy:"Масажиctǝ galis er jez villa: Балиакан масаж, ароматерапia:" },
+    allergy:null,
+    providers:[
+      { name:"Mobile Massage Lombok", price:"€25/uur p.p.", phone:"+62 819-2233-4455", addr:"Comes to your villa", url:"", rating:"⭐ 4.7" },
+      { name:"Selong Selo Spa", price:"€45/uur", phone:"Via resort", addr:"Selong Selo Resort", url:"https://selongselo.com", rating:"⭐ 4.9" }
+    ]},
+  { id:"cooking", icon:"🍜", cat:"culture",   phase:"🇮🇩", price:"€25–45 voor 2",
+    name:{ en:"Sasak Cooking Class", nl:"Sasak Kookcursus", hy:"Сасаq khohararutyun дас" },
+    desc:{ en:"Learn traditional Lombok/Sasak dishes at a local family's home. Market visit included. Ayam taliwang, plecing kangkung.", nl:"Leer traditionele Sasak gerechten bij een lokale familie. Marktbezoek inbegrepen.", hy:"Sovoreq avandakan Ломбок/Сасаq utestner teghakan entaniqi тanǝ:" },
+    allergy:null,
+    providers:[
+      { name:"Warung Selong Local Kitchen", price:"€25 voor 2", phone:"+62 819-5566-7788", addr:"Selong Belanak", url:"", rating:"⭐ 4.8" },
+      { name:"Lombok Cooking Class", price:"€35 voor 2", phone:"+62 878-6400-1122", addr:"Mataram, Lombok", url:"https://viator.com", rating:"⭐ 4.6" }
+    ]},
+  { id:"gold",    icon:"🥇", cat:"other",     phase:"🇮🇩🏝️", price:"±€165/gram (24K)",
+    name:{ en:"Buy Gold — Pegadaian", nl:"Goud kopen — Pegadaian", hy:"Voски gnel — Pegadaian" },
+    desc:{ en:"Official certified gold from the Indonesian state company. Wife takes it to Armenia. Keep the RECEIPT — required for Armenian customs.", nl:"Officieel gecertificeerd goud van het Indonesische staatsbedrijf. Bewaar de BON — verplicht voor Armeense douane.", hy:"Паштонакан havataqrвад voски Индонезиаई петакан enkерутyunits:" },
+    allergy:{ en:"📋 Max €500 duty-free into Armenia, then 15% customs. ALWAYS keep receipt.", nl:"📋 Max €500 vrij naar Armenië, daarna 15% heffing. BON ALTIJD bewaren.", hy:"📋 Аvелагuyнǝ €500 aзat Haiastan, aрка 15% макcaturg: KTRONNƎ PAHKEQ:" },
+    providers:[
+      { name:"Pegadaian Mataram, Lombok", price:"Dagprijs op site", phone:"+62 370-623-005", addr:"Jl. Pejanggik, Mataram, Lombok", url:"https://pegadaian.co.id", rating:"⭐ 4.8" },
+      { name:"Antam Butik Emas Bali", price:"Spotprijs +5%", phone:"+62 361-xxx-xxx", addr:"Denpasar, Bali", url:"https://logammulia.com", rating:"⭐ 4.9" }
+    ]},
+  { id:"dive",    icon:"🐠", cat:"sea",       phase:"🏝️", price:"€60–100 p.p.",
+    name:{ en:"PADI Intro Dive", nl:"PADI Intro Duikles", hy:"PADI сузум" },
+    desc:{ en:"Beginner dives at Gili Air — best diving area in the region. No experience needed. Dive to 12 metres. Sea turtles and manta rays guaranteed.", nl:"Beginnersdives bij Gili Air — het beste duikgebied. Geen ervaring nodig. Na intro duik tot 12 meter. Schildpadden en mantaroggen.", hy:"Скусnak сузumner Гили Эйрум — SharePoint шрджани лавагyun вайрǝ: Фoрj petq чe:" },
+    allergy:null,
+    providers:[
+      { name:"Gili Air Dive School", price:"€75 p.p.", phone:"+62 370-642-337", addr:"Gili Air", url:"https://divegiliair.com", rating:"⭐ 4.9" },
+      { name:"Dream Divers Gili", price:"€65 p.p.", phone:"+62 370-693-738", addr:"Gili Air", url:"https://dreamdivers.com", rating:"⭐ 4.8" }
+    ]}
+];
+
+const PACK_ITEMS = {
+  docs: [
+    { id:"pk_pass", en:"Passport & copies", nl:"Paspoort & kopieën" },
+    { id:"pk_tick", en:"Flight tickets (print + digital)", nl:"Vliegtickets (print + digitaal)" },
+    { id:"pk_ins",  en:"Travel insurance card", nl:"Reisverzekeringspas" },
+    { id:"pk_lic",  en:"International driving licence", nl:"Internationaal rijbewijs" },
+    { id:"pk_visa", en:"Visa B211A confirmation", nl:"Visa B211A bevestiging" },
+    { id:"pk_vacc", en:"Vaccination card", nl:"Vaccinatiepas" },
+  ],
+  health: [
+    { id:"pk_anti", en:"Antihistamine — 6 weeks supply (GRASS ALLERGY)", nl:"Antihistamine — 6 weken (GRASALLERGIE)" },
+    { id:"pk_sun",  en:"Sunscreen SPF50+", nl:"Zonbrandcrème SPF50+" },
+    { id:"pk_mosk", en:"Mosquito spray with DEET", nl:"Muggenspray met DEET" },
+    { id:"pk_dia",  en:"Anti-diarrhea + painkillers", nl:"Diarreemedicatie + pijnstillers" },
+    { id:"pk_wpho", en:"Waterproof phone case", nl:"Waterdicht telefoonhoesje" },
+  ],
+  clothes: [
+    { id:"pk_dres", en:"Light dresses / summer wear (cotton)", nl:"Lichte jurken (katoen)" },
+    { id:"pk_swim", en:"Swimwear (2–3 sets)", nl:"Zwemkleding (2–3 stuks)" },
+    { id:"pk_saro", en:"Sarong / pareo (required at Balinese temples)", nl:"Sarong / pareo (verplicht bij tempels)" },
+    { id:"pk_card", en:"Light cardigan (plane/AC)", nl:"Lichte cardigan (vliegtuig/airco)" },
+    { id:"pk_shoe", en:"Sport shoes (for horse riding)", nl:"Sportschoenen (voor paardrijden)" },
+    { id:"pk_sand", en:"Sandals + flip-flops", nl:"Sandalen + slippers" },
+  ],
+  tech: [
+    { id:"pk_adap", en:"Universal travel adapter", nl:"Universele reisadapter" },
+    { id:"pk_powr", en:"Power bank (large)", nl:"Powerbank (groot formaat)" },
+    { id:"pk_apps", en:"Apps downloaded: Grab, Gojek, Maps.me offline", nl:"Apps: Grab, Gojek, Maps.me offline" },
+    { id:"pk_sim",  en:"Buy local SIM at arrival (Telkomsel)", nl:"Lokale SIM kopen bij aankomst (Telkomsel)" },
+  ]
+};
+
+const HIGHLIGHTS = {
+  lombok:[
+    { en:"Pristine white-sand beach — one of the most beautiful in Lombok", nl:"Prachtig wit zandstrand — een van de mooiste van Lombok" },
+    { en:"Dry season Jun–Jul: ideal weather, little rain", nl:"Droogseizoen jun–jul: ideaal weer, weinig regen" },
+    { en:"Horse riding on the beach available", nl:"Paardrijden op het strand mogelijk" },
+    { en:"Local Sasak culture and authentic food", nl:"Lokale Sasak cultuur en authentiek eten" },
+    { en:"Gili Islands just 30 min by speedboat", nl:"Gili eilanden op 30 min speedboat" }
+  ],
+  tbd:[
+    { en:"Option A: Gili Meno — smallest Gili, most romantic", nl:"Optie A: Gili Meno — kleinste Gili, meest romantisch" },
+    { en:"Option B: Nusa Penida, Bali — dramatic cliffs & top snorkelling", nl:"Optie B: Nusa Penida — dramatische kliffen & topsnorkelen" },
+    { en:"Option C: Komodo/Flores — overwater villa, manta rays", nl:"Optie C: Komodo/Flores — overwater villa, mantaroggen" },
+    { en:"Option D: Stay longer in Lombok and explore more", nl:"Optie D: Langer in Lombok blijven" }
+  ]
+};
+
+const QUICK_QS = {
+  en:["Can we horse ride AND swim same day?","How to get from Lombok to Gili Air?","Good restaurants near Selong Belanak?","Gold customs rules for Armenia?","What to do if it rains in Lombok?","Scooter rental cost per month?","Is ATM use safe in Indonesia?","Which activities suit our allergy?"],
+  nl:["Kunnen we paardrijden én zwemmen op 1 dag?","Hoe van Lombok naar Gili Air?","Goede restaurants bij Selong Belanak?","Douaneregels goud naar Armenië?","Wat doen bij regen op Lombok?","Scooter huren per maand kosten?","Veilig pinnen in Indonesië?","Welke activiteit past bij allergie?"],
+  hy:["Կaroyq enq djiavarut. ev loyov zaghvel nuyн oрǝ?","Inchpes hасtel Lombok-it Gili Air?","Lav restoranner Selong Belanak-i mot?","Mаkcаyin kanonner voski Hayastan?","Inch aнel ete andzrev ga Lombok-um?","Scooter vardzakaret artsakarq?","APM-ic gumар havrelik аnvtаng e?","Vor gorczolutyunner harkir en mez?"],
+};
+
+/* ═══════════════════════════════════════════════════════
+   STATE
+═══════════════════════════════════════════════════════ */
+const KEY = 'honeymoon_hq_v3';
+
+/* ═══════════════════════════════════════════════════════
+   SUPABASE CONFIG — FILL IN YOUR KEYS BELOW
+   Get these from: supabase.com → your project → Settings → API
+═══════════════════════════════════════════════════════ */
+const SUPABASE_URL  = 'PASTE_YOUR_SUPABASE_URL_HERE';      // e.g. https://xxxx.supabase.co
+const SUPABASE_KEY  = 'PASTE_YOUR_SUPABASE_ANON_KEY_HERE'; // anon public key
+const DEVICE_ID     = 'honeymoon_shared';                   // same on BOTH phones → data syncs
+
+/* ── SUPABASE REST HELPERS ── */
+async function sbGet(table) {
+  try {
+    const r = await fetch(`${SUPABASE_URL}/rest/v1/${table}?device_id=eq.${DEVICE_ID}&select=*`, {
+      headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` }
+    });
+    const rows = await r.json();
+    return rows.length ? rows[0] : null;
+  } catch(e) { return null; }
+}
+
+async function sbUpsert(table, payload) {
+  try {
+    await fetch(`${SUPABASE_URL}/rest/v1/${table}`, {
+      method: 'POST',
+      headers: {
+        apikey: SUPABASE_KEY,
+        Authorization: `Bearer ${SUPABASE_KEY}`,
+        'Content-Type': 'application/json',
+        Prefer: 'resolution=merge-duplicates'
+      },
+      body: JSON.stringify({ device_id: DEVICE_ID, ...payload, updated_at: new Date().toISOString() })
+    });
+  } catch(e) {}
+}
+
+/* ── REALTIME POLLING (every 8 seconds, only when tab is visible) ── */
+let pollTimer = null;
+let lastRemoteHash = '';
+
+function startPolling() {
+  if (pollTimer) return;
+  pollTimer = setInterval(async () => {
+    if (document.hidden) return;
+    if (SUPABASE_URL.includes('PASTE')) return; // not configured yet
+    const row = await sbGet('hhq_state');
+    if (!row) return;
+    const remoteHash = row.updated_at || '';
+    if (remoteHash === lastRemoteHash) return; // nothing changed
+    lastRemoteHash = remoteHash;
+    const remote = JSON.parse(row.data || '{}');
+    // merge remote into state — remote wins on shared keys
+    const merged = Object.assign({}, state, remote, { lang: state.lang }); // keep local language pref
+    state = merged;
+    saveLocalOnly();
+    applyLang();
+    restoreNotes();
+    renderAgenda();
+    renderActivities(currentFilter);
+    renderPacking();
+    showToast('🔄 Synced with partner!');
+  }, 8000);
+}
+
+/* ── SYNC STATUS UI ── */
+let syncStatusEl = null;
+function setSyncStatus(status) {
+  // status: 'syncing' | 'ok' | 'offline' | 'unconfigured'
+  if (!syncStatusEl) return;
+  const icons = { syncing:'⏳', ok:'☁️', offline:'📵', unconfigured:'⚙️' };
+  syncStatusEl.textContent = icons[status] || '☁️';
+  syncStatusEl.title = { syncing:'Syncing...', ok:'Synced', offline:'Offline — local only', unconfigured:'Set up Supabase to sync' }[status];
+}
+
+/* ═══════════════════════════════════════════════════════
+   STATE
+═══════════════════════════════════════════════════════ */
+const KEY = 'honeymoon_hq_v3';
+let state = {
+  lang: 'en',
+  checklist: {},
+  notes: { lombok:'', bali:'', tbd:'' },
+  agenda: [],
+  chat: [],
+  savedActivities: [],
+  agendaActivities: [],
+  budgetStatus: 'green'
+};
+let currentSheet = null;
+
+/* Load from localStorage (instant, offline-first) */
+function loadState() {
+  try {
+    const s = JSON.parse(localStorage.getItem(KEY));
+    if (s) state = Object.assign(state, s);
+  } catch(e){}
+}
+
+/* Save to localStorage only (called during polling merge) */
+function saveLocalOnly() {
+  try { localStorage.setItem(KEY, JSON.stringify(state)); } catch(e){}
+}
+
+/* Save to localStorage AND push to Supabase */
+async function saveState() {
+  try { localStorage.setItem(KEY, JSON.stringify(state)); } catch(e){}
+  if (SUPABASE_URL.includes('PASTE')) return; // not configured
+  setSyncStatus('syncing');
+  try {
+    await sbUpsert('hhq_state', { data: JSON.stringify(state) });
+    setSyncStatus('ok');
+  } catch(e) {
+    setSyncStatus('offline');
+  }
+}
+
+/* Load remote state on first open (merges with local) */
+async function loadRemoteState() {
+  if (SUPABASE_URL.includes('PASTE')) { setSyncStatus('unconfigured'); return; }
+  setSyncStatus('syncing');
+  const row = await sbGet('hhq_state');
+  if (row) {
+    lastRemoteHash = row.updated_at || '';
+    const remote = JSON.parse(row.data || '{}');
+    const langPref = state.lang;
+    state = Object.assign({}, state, remote, { lang: langPref });
+    saveLocalOnly();
+    applyLang();
+    restoreNotes();
+    renderAgenda();
+    renderActivities(currentFilter);
+    renderPacking();
+    setSyncStatus('ok');
+  } else {
+    // First time: push local state to Supabase
+    await saveState();
+    setSyncStatus('ok');
+  }
+  startPolling();
+}
+
+/* ═══════════════════════════════════════════════════════
+   I18N
+═══════════════════════════════════════════════════════ */
+function t(key, lang=state.lang) {
+  const tr = TRANSLATIONS[key];
+  if (!tr) return key;
+  return tr[lang] || tr['en'] || key;
+}
+
+function setLang(lang) {
+  state.lang = lang;
+  saveState();
+  document.getElementById('lang-drop').classList.remove('open');
+  document.body.style.opacity = '0';
+  document.body.style.transition = 'opacity 0.18s';
+  setTimeout(() => {
+    applyLang();
+    document.body.style.opacity = '1';
+  }, 180);
+}
+
+function applyLang() {
+  const lang = state.lang;
+  document.documentElement.lang = lang;
+  // nav / labels
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const v = t(el.dataset.i18n, lang);
+    if (v !== el.dataset.i18n) el.textContent = v;
+  });
+  document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+    el.placeholder = t(el.dataset.i18nPh, lang);
+  });
+  // flag
+  document.getElementById('cur-flag').textContent = {en:'🇬🇧',nl:'🇳🇱',hy:'🇦🇲'}[lang];
+  document.getElementById('cur-lang-name').textContent = {en:'EN',nl:'NL',hy:'ՀՅ'}[lang];
+  ['en','nl','hy'].forEach(l => { document.getElementById('ck-'+l).textContent = l===lang?'✓':''; });
+  // tagline
+  document.getElementById('h-tagline').textContent = t('appTagline', lang);
+  // budget
+  updateBudgetPill();
+  // hero
+  updateHero();
+  // highlights
+  renderHighlights();
+  // packing
+  renderPacking();
+  // activities
+  renderActivities(currentFilter);
+  // agenda
+  renderAgenda();
+  // chips
+  renderChips();
+}
+
+function toggleLangDrop() {
+  document.getElementById('lang-drop').classList.toggle('open');
+}
+document.addEventListener('click', e => {
+  if (!e.target.closest('#lang-switcher')) {
+    document.getElementById('lang-drop').classList.remove('open');
+  }
+});
+
+/* ═══════════════════════════════════════════════════════
+   DATES & HERO
+═══════════════════════════════════════════════════════ */
+const DATES = {
+  departure: new Date('2026-06-08'),
+  indonesia: new Date('2026-06-12'),
+  phase2:    new Date('2026-07-10'),
+  end:       new Date('2026-07-24'),
+};
+
+function daysBetween(a, b) {
+  return Math.round((b - a) / 86400000);
+}
+
+function updateHero() {
+  const now = new Date();
+  const lang = state.lang;
+  const num = document.getElementById('hero-number');
+  const lbl = document.getElementById('hero-label');
+  const sub = document.getElementById('hero-sub');
+
+  if (now < DATES.indonesia) {
+    const days = daysBetween(now, DATES.indonesia);
+    num.textContent = days;
+    lbl.textContent = t('heroLabel', lang);
+    sub.textContent = days + ' ' + t('heroSub', lang);
+  } else if (now <= DATES.end) {
+    const day = daysBetween(DATES.indonesia, now) + 1;
+    num.textContent = day;
+    lbl.textContent = t('heroDayOf', lang).replace('{X}', day);
+    sub.textContent = '';
+  } else {
+    num.textContent = '✨';
+    lbl.textContent = t('heroAfter', lang);
+    sub.textContent = '';
+  }
+
+  // progress
+  const total = daysBetween(DATES.departure, DATES.end);
+  const elapsed = Math.max(0, Math.min(total, daysBetween(DATES.departure, now)));
+  const pct = Math.round(elapsed / total * 100);
+  document.getElementById('prog-fill').style.width = pct + '%';
+  document.getElementById('prog-pct').textContent = pct + '%';
+
+  // phase highlights
+  const phases = ['ph0','ph1','ph2','ph3'];
+  let cur = 0;
+  if (now >= DATES.departure) cur = 1;
+  if (now >= DATES.indonesia) cur = 2;
+  if (now >= DATES.phase2) cur = 3;
+  phases.forEach((id,i)=>{
+    const el = document.getElementById(id);
+    el.classList.toggle('current', i===cur);
+  });
+}
+
+function updateBudgetPill() {
+  const map = { green: t('budgetGreen'), yellow: t('budgetYellow'), red: t('budgetRed') };
+  document.getElementById('budget-pill').textContent = map[state.budgetStatus] || map.green;
+}
+
+/* ═══════════════════════════════════════════════════════
+   HIGHLIGHTS
+═══════════════════════════════════════════════════════ */
+function renderHighlights() {
+  const lang = state.lang;
+  ['lombok','tbd'].forEach(dest => {
+    const el = document.getElementById('hl-'+dest);
+    if (!el) return;
+    el.innerHTML = HIGHLIGHTS[dest].map(h =>
+      `<div class="highlight-item">${h[lang] || h.en}</div>`
+    ).join('');
+  });
+}
+
+/* ═══════════════════════════════════════════════════════
+   DESTINATION CARDS
+═══════════════════════════════════════════════════════ */
+function toggleCard(id) {
+  const card = document.getElementById('card-'+id);
+  card.classList.toggle('open');
+}
+
+function saveNote(dest) {
+  const ta = document.getElementById('note-'+dest);
+  state.notes[dest] = ta.value;
+  saveState();
+  showToast('✓ ' + t('saveNote'));
+}
+
+// restore notes
+function restoreNotes() {
+  Object.keys(state.notes).forEach(dest => {
+    const ta = document.getElementById('note-'+dest);
+    if (ta) ta.value = state.notes[dest] || '';
+  });
+}
+
+/* ═══════════════════════════════════════════════════════
+   PACKING
+═══════════════════════════════════════════════════════ */
+function renderPacking() {
+  const lang = state.lang;
+  Object.entries(PACK_ITEMS).forEach(([group, items]) => {
+    const grid = document.getElementById('pg-'+group);
+    if (!grid) return;
+    grid.innerHTML = items.map(item => {
+      const checked = state.checklist[item.id] || false;
+      const txt = item[lang] || item.en;
+      return `<div class="pack-item ${checked?'checked':''}" onclick="togglePack('${item.id}',this)">
+        <div class="pack-cb"></div>
+        <span class="pack-text">${txt}</span>
+      </div>`;
+    }).join('');
+  });
+}
+
+function togglePack(id, el) {
+  state.checklist[id] = !state.checklist[id];
+  el.classList.toggle('checked', state.checklist[id]);
+  const cb = el.querySelector('.pack-cb');
+  cb.textContent = state.checklist[id] ? '' : '';
+  el.querySelector('.pack-text').style.textDecoration = state.checklist[id] ? 'line-through' : '';
+  saveState();
+}
+
+/* ═══════════════════════════════════════════════════════
+   ACTIVITIES
+═══════════════════════════════════════════════════════ */
+let currentFilter = 'all';
+
+const FILTER_CATS = [
+  ['all','filterAll'], ['learn','filterLearn'], ['adventure','filterAdventure'],
+  ['romance','filterRomance'], ['sea','filterSea'], ['culture','filterCulture'],
+  ['relax','filterRelax'], ['other','filterOther']
+];
+
+function renderFilterBar() {
+  const bar = document.getElementById('filter-bar');
+  bar.innerHTML = FILTER_CATS.map(([cat, key]) =>
+    `<button class="filter-pill ${cat===currentFilter?'active':''}" onclick="setFilter('${cat}')">${t(key)}</button>`
+  ).join('');
+}
+
+function setFilter(cat) {
+  currentFilter = cat;
+  renderActivities(cat);
+  renderFilterBar();
+}
+
+function renderActivities(filter='all') {
+  const lang = state.lang;
+  const grid = document.getElementById('act-grid');
+  const visible = filter === 'all' ? ACTIVITIES : ACTIVITIES.filter(a => a.cat === filter);
+  grid.innerHTML = visible.map(act => {
+    const inAgenda = state.agendaActivities.includes(act.id);
+    return `<div class="act-card ${inAgenda?'in-agenda':''}" onclick="openSheet('${act.id}')">
+      <span class="act-icon">${act.icon}</span>
+      <div class="act-name">${act.name[lang] || act.name.en}</div>
+      <div class="act-price">${act.price}</div>
+      <div class="act-phase">${act.phase}</div>
+    </div>`;
+  }).join('');
+}
+
+/* ═══════════════════════════════════════════════════════
+   BOTTOM SHEET
+═══════════════════════════════════════════════════════ */
+function openSheet(id) {
+  const act = ACTIVITIES.find(a => a.id === id);
+  if (!act) return;
+  currentSheet = act;
+  const lang = state.lang;
+
+  document.getElementById('sheet-icon').textContent = act.icon;
+  document.getElementById('sheet-title').textContent = act.name[lang] || act.name.en;
+  document.getElementById('sheet-price').textContent = act.price;
+  document.getElementById('sheet-desc').textContent = act.desc[lang] || act.desc.en;
+
+  const allergyEl = document.getElementById('sheet-allergy');
+  if (act.allergy) {
+    allergyEl.style.display = '';
+    allergyEl.textContent = act.allergy[lang] || act.allergy.en;
+  } else {
+    allergyEl.style.display = 'none';
+  }
+
+  document.getElementById('prov-label').textContent = `${act.providers.length} ${t('providerFound') || 'providers found'}`;
+  document.getElementById('providers-list').innerHTML = act.providers.map(p => `
+    <div class="provider-card">
+      <div class="provider-top">
+        <div class="provider-name">${p.name}</div>
+        <div class="provider-price">${p.price}</div>
+      </div>
+      <div class="provider-addr">📍 ${p.addr} · ${p.rating}</div>
+      <div class="provider-btns">
+        <a class="p-btn" href="tel:${p.phone}">${t('callBtn')||'Call'} ${p.phone}</a>
+        ${p.url ? `<a class="p-btn" href="${p.url}" target="_blank" rel="noopener">${t('websiteBtn')||'Website'} ↗</a>` : ''}
+      </div>
+    </div>
+  `).join('');
+
+  document.getElementById('dp-wrap').classList.remove('show');
+  document.getElementById('btn-agenda').textContent = t('addAgendaBtn');
+
+  document.getElementById('backdrop').classList.add('open');
+  document.getElementById('sheet').classList.add('open');
+}
+
+function closeSheet() {
+  document.getElementById('backdrop').classList.remove('open');
+  document.getElementById('sheet').classList.remove('open');
+  currentSheet = null;
+}
+
+function showDatePicker() {
+  document.getElementById('dp-wrap').classList.toggle('show');
+}
+
+function saveActivity() {
+  if (!currentSheet) return;
+  if (!state.savedActivities.includes(currentSheet.id)) {
+    state.savedActivities.push(currentSheet.id);
+  }
+  saveState();
+  showToast(t('savedToast'));
+}
+
+function confirmAgenda() {
+  if (!currentSheet) return;
+  const date = document.getElementById('dp-date').value;
+  const time = document.getElementById('dp-time').value;
+  const note = document.getElementById('dp-note').value;
+  if (!date) { showToast('Please pick a date'); return; }
+
+  state.agenda.push({
+    id: Date.now().toString(),
+    actId: currentSheet.id,
+    icon: currentSheet.icon,
+    name: currentSheet.name,
+    date, time, note
+  });
+  if (!state.agendaActivities.includes(currentSheet.id)) {
+    state.agendaActivities.push(currentSheet.id);
+  }
+  saveState();
+  showToast(t('addedToast'));
+  closeSheet();
+  renderAgenda();
+  renderActivities(currentFilter);
+}
+
+/* ═══════════════════════════════════════════════════════
+   AGENDA
+═══════════════════════════════════════════════════════ */
+function renderAgenda() {
+  const lang = state.lang;
+  const list = document.getElementById('agenda-list');
+  if (state.agenda.length === 0) {
+    list.innerHTML = `<div class="agenda-empty">${t('agendaEmpty')}</div>`;
+    return;
+  }
+  const sorted = [...state.agenda].sort((a,b) => a.date.localeCompare(b.date));
+  list.innerHTML = sorted.map(item => `
+    <div class="agenda-item reveal visible">
+      <div class="agenda-icon">${item.icon}</div>
+      <div class="agenda-info">
+        <div class="agenda-name">${item.name[lang] || item.name.en}</div>
+        <div class="agenda-date">${item.date}${item.time?' · '+item.time:''}</div>
+        ${item.note ? `<div class="agenda-note-txt">${item.note}</div>` : ''}
+      </div>
+      <button class="agenda-del" onclick="deleteAgenda('${item.id}')">×</button>
+    </div>
+  `).join('');
+}
+
+function deleteAgenda(id) {
+  const item = state.agenda.find(i => i.id === id);
+  state.agenda = state.agenda.filter(i => i.id !== id);
+  if (item) {
+    const stillInAgenda = state.agenda.some(i => i.actId === item.actId);
+    if (!stillInAgenda) {
+      state.agendaActivities = state.agendaActivities.filter(a => a !== item.actId);
+    }
+  }
+  saveState();
+  renderAgenda();
+  renderActivities(currentFilter);
+}
+
+/* ═══════════════════════════════════════════════════════
+   AI CHAT
+═══════════════════════════════════════════════════════ */
+function renderChips() {
+  const qs = QUICK_QS[state.lang] || QUICK_QS.en;
+  document.getElementById('quick-chips').innerHTML = qs.map(q =>
+    `<button class="chip" onclick="sendChip(this)">${q}</button>`
+  ).join('');
+}
+
+function sendChip(el) {
+  document.getElementById('chat-input').value = el.textContent;
+  sendMsg();
+}
+
+function addMsg(role, content) {
+  const msgs = document.getElementById('chat-messages');
+  const div = document.createElement('div');
+  div.className = `msg ${role}`;
+  const avatar = document.createElement('div');
+  avatar.className = 'msg-avatar';
+  avatar.textContent = role === 'user' ? '👤' : '🤖';
+  const bubble = document.createElement('div');
+  bubble.className = 'msg-bubble';
+  bubble.textContent = content;
+  div.appendChild(avatar);
+  div.appendChild(bubble);
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+  return div;
+}
+
+function showTyping() {
+  const msgs = document.getElementById('chat-messages');
+  const div = document.createElement('div');
+  div.className = 'msg ai';
+  div.id = 'typing-msg';
+  div.innerHTML = `<div class="msg-avatar">🤖</div><div class="typing-dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>`;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+function hideTyping() {
+  const t = document.getElementById('typing-msg');
+  if (t) t.remove();
+}
+
+function getSystemPrompt() {
+  const li = { en:"Always respond in English.", nl:"Antwoord altijd in het Nederlands.", hy:"Миshт патаshхiri haierenom." };
+  return `You are the personal honeymoon assistant of Abdul and his wife.
+They are on honeymoon in Indonesia (Lombok Selong Belanak then Gili Air/Bali) from June 12 to July 24, 2026. They got married on June 8 in Yerevan, Armenia.
+ALLERGIES: Both have grass allergy + chlorine allergy. Stay ALWAYS near sea/beach/cliff — never jungle/rice fields. Never chlorinated pool — always sea or saltwater.
+ACTIVITIES: Sea swimming lessons, horse riding on beach, snorkelling, skydiving (separately but simultaneously), tandem parasailing (together!), PADI dive, private beach dinner, buy gold (Pegadaian).
+GOLD: Wife takes gold to Armenia — max €500 duty-free, then 15% customs fee. ALWAYS keep receipt.
+BUDGET: ~€7,000 total. Suggest cheaper alternatives when asked.
+TRANSPORT: Abdul has international driving licence — can rent scooter.
+${li[state.lang] || li.en}
+Be warm, concrete, give prices and phone numbers when you know them. Keep answers concise (under 200 words).`;
+}
+
+async function sendMsg() {
+  const inp = document.getElementById('chat-input');
+  const text = inp.value.trim();
+  if (!text) return;
+  inp.value = '';
+
+  state.chat.push({ role:'user', content: text });
+  addMsg('user', text);
+  showTyping();
+
+  const messages = state.chat.slice(-12).map(m => ({ role: m.role, content: m.content }));
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method:'POST',
+      headers: { 'Content-Type':'application/json' },
+      body: JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens: 600,
+        system: getSystemPrompt(),
+        messages
+      })
+    });
+    const data = await res.json();
+    hideTyping();
+    const reply = data.content?.[0]?.text || t('aiOffline');
+    state.chat.push({ role:'assistant', content: reply });
+    if (state.chat.length > 40) state.chat = state.chat.slice(-40);
+    addMsg('ai', reply);
+  } catch(e) {
+    hideTyping();
+    addMsg('ai', t('aiOffline'));
+  }
+  saveState();
+}
+
+function restoreChat() {
+  const msgs = document.getElementById('chat-messages');
+  if (state.chat.length === 0) {
+    addMsg('ai', t('aiWelcome'));
+    return;
+  }
+  state.chat.forEach(m => addMsg(m.role, m.content));
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+/* ═══════════════════════════════════════════════════════
+   TOAST
+═══════════════════════════════════════════════════════ */
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+/* ═══════════════════════════════════════════════════════
+   NAV + SCROLL SPY
+═══════════════════════════════════════════════════════ */
+function scrollTo(id) {
+  const el = document.getElementById(id);
+  if (el) el.scrollIntoView({ behavior:'smooth', block:'start' });
+}
+
+function initScrollSpy() {
+  const sections = ['hero','journey','activities','agenda','ai'];
+  const pills = document.querySelectorAll('.nav-pill');
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const id = e.target.id;
+        pills.forEach((p,i) => p.classList.toggle('active', sections[i]===id));
+      }
+    });
+  }, { rootMargin:'-40% 0px -50% 0px' });
+  sections.forEach(id => { const el = document.getElementById(id); if (el) obs.observe(el); });
+}
+
+function initReveal() {
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { rootMargin:'0px 0px -60px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+}
+
+/* ═══════════════════════════════════════════════════════
+   INIT
+═══════════════════════════════════════════════════════ */
+window.addEventListener('load', () => {
+  // Inject sync status icon into header-right
+  const hr = document.querySelector('.header-right');
+  if (hr) {
+    const span = document.createElement('span');
+    span.id = 'sync-status';
+    span.title = 'Sync status';
+    span.style.cssText = 'font-size:16px;cursor:default;opacity:0.6;';
+    span.textContent = '⚙️';
+    hr.insertBefore(span, hr.firstChild);
+    syncStatusEl = span;
+  }
+
+  loadState();            // instant from localStorage
+  applyLang();
+  restoreNotes();
+  restoreChat();
+  renderFilterBar();
+  initScrollSpy();
+  initReveal();
+  updateHero();
+  setInterval(updateHero, 60000);
+
+  // async: load from Supabase and start polling
+  loadRemoteState();
+});
+</script>
+</body>
+</html>

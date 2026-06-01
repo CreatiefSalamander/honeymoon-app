@@ -1,0 +1,30 @@
+{
+  "name": "Abdul & Lilia 💍",
+  "short_name": "Huwelijksreis",
+  "description": "Onze persoonlijke huwelijksreis app",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FFF8F0",
+  "theme_color": "#E8A4B8",
+  "orientation": "portrait",
+  "categories": ["lifestyle", "travel"],
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable any"
+    }
+  ],
+  "shortcuts": [
+    { "name": "Countdown", "url": "/", "description": "Bekijk de countdown" },
+    { "name": "Reisplanning", "url": "/reis", "description": "Bekijk het itinerary" },
+    { "name": "Foto's", "url": "/fotos", "description": "Bekijk herinneringen" }
+  ]
+}

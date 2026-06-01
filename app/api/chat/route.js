@@ -2,34 +2,39 @@ import Anthropic from '@anthropic-ai/sdk'
 
 const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
 
-const SYSTEM_PROMPT = `Jij bent de persoonlijke reisassistent van Abdul en Lilia op hun huwelijksreis.
-Je geeft warme, persoonlijke adviezen over reizen, romantische activiteiten en lokale tips.
-Je spreekt altijd Nederlands en gebruikt soms kleine romantische accenten in je antwoorden.
-Houd je antwoorden vriendelijk, beknopt en praktisch.
-Als iemand je vraagt wat je kunt doen, geef dan een overzicht van je mogelijkheden als reisassistent.`
-
 export async function POST(request) {
-  try {
-    const { messages, user } = await request.json()
+  if (!process.env.ANTHROPIC_API_KEY) {
+    return Response.json({ error: 'Anthropic-sleutel ontbreekt' }, { status: 500 })
+  }
 
-    if (!messages || !Array.isArray(messages)) {
-      return Response.json({ error: 'Ongeldige berichten' }, { status: 400 })
-    }
+  try {
+    const { messages, context } = await request.json()
+    if (!messages?.length) return Response.json({ error: 'Geen berichten' }, { status: 400 })
+
+    const systemPrompt = `Jij bent de persoonlijke reisassistent van Abdul en Lilia op hun huwelijksreis.
+Je bent warm, behulpzaam en persoonlijk. Je spreekt altijd Nederlands.
+Je geeft concrete, praktische adviezen — geen vage algemeenheden.
+
+${context?.page ? `De gebruiker is momenteel op de pagina: ${context.page}.` : ''}
+${context?.location ? `Huidige locatie: ${context.location}.` : ''}
+${context?.destination ? `Reisbestemming: ${context.destination}.` : ''}
+${context?.today ? `Vandaag op het programma: ${context.today}.` : ''}
+
+Tips:
+- Bij vragen over eten: noem halal-opties als dat relevant is
+- Bij vragen over geld: denk aan wisselkoersen en fooi-gewoontes
+- Wees geruststellend als iemand gestrest is ("alles staat klaar, geniet van jullie dag!")
+- Houd antwoorden beknopt tenzij gevraagd om meer detail`
 
     const response = await client.messages.create({
       model: 'claude-sonnet-4-6',
       max_tokens: 1024,
-      system: SYSTEM_PROMPT,
-      messages: messages.map(m => ({
-        role: m.role,
-        content: m.content,
-      })),
+      system: systemPrompt,
+      messages: messages.map(m => ({ role: m.role, content: m.content })),
     })
 
-    const message = response.content[0]?.text || 'Sorry, ik kon geen antwoord genereren.'
-    return Response.json({ message })
-  } catch (error) {
-    console.error('Chat API fout:', error)
-    return Response.json({ error: 'Interne serverfout' }, { status: 500 })
+    return Response.json({ message: response.content[0]?.text || 'Sorry, probeer het opnieuw.' })
+  } catch (err) {
+    return Response.json({ error: err.message }, { status: 500 })
   }
 }

@@ -1,49 +1,38 @@
-const CACHE_NAME = 'honeymoon-v1'
-const STATIC_ASSETS = ['/', '/reis', '/fotos', '/notities', '/meer', '/manifest.json']
+const CACHE = 'honeymoon-v2'
+const SHELL = ['/', '/reis', '/ontdek', '/dagboek', '/lijsten', '/budget', '/instellingen', '/manifest.json']
 
-self.addEventListener('install', event => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => cache.addAll(STATIC_ASSETS))
-  )
+self.addEventListener('install', e => {
+  e.waitUntil(caches.open(CACHE).then(c => c.addAll(SHELL).catch(() => {})))
   self.skipWaiting()
 })
 
-self.addEventListener('activate', event => {
-  event.waitUntil(
-    caches.keys().then(keys =>
-      Promise.all(keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k)))
-    )
-  )
+self.addEventListener('activate', e => {
+  e.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))))
   self.clients.claim()
 })
 
-self.addEventListener('fetch', event => {
-  if (event.request.method !== 'GET') return
-  if (event.request.url.includes('/api/')) return
+self.addEventListener('fetch', e => {
+  if (e.request.method !== 'GET') return
+  if (e.request.url.includes('/api/')) return // API nooit cachen
 
-  event.respondWith(
-    fetch(event.request)
-      .then(response => {
-        if (response.ok) {
-          const clone = response.clone()
-          caches.open(CACHE_NAME).then(cache => cache.put(event.request, clone))
+  e.respondWith(
+    fetch(e.request)
+      .then(res => {
+        if (res.ok) {
+          const clone = res.clone()
+          caches.open(CACHE).then(c => c.put(e.request, clone))
         }
-        return response
+        return res
       })
-      .catch(() => caches.match(event.request))
+      .catch(() => caches.match(e.request))
   )
 })
 
-// Push meldingen
-self.addEventListener('push', event => {
-  const data = event.data?.json() || { title: 'Abdul & Lilia 💍', body: 'Nieuwe herinnering!' }
-  event.waitUntil(
-    self.registration.showNotification(data.title, {
-      body: data.body,
-      icon: '/icons/icon-192.png',
-      badge: '/icons/icon-192.png',
-      vibrate: [100, 50, 100],
-      tag: 'honeymoon-notification',
-    })
-  )
+self.addEventListener('push', e => {
+  const data = e.data?.json() || { title:'Abdul & Lilia 💍', body:'Nieuw bericht!' }
+  e.waitUntil(self.registration.showNotification(data.title, {
+    body: data.body, icon: '/icons/icon-192.png',
+    badge: '/icons/icon-192.png', vibrate: [100, 50, 100],
+    tag: 'honeymoon',
+  }))
 })

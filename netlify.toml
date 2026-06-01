@@ -7,6 +7,8 @@
 
 [build.environment]
   NODE_VERSION = "20"
+  NEXT_PUBLIC_SUPABASE_URL = "https://krvjhuvgjywhhxycirub.supabase.co"
+  NEXT_PUBLIC_SUPABASE_ANON_KEY = "sb_publishable_UWpeWYwiAuHjtWoLKWgkaA_xiGbG_Qr"
 
 [[headers]]
   for = "/sw.js"

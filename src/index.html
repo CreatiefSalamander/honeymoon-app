@@ -1,0 +1,1216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5">
+<title>Our Honeymoon · Indonesia 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════════════
+   HORIZON · EDITORIAL LIGHT — photo-driven luxury
+═══════════════════════════════════════════════════════ */
+:root{
+  --sky:#F2F7FB; --sky-2:#E4F0F8; --horizon:#C4DCEC;
+  --ocean:#2E7DAA; --ocean-deep:#1A5C82;
+  --gold:#C2922F; --gold-2:#E9D2A0; --gold-pale:#FBF5E9;
+  --sand:#F8F3EA; --sand-2:#ECE2D2;
+  --ink:#1B2A38; --ink-2:#41596E; --ink-3:#7B96A8;
+  --ok:#2A9D65; --warn:#C2922F; --bad:#C0503B;
+  --glass:rgba(255,255,255,.74); --line:rgba(170,200,224,.45);
+  --sh-1:0 2px 14px rgba(40,110,150,.10);
+  --sh-2:0 10px 36px rgba(40,110,150,.16);
+  --sh-3:0 24px 70px rgba(40,110,150,.22);
+  --r:18px; --r-lg:26px; --r-pill:50px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  font-family:'DM Sans',sans-serif;color:var(--ink);
+  background:linear-gradient(175deg,#F2F7FB 0%,#E4F0F8 38%,#F8F3EA 100%);
+  min-height:100vh;overflow-x:hidden;line-height:1.5;
+}
+.serif{font-family:'Cormorant Garamond',serif}
+.mono{font-family:'JetBrains Mono',monospace}
+img{display:block;max-width:100%}
+
+/* small-caps label */
+.eyebrow{font-size:11px;letter-spacing:.22em;text-transform:uppercase;font-weight:600;color:var(--ink-3)}
+
+/* ── HEADER ───────────────────────────────────────────── */
+#hdr{
+  position:sticky;top:0;z-index:100;
+  background:rgba(242,247,251,.82);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);
+  border-bottom:1px solid var(--line);
+}
+.hdr-in{max-width:780px;margin:0 auto;display:flex;align-items:center;gap:10px;height:58px;padding:0 16px}
+.brand{display:flex;flex-direction:column;line-height:1.05;flex-shrink:0;cursor:pointer}
+.brand .t{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:600;font-size:19px;color:var(--ocean-deep)}
+.brand .s{font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);font-weight:600}
+.nav{display:flex;gap:3px;flex:1;overflow-x:auto;scrollbar-width:none;justify-content:flex-end}
+.nav::-webkit-scrollbar{display:none}
+.np{padding:5px 11px;border:1px solid transparent;border-radius:var(--r-pill);background:none;color:var(--ink-2);font:500 12px 'DM Sans';cursor:pointer;white-space:nowrap;transition:.2s}
+.np:hover{background:rgba(46,125,170,.08);color:var(--ocean)}
+.np.on{background:var(--ocean);color:#fff;box-shadow:0 2px 8px rgba(46,125,170,.3)}
+.hdr-r{display:flex;align-items:center;gap:8px;flex-shrink:0}
+#sync{font-size:15px;opacity:.6;cursor:default}
+/* lang */
+.lang{position:relative}
+.lang-cur{display:flex;align-items:center;gap:5px;background:var(--glass);border:1px solid var(--line);border-radius:var(--r-pill);padding:4px 9px 4px 6px;color:var(--ink-2);cursor:pointer;font:500 12px 'DM Sans';transition:.2s}
+.lang-cur:hover{background:#fff}
+.flag{font-size:17px;line-height:1}
+.chev{font-size:8px;color:var(--ink-3)}
+.lang-d{position:absolute;top:calc(100% + 8px);right:0;background:#fff;border:1px solid var(--line);border-radius:14px;padding:6px;min-width:158px;display:none;z-index:200;box-shadow:var(--sh-2);animation:pop .16s ease}
+.lang-d.open{display:block}
+@keyframes pop{from{opacity:0;transform:translateY(-6px) scale(.97)}to{opacity:1;transform:none}}
+.lang-o{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:9px;cursor:pointer;color:var(--ink-2);font-size:13px;transition:.12s}
+.lang-o:hover{background:var(--sky)}
+.lang-ck{margin-left:auto;color:var(--ocean);font-weight:700;font-size:12px}
+
+/* ── HERO (full-bleed photo) ──────────────────────────── */
+#hero{position:relative;height:78vh;min-height:520px;max-height:760px;display:flex;align-items:flex-end;justify-content:center;overflow:hidden}
+.hero-img{position:absolute;inset:0;background-size:cover;background-position:center;transform:scale(1.06);animation:slowzoom 18s ease-out forwards}
+@keyframes slowzoom{to{transform:scale(1)}}
+.hero-veil{position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,50,75,.18) 0%,rgba(20,50,75,0) 30%,rgba(20,50,75,.08) 60%,rgba(20,50,75,.62) 100%)}
+.hero-c{position:relative;z-index:2;text-align:center;color:#fff;padding:0 22px 52px;max-width:720px}
+.hero-eyebrow{font-size:11px;letter-spacing:.28em;text-transform:uppercase;font-weight:600;color:rgba(255,255,255,.92);margin-bottom:14px;text-shadow:0 1px 12px rgba(0,0,0,.4)}
+.hero-num{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(82px,22vw,150px);line-height:.82;letter-spacing:-.02em;text-shadow:0 4px 30px rgba(0,0,0,.35)}
+.hero-title{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:400;font-size:clamp(24px,5vw,34px);margin-top:6px;text-shadow:0 2px 18px rgba(0,0,0,.4)}
+.hero-sub{font-size:13px;color:rgba(255,255,255,.9);margin-top:10px;letter-spacing:.02em;text-shadow:0 1px 10px rgba(0,0,0,.4)}
+.scroll-cue{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);z-index:3;color:rgba(255,255,255,.8);font-size:18px;animation:bob 1.8s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(6px)}}
+
+/* ── LAYOUT ───────────────────────────────────────────── */
+main{max-width:780px;margin:0 auto;padding:0 16px 90px}
+section{padding:44px 0 8px;scroll-margin-top:64px}
+.s-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:18px;gap:12px}
+.s-title{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:600;font-size:30px;color:var(--ocean-deep);line-height:1.05}
+.s-note{font-size:12px;color:var(--ink-3)}
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .6s ease,transform .6s ease}
+.reveal.in{opacity:1;transform:none}
+
+/* ── JOURNEY TIMELINE ─────────────────────────────────── */
+.timeline{background:var(--glass);border:1px solid var(--line);border-radius:var(--r-lg);padding:22px;box-shadow:var(--sh-1)}
+.tl-solo{display:flex;align-items:center;gap:10px;font-size:11.5px;color:var(--ink-3);background:var(--sand);border:1px dashed var(--sand-2);border-radius:12px;padding:9px 13px;margin-bottom:16px}
+.tl-solo b{color:var(--ink-2);font-weight:600}
+.tl-phases{display:flex;justify-content:space-between;gap:4px;margin-bottom:9px}
+.tl-ph{flex:1;text-align:center}
+.tl-ph .ic{font-size:17px}
+.tl-ph .lb{font-size:9.5px;letter-spacing:.04em;text-transform:uppercase;font-weight:600;color:var(--ink-3);margin-top:2px}
+.tl-ph.cur .lb{color:var(--ocean)}
+.tl-ph.cur .ic{filter:drop-shadow(0 2px 6px rgba(46,125,170,.5))}
+.tl-track{height:9px;background:var(--sky-2);border-radius:99px;overflow:hidden}
+.tl-fill{height:100%;background:linear-gradient(90deg,var(--ocean),var(--gold));border-radius:99px;transition:width 1.1s ease}
+.tl-dates{display:flex;justify-content:space-between;margin-top:8px;font:500 11px 'JetBrains Mono';color:var(--ink-3)}
+
+/* ── PHOTO DESTINATION CARDS ──────────────────────────── */
+.dest{position:relative;border-radius:var(--r-lg);overflow:hidden;margin-bottom:16px;box-shadow:var(--sh-1);cursor:pointer;transition:box-shadow .3s,transform .25s;background:var(--glass)}
+.dest:hover{box-shadow:var(--sh-2);transform:translateY(-2px)}
+.dest-photo{position:relative;height:200px;background-size:cover;background-position:center}
+.dest-photo::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,50,75,.05) 0%,rgba(20,50,75,.55) 100%)}
+.dest-badge{position:absolute;top:13px;left:13px;z-index:2;background:rgba(255,255,255,.92);color:var(--gold);border-radius:var(--r-pill);font:700 10px 'DM Sans';letter-spacing:.06em;text-transform:uppercase;padding:4px 11px;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+.dest-cap{position:absolute;left:16px;right:16px;bottom:13px;z-index:2;color:#fff}
+.dest-cap .nm{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:23px;line-height:1.1;text-shadow:0 2px 14px rgba(0,0,0,.45)}
+.dest-cap .lc{font-size:11.5px;opacity:.92;margin-top:1px;text-shadow:0 1px 8px rgba(0,0,0,.5)}
+.dest-arrow{position:absolute;right:14px;bottom:14px;z-index:2;color:#fff;font-size:13px;transition:transform .35s;text-shadow:0 1px 8px rgba(0,0,0,.5)}
+.dest.open .dest-arrow{transform:rotate(180deg)}
+.dest-body{max-height:0;overflow:hidden;transition:max-height .5s ease}
+.dest.open .dest-body{max-height:2200px}
+.dest-in{padding:18px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:14px}
+.cell{background:#fff;border:1px solid var(--sand-2);border-radius:12px;padding:11px 13px}
+.cell .k{font-size:9px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--ink-3);margin-bottom:3px}
+.cell .v{font:500 13px 'JetBrains Mono';color:var(--ink)}
+.hl{background:var(--sky);border:1px solid var(--horizon);border-radius:12px;padding:13px 15px;margin-bottom:12px}
+.hl h4{font-size:10px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--ocean);margin-bottom:9px}
+.hl-i{display:flex;gap:8px;font-size:13px;color:var(--ink-2);margin-bottom:6px;line-height:1.4}
+.hl-i::before{content:'✦';color:var(--gold);font-size:10px;margin-top:3px;flex-shrink:0}
+.allergy{background:#EAF7F0;border:1px solid #A6D6B8;border-radius:12px;padding:10px 14px;font-size:12.5px;color:#1A6B40;font-weight:500;margin-bottom:12px}
+.ta{width:100%;background:#fff;border:1px solid var(--sand-2);border-radius:12px;padding:11px 13px;font:400 13px 'DM Sans';color:var(--ink);resize:vertical;min-height:74px;outline:none;transition:.2s;margin-bottom:8px}
+.ta:focus{border-color:var(--ocean)}
+.btn{border:none;border-radius:var(--r-pill);font:600 13px 'DM Sans';cursor:pointer;transition:.2s;padding:9px 20px}
+.btn-o{background:var(--ocean);color:#fff}
+.btn-o:hover{background:var(--ocean-deep)}
+.btn-g{background:var(--gold-pale);color:var(--gold);border:1.5px solid var(--gold-2)}
+.btn-g:hover{background:var(--gold-2)}
+
+/* ── BUDGET ───────────────────────────────────────────── */
+.budget{background:var(--glass);border:1px solid var(--line);border-radius:var(--r-lg);padding:22px;box-shadow:var(--sh-1)}
+.bud-top{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:12px}
+.bud-spent{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:38px;color:var(--ocean-deep);line-height:1}
+.bud-of{font-size:13px;color:var(--ink-3);margin-top:3px}
+.bud-pill{font:600 12px 'DM Sans';padding:6px 13px;border-radius:var(--r-pill)}
+.bud-pill.green{background:#EAF7F0;color:var(--ok);border:1px solid #A6D6B8}
+.bud-pill.yellow{background:var(--gold-pale);color:var(--gold);border:1px solid var(--gold-2)}
+.bud-pill.red{background:#FBEDEA;color:var(--bad);border:1px solid #E8B3A8}
+.bud-track{height:11px;background:var(--sky-2);border-radius:99px;overflow:hidden;margin-bottom:8px}
+.bud-fill{height:100%;border-radius:99px;transition:width .6s ease,background .4s}
+.bud-meta{display:flex;justify-content:space-between;font:500 11px 'JetBrains Mono';color:var(--ink-3)}
+.bud-tip{margin-top:14px;background:var(--sky);border:1px solid var(--horizon);border-radius:12px;padding:11px 14px;font-size:12.5px;color:var(--ink-2);line-height:1.5;display:flex;gap:9px}
+.bud-tip .ai-ic{font-size:16px;flex-shrink:0}
+.bud-break{margin-top:12px;border-top:1px solid var(--sand-2);padding-top:10px}
+.bud-row{display:flex;justify-content:space-between;font-size:12.5px;color:var(--ink-2);padding:4px 0}
+.bud-row .amt{font:500 12.5px 'JetBrains Mono';color:var(--ink)}
+
+/* ── PACKING ──────────────────────────────────────────── */
+.pk-g{background:var(--glass);border:1px solid var(--line);border-radius:var(--r-lg);padding:18px;margin-bottom:13px;box-shadow:var(--sh-1)}
+.pk-t{font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--ocean);margin-bottom:13px;display:flex;align-items:center;gap:8px}
+.pk-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+@media(max-width:480px){.pk-grid{grid-template-columns:1fr}}
+.pk-i{display:flex;align-items:flex-start;gap:10px;background:#fff;border:1px solid var(--sand-2);border-radius:11px;padding:10px 12px;cursor:pointer;transition:.15s;user-select:none}
+.pk-i:hover{background:var(--sky);border-color:var(--horizon)}
+.pk-i.ck{background:#EAF7F0;border-color:#A6D6B8}
+.pk-cb{width:18px;height:18px;border:2px solid var(--horizon);border-radius:5px;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:.2s;margin-top:1px;background:#fff;font-size:11px;color:#fff}
+.pk-i.ck .pk-cb{background:var(--ok);border-color:var(--ok)}
+.pk-i.ck .pk-cb::after{content:'✓'}
+.pk-x{font-size:12px;color:var(--ink-2);line-height:1.4}
+.pk-i.ck .pk-x{color:var(--ok);text-decoration:line-through;opacity:.7}
+
+/* ── ACTIVITIES (photo cards) ─────────────────────────── */
+.filters{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:4px;margin-bottom:16px}
+.filters::-webkit-scrollbar{display:none}
+.fp{padding:6px 14px;border:1.5px solid var(--line);background:var(--glass);color:var(--ink-2);border-radius:var(--r-pill);font:600 12px 'DM Sans';cursor:pointer;white-space:nowrap;transition:.2s}
+.fp:hover{border-color:var(--ocean);color:var(--ocean);background:var(--sky)}
+.fp.on{background:var(--ocean);color:#fff;border-color:var(--ocean)}
+.acts{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:480px){.acts{grid-template-columns:1fr}}
+.act{position:relative;border-radius:var(--r);overflow:hidden;cursor:pointer;box-shadow:var(--sh-1);transition:.25s;background:var(--glass);min-height:158px;display:flex;flex-direction:column;justify-content:flex-end}
+.act:hover{box-shadow:var(--sh-2);transform:translateY(-2px)}
+.act-photo{position:absolute;inset:0;background-size:cover;background-position:center}
+.act-photo::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,50,75,.1) 30%,rgba(20,50,75,.72) 100%)}
+.act-c{position:relative;z-index:2;padding:13px;color:#fff}
+.act-nm{font:600 14px 'DM Sans';line-height:1.25;text-shadow:0 2px 10px rgba(0,0,0,.5)}
+.act-pr{font:600 12px 'JetBrains Mono';color:var(--gold-2);margin-top:3px;text-shadow:0 1px 8px rgba(0,0,0,.6)}
+.act-ph{font-size:11px;opacity:.9;margin-top:1px;text-shadow:0 1px 8px rgba(0,0,0,.6)}
+.act-tick{position:absolute;top:10px;right:10px;z-index:3;background:var(--ok);color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font:700 12px 'DM Sans';box-shadow:0 2px 8px rgba(0,0,0,.3)}
+
+/* ── BOTTOM SHEET ─────────────────────────────────────── */
+.veil{position:fixed;inset:0;background:rgba(20,40,60,.42);z-index:150;opacity:0;pointer-events:none;transition:.3s;backdrop-filter:blur(2px)}
+.veil.open{opacity:1;pointer-events:all}
+.sheet{position:fixed;bottom:0;left:50%;transform:translateX(-50%) translateY(100%);width:100%;max-width:780px;background:var(--sand);border-radius:26px 26px 0 0;max-height:90vh;overflow-y:auto;z-index:151;transition:transform .4s cubic-bezier(.32,.72,0,1);padding-bottom:34px}
+.sheet.open{transform:translateX(-50%) translateY(0)}
+.sheet-hero{height:160px;background-size:cover;background-position:center;position:relative;border-radius:26px 26px 0 0}
+.sheet-hero::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,50,75,.1),rgba(248,243,234,.95) 100%);border-radius:26px 26px 0 0}
+.sheet-grab{position:absolute;top:10px;left:50%;transform:translateX(-50%);width:40px;height:4px;background:rgba(255,255,255,.8);border-radius:2px;z-index:3}
+.sheet-in{padding:0 20px;margin-top:-30px;position:relative;z-index:2}
+.sheet-emoji{font-size:38px}
+.sheet-t{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:25px;color:var(--ocean-deep);margin-top:2px}
+.sheet-pr{font:600 15px 'JetBrains Mono';color:var(--gold);margin:5px 0 12px}
+.sheet-d{font-size:14px;color:var(--ink-2);line-height:1.6;margin-bottom:13px}
+.sheet-a{background:#EAF7F0;border:1px solid #A6D6B8;border-radius:12px;padding:10px 14px;font-size:13px;color:#1A6B40;font-weight:500;margin-bottom:15px}
+.prov-l{font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:var(--ink-3);margin-bottom:9px}
+.prov{background:#fff;border:1px solid var(--sand-2);border-radius:12px;padding:12px 14px;margin-bottom:8px}
+.prov-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:5px}
+.prov-nm{font:600 13px 'DM Sans';color:var(--ink)}
+.prov-pr{font:700 13px 'JetBrains Mono';color:var(--gold)}
+.prov-ad{font-size:12px;color:var(--ink-3);margin-bottom:8px}
+.prov-b{display:flex;gap:6px}
+.pb{flex:1;padding:7px;border-radius:8px;border:1px solid var(--line);background:var(--sky);font:600 12px 'DM Sans';color:var(--ocean);cursor:pointer;text-align:center;text-decoration:none;transition:.15s}
+.pb:hover{background:var(--sky-2)}
+.sheet-impact{background:var(--sky);border:1px solid var(--horizon);border-radius:12px;padding:11px 14px;margin:14px 0;font-size:12.5px;color:var(--ink-2);display:flex;gap:8px}
+.sheet-acts{display:flex;gap:10px;margin-top:8px}
+.sheet-acts .btn{flex:1}
+.dp{margin-top:14px;background:#fff;border:1px solid var(--sand-2);border-radius:var(--r);padding:16px;display:none}
+.dp.show{display:block}
+.dp-r{display:flex;gap:10px;margin-bottom:10px}
+.dp-i{flex:1;padding:9px 12px;border:1px solid var(--sand-2);border-radius:11px;font:400 13px 'DM Sans';color:var(--ink);outline:none;background:var(--sky);transition:.2s;width:100%}
+.dp-i:focus{border-color:var(--ocean)}
+.dp-l{font-size:11px;color:var(--ink-3);font-weight:600;text-transform:uppercase;letter-spacing:.07em;margin-bottom:4px}
+.dp-c{width:100%;padding:10px;background:var(--ok);color:#fff;border:none;border-radius:var(--r-pill);font:600 13px 'DM Sans';cursor:pointer;transition:.2s}
+.dp-c:hover{background:#218a56}
+
+/* ── AGENDA ───────────────────────────────────────────── */
+.ag-empty{text-align:center;padding:38px 20px;color:var(--ink-3);font-size:14px;background:var(--glass);border:1px dashed var(--horizon);border-radius:var(--r-lg)}
+.ag-i{background:var(--glass);border:1px solid var(--line);border-radius:var(--r);padding:13px 15px;margin-bottom:10px;display:flex;gap:13px;align-items:flex-start;box-shadow:var(--sh-1)}
+.ag-ic{font-size:26px;flex-shrink:0}
+.ag-info{flex:1}
+.ag-nm{font:600 14px 'DM Sans';color:var(--ink);margin-bottom:2px}
+.ag-dt{font:500 12px 'JetBrains Mono';color:var(--ocean)}
+.ag-pr{font:500 12px 'JetBrains Mono';color:var(--gold);margin-top:2px}
+.ag-nt{font-size:12px;color:var(--ink-3);margin-top:2px}
+.ag-x{background:none;border:none;color:var(--ink-3);font-size:19px;cursor:pointer;line-height:1;padding:2px;flex-shrink:0;transition:.2s}
+.ag-x:hover{color:var(--bad)}
+
+/* ── AI ASSISTANT (full-width "extension") ────────────── */
+.ai-wrap{background:var(--glass);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--sh-1);display:flex;flex-direction:column;height:560px}
+.ai-banner{display:flex;align-items:center;gap:10px;padding:14px 16px;border-bottom:1px solid var(--line);background:linear-gradient(100deg,rgba(46,125,170,.08),rgba(194,146,47,.06))}
+.ai-orb{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--ocean),var(--gold));display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;box-shadow:0 2px 10px rgba(46,125,170,.35)}
+.ai-banner .ti{font:600 14px 'DM Sans';color:var(--ink)}
+.ai-banner .su{font-size:11px;color:var(--ink-3)}
+.chips{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding:12px 16px 0;flex-shrink:0}
+.chips::-webkit-scrollbar{display:none}
+.chip{background:#fff;border:1px solid var(--horizon);border-radius:var(--r-pill);padding:6px 12px;font:500 11px 'DM Sans';color:var(--ocean);cursor:pointer;white-space:nowrap;transition:.15s;flex-shrink:0}
+.chip:hover{background:var(--ocean);color:#fff;border-color:var(--ocean)}
+.msgs{flex:1;overflow-y:auto;padding:14px 16px;display:flex;flex-direction:column;gap:11px;scrollbar-width:thin}
+.msg{display:flex;gap:8px;align-items:flex-end;max-width:92%}
+.msg.user{align-self:flex-end;flex-direction:row-reverse}
+.bub{padding:10px 14px;border-radius:17px;font-size:13px;line-height:1.5}
+.msg.user .bub{background:var(--ocean);color:#fff;border-bottom-right-radius:4px}
+.msg.ai .bub{background:#fff;border:1px solid var(--sand-2);border-bottom-left-radius:4px;color:var(--ink)}
+.av{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;background:var(--sky-2)}
+.msg.ai .av{background:linear-gradient(135deg,var(--ocean),var(--gold))}
+.act-note{align-self:center;font-size:11px;color:var(--ink-3);background:var(--sand);border:1px solid var(--sand-2);border-radius:var(--r-pill);padding:4px 12px}
+.typ{display:flex;gap:4px;align-items:center;padding:11px 14px;background:#fff;border:1px solid var(--sand-2);border-radius:17px;border-bottom-left-radius:4px}
+.dot{width:6px;height:6px;background:var(--horizon);border-radius:50%;animation:bnc 1.2s infinite}
+.dot:nth-child(2){animation-delay:.2s}.dot:nth-child(3){animation-delay:.4s}
+@keyframes bnc{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-6px)}}
+.ai-in{display:flex;gap:8px;padding:12px 16px;border-top:1px solid var(--line);background:#fff;flex-shrink:0}
+.ai-tx{flex:1;padding:10px 14px;border:1px solid var(--sand-2);border-radius:var(--r-pill);font:400 13px 'DM Sans';color:var(--ink);outline:none;background:var(--sky);transition:.2s}
+.ai-tx:focus{border-color:var(--ocean);background:#fff}
+.ai-snd{width:38px;height:38px;border-radius:50%;background:var(--ocean);border:none;color:#fff;font-size:16px;cursor:pointer;flex-shrink:0;transition:.2s;display:flex;align-items:center;justify-content:center}
+.ai-snd:hover{background:var(--ocean-deep)}
+
+/* ── TOAST ────────────────────────────────────────────── */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--ink);color:#fff;padding:10px 20px;border-radius:var(--r-pill);font:600 13px 'DM Sans';z-index:300;transition:transform .3s cubic-bezier(.32,.72,0,1);pointer-events:none;box-shadow:0 4px 20px rgba(0,0,0,.3)}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.divider{height:1px;background:var(--line);margin:12px 0}
+</style>
+</head>
+<body>
+<!-- ═══ HEADER ═══ -->
+<header id="hdr">
+  <div class="hdr-in">
+    <div class="brand" onclick="goSection('hero')">
+      <span class="t serif">Our Honeymoon</span>
+      <span class="s" id="brand-sub">Indonesia · 2026</span>
+    </div>
+    <nav class="nav">
+      <button class="np on" onclick="goSection('hero')" data-i18n="navHome">Home</button>
+      <button class="np" onclick="goSection('journey')" data-i18n="navJourney">Journey</button>
+      <button class="np" onclick="goSection('activities')" data-i18n="navActivities">Activities</button>
+      <button class="np" onclick="goSection('budget')" data-i18n="navBudget">Budget</button>
+      <button class="np" onclick="goSection('agenda')" data-i18n="navAgenda">Agenda</button>
+      <button class="np" onclick="goSection('ai')" data-i18n="navAI">AI Chat</button>
+    </nav>
+    <div class="hdr-r">
+      <span id="sync" title="Sync">⚙️</span>
+      <div class="lang" id="lang">
+        <button class="lang-cur" onclick="toggleLang()">
+          <span class="flag" id="cur-flag">🇬🇧</span>
+          <span id="cur-lang" style="font-size:11px">EN</span>
+          <span class="chev">▾</span>
+        </button>
+        <div class="lang-d" id="lang-d">
+          <div class="lang-o" onclick="setLang('en')"><span class="flag">🇬🇧</span><span>English</span><span class="lang-ck" id="ck-en">✓</span></div>
+          <div class="lang-o" onclick="setLang('nl')"><span class="flag">🇳🇱</span><span>Nederlands</span><span class="lang-ck" id="ck-nl"></span></div>
+          <div class="lang-o" onclick="setLang('hy')"><span class="flag">🇦🇲</span><span>Հայերեն</span><span class="lang-ck" id="ck-hy"></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ═══ HERO ═══ -->
+<section id="hero">
+  <div class="hero-img" id="hero-img"></div>
+  <div class="hero-veil"></div>
+  <div class="hero-c">
+    <div class="hero-eyebrow" id="hero-eyebrow" data-i18n="heroLabel">Until our honeymoon begins</div>
+    <div class="hero-num serif" id="hero-num">—</div>
+    <div class="hero-title serif" id="hero-title"></div>
+    <div class="hero-sub" id="hero-sub"></div>
+  </div>
+  <div class="scroll-cue" onclick="goSection('journey')">▾</div>
+</section>
+
+<main>
+  <!-- ═══ JOURNEY ═══ -->
+  <section id="journey">
+    <div class="s-head reveal"><div class="s-title serif" data-i18n="journeyProgress">The Journey</div></div>
+    <div class="timeline reveal">
+      <div class="tl-solo">
+        <span>✈️</span>
+        <span><b data-i18n="soloLeg">Abdul solo:</b> <span data-i18n="soloLegTxt">Netherlands → Yerevan · Jun 8 (before we meet)</span></span>
+      </div>
+      <div class="tl-phases">
+        <div class="tl-ph" id="tp0"><div class="ic">💍</div><div class="lb" data-i18n="phWed">Yerevan</div></div>
+        <div class="tl-ph" id="tp1"><div class="ic">✈️</div><div class="lb" data-i18n="phFly">Fly together</div></div>
+        <div class="tl-ph" id="tp2"><div class="ic">🌴</div><div class="lb" data-i18n="phLombok">Lombok</div></div>
+        <div class="tl-ph" id="tp3"><div class="ic">🏝️</div><div class="lb" data-i18n="phBali">Gili/Bali</div></div>
+      </div>
+      <div class="tl-track"><div class="tl-fill" id="tl-fill" style="width:0%"></div></div>
+      <div class="tl-dates"><span>Jun 12, 2026</span><span id="tl-pct">0%</span><span>Jul 24, 2026</span></div>
+    </div>
+  </section>
+
+  <!-- ═══ DESTINATIONS ═══ -->
+  <section id="destinations">
+    <div class="s-head reveal"><div class="s-title serif" data-i18n="destTitle">Where We Stay</div></div>
+
+    <!-- Lombok -->
+    <div class="dest reveal" id="d-lombok">
+      <div class="dest-photo" id="ph-lombok" onclick="toggleDest('lombok')">
+        <span class="dest-badge" data-i18n="weekBadge1">Weeks 1–4</span>
+        <div class="dest-cap"><div class="nm serif" data-i18n="dest1Name">Selong Belanak, Lombok</div><div class="lc">South Lombok, Indonesia</div></div>
+        <span class="dest-arrow">▼</span>
+      </div>
+      <div class="dest-body"><div class="dest-in">
+        <div class="grid2">
+          <div class="cell"><div class="k" data-i18n="checkIn">Check-in</div><div class="v">12 Jun 2026</div></div>
+          <div class="cell"><div class="k" data-i18n="checkOut">Check-out</div><div class="v">10 Jul 2026</div></div>
+          <div class="cell"><div class="k" data-i18n="duration">Duration</div><div class="v">28 <span data-i18n="nights">nights</span></div></div>
+          <div class="cell"><div class="k" data-i18n="booking">Booking</div><div class="v">Selong Selo</div></div>
+        </div>
+        <div class="cell" style="margin-bottom:12px"><div class="k" data-i18n="address">Address</div><div class="v" style="font-family:'DM Sans';font-size:12px">Selong Belanak, Lombok Tengah, NTB 83573</div></div>
+        <div class="hl"><h4 data-i18n="highlights">Highlights</h4><div id="hl-lombok"></div></div>
+        <div class="allergy">🌿 <span data-i18n="lombokAllergy">No jungle or rice fields — right by the sea</span></div>
+        <div class="divider"></div>
+        <div class="eyebrow" style="margin-bottom:8px" data-i18n="notesWishes">Notes & wishes</div>
+        <textarea class="ta" id="note-lombok" data-i18n-ph="notePh" placeholder="Write something special..."></textarea>
+        <button class="btn btn-o" onclick="saveNote('lombok')" data-i18n="saveNote">Save note</button>
+      </div></div>
+    </div>
+
+    <!-- Bali -->
+    <div class="dest reveal" id="d-bali">
+      <div class="dest-photo" id="ph-bali" onclick="toggleDest('bali')">
+        <span class="dest-badge" data-i18n="weekBadge2">Weeks 5–6</span>
+        <div class="dest-cap"><div class="nm serif" data-i18n="dest2Name">Gili Air or Uluwatu, Bali</div><div class="lc">Gili Islands / Bali</div></div>
+        <span class="dest-arrow">▼</span>
+      </div>
+      <div class="dest-body"><div class="dest-in">
+        <div class="grid2">
+          <div class="cell"><div class="k" data-i18n="checkIn">Check-in</div><div class="v">10 Jul 2026</div></div>
+          <div class="cell"><div class="k" data-i18n="checkOut">Check-out</div><div class="v">24 Jul 2026</div></div>
+          <div class="cell"><div class="k" data-i18n="duration">Duration</div><div class="v">14 <span data-i18n="nights">nights</span></div></div>
+          <div class="cell"><div class="k" data-i18n="booking">Booking</div><div class="v">PinkCoco</div></div>
+        </div>
+        <div class="hl"><h4 data-i18n="highlights">Highlights</h4><div id="hl-bali"></div></div>
+        <div class="divider"></div>
+        <div class="eyebrow" style="margin-bottom:8px" data-i18n="notesWishes">Notes & wishes</div>
+        <textarea class="ta" id="note-bali" data-i18n-ph="notePh" placeholder="Write something special..."></textarea>
+        <button class="btn btn-o" onclick="saveNote('bali')" data-i18n="saveNote">Save note</button>
+      </div></div>
+    </div>
+
+    <!-- TBD -->
+    <div class="dest reveal" id="d-tbd">
+      <div class="dest-photo" id="ph-tbd" onclick="toggleDest('tbd')">
+        <span class="dest-badge" style="color:var(--ocean)">✨ Optional</span>
+        <div class="dest-cap"><div class="nm serif" data-i18n="dest3Name">Third Stop — To Decide</div><div class="lc" data-i18n="toBeConfirmed">— to be confirmed —</div></div>
+        <span class="dest-arrow">▼</span>
+      </div>
+      <div class="dest-body"><div class="dest-in">
+        <div class="hl"><h4 data-i18n="options">Options</h4><div id="hl-tbd"></div></div>
+        <div class="divider"></div>
+        <textarea class="ta" id="note-tbd" data-i18n-ph="notePh" placeholder="Write something special..."></textarea>
+        <button class="btn btn-o" onclick="saveNote('tbd')" data-i18n="saveNote">Save note</button>
+      </div></div>
+    </div>
+  </section>
+
+  <!-- ═══ ACTIVITIES ═══ -->
+  <section id="activities">
+    <div class="s-head reveal"><div class="s-title serif" data-i18n="activitiesTitle">Experiences</div><div class="s-note" data-i18n="actNote">tap to explore</div></div>
+    <div class="filters reveal" id="filters"></div>
+    <div class="acts" id="acts"></div>
+  </section>
+
+  <!-- ═══ BUDGET ═══ -->
+  <section id="budget">
+    <div class="s-head reveal"><div class="s-title serif" data-i18n="budgetTitle">Budget</div><div class="s-note" data-i18n="budgetNote">live · updates as you plan</div></div>
+    <div class="budget reveal">
+      <div class="bud-top">
+        <div><div class="bud-spent" id="bud-spent">€0</div><div class="bud-of" id="bud-of">of €7,000 planned</div></div>
+        <div class="bud-pill green" id="bud-pill">🟢 On track</div>
+      </div>
+      <div class="bud-track"><div class="bud-fill" id="bud-fill" style="width:0%;background:var(--ok)"></div></div>
+      <div class="bud-meta"><span id="bud-left">€7,000 left</span><span id="bud-pct">0%</span></div>
+      <div class="bud-tip"><span class="ai-ic">✨</span><span id="bud-tip-txt" data-i18n="budgetEmpty">Add experiences to your agenda and I'll track the cost here, with tips to stay on budget.</span></div>
+      <div class="bud-break" id="bud-break" style="display:none"></div>
+    </div>
+  </section>
+
+  <!-- ═══ PACKING ═══ -->
+  <section id="packing">
+    <div class="s-head reveal"><div class="s-title serif" data-i18n="packingTitle">Packing</div></div>
+    <div class="pk-g reveal"><div class="pk-t">📄 <span data-i18n="packingDocs">Documents</span></div><div class="pk-grid" id="pg-docs"></div></div>
+    <div class="pk-g reveal"><div class="pk-t">💊 <span data-i18n="packingHealth">Health & Allergy</span></div><div class="pk-grid" id="pg-health"></div></div>
+    <div class="pk-g reveal"><div class="pk-t">👗 <span data-i18n="packingClothes">Clothing</span></div><div class="pk-grid" id="pg-clothes"></div></div>
+    <div class="pk-g reveal"><div class="pk-t">📱 <span data-i18n="packingTech">Tech & Extras</span></div><div class="pk-grid" id="pg-tech"></div></div>
+  </section>
+
+  <!-- ═══ AGENDA ═══ -->
+  <section id="agenda">
+    <div class="s-head reveal"><div class="s-title serif" data-i18n="agendaTitle">Our Agenda</div></div>
+    <div id="ag-list"></div>
+  </section>
+
+  <!-- ═══ AI ═══ -->
+  <section id="ai">
+    <div class="s-head reveal"><div class="s-title serif" data-i18n="aiTitle">Your Assistant</div></div>
+    <div class="ai-wrap reveal">
+      <div class="ai-banner">
+        <div class="ai-orb">✦</div>
+        <div><div class="ti" data-i18n="aiName">Honeymoon Assistant</div><div class="su" data-i18n="aiTagline">I can plan, add to your agenda & track budget</div></div>
+      </div>
+      <div class="chips" id="chips"></div>
+      <div class="msgs" id="msgs"></div>
+      <div class="ai-in">
+        <input class="ai-tx" id="ai-tx" data-i18n-ph="aiPh" placeholder="Ask me anything, or tell me what to plan..." onkeydown="if(event.key==='Enter')send()">
+        <button class="ai-snd" onclick="send()">➤</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ═══ BOTTOM SHEET ═══ -->
+<div class="veil" id="veil" onclick="closeSheet()"></div>
+<div class="sheet" id="sheet">
+  <div class="sheet-hero" id="sheet-hero"><div class="sheet-grab"></div></div>
+  <div class="sheet-in">
+    <div class="sheet-emoji" id="sheet-emoji"></div>
+    <div class="sheet-t serif" id="sheet-t"></div>
+    <div class="sheet-pr" id="sheet-pr"></div>
+    <div class="sheet-d" id="sheet-d"></div>
+    <div class="sheet-a" id="sheet-a" style="display:none"></div>
+    <div class="sheet-impact" id="sheet-impact"><span>📊</span><span id="sheet-impact-txt"></span></div>
+    <div class="prov-l" id="prov-l"></div>
+    <div id="prov-list"></div>
+    <div class="sheet-acts">
+      <button class="btn btn-g" onclick="saveActivity()" data-i18n="saveBtn">Save for later</button>
+      <button class="btn btn-o" onclick="toggleDP()" data-i18n="addAgendaBtn">Add to Agenda</button>
+    </div>
+    <div class="dp" id="dp">
+      <div class="dp-l" data-i18n="dateLabel">Date</div>
+      <div class="dp-r">
+        <input type="date" class="dp-i" id="dp-date" min="2026-06-12" max="2026-07-24">
+        <input type="time" class="dp-i" id="dp-time">
+      </div>
+      <div class="dp-l" data-i18n="noteLabel">Note</div>
+      <input type="text" class="dp-i" id="dp-note" data-i18n-ph="notePh2" placeholder="e.g. Confirm reservation" style="margin-bottom:12px">
+      <button class="dp-c" onclick="confirmAgenda()" data-i18n="confirmBtn">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ═══════════════════════════════════════════════════════
+   DATA
+═══════════════════════════════════════════════════════ */
+
+const TRANSLATIONS = {
+  appTagline: { en:"Indonesia 2026 · 6 Weeks of Adventure & Love", nl:"Indonesië 2026 · 6 Weken Avontuur & Liefde", hy:"Ինդոնեզիա 2026 · 6 Շաբաթ Արկածի & Սիրո" },
+  navHome:    { en:"Home", nl:"Home", hy:"Տուն" },
+  navJourney: { en:"Journey", nl:"Reis", hy:"Ճանապարհ" },
+  navActivities:{ en:"Activities", nl:"Activiteiten", hy:"Գործողություններ" },
+  navAgenda:  { en:"Agenda", nl:"Agenda", hy:"Օրակարգ" },
+  navAI:      { en:"AI Chat", nl:"AI Chat", hy:"AI Զրույց" },
+  heroLabel:  { en:"Days until our honeymoon", nl:"Dagen tot onze huwelijksreis", hy:"Օրեր մինչև մեր մեղրամիսը" },
+  heroSub:    { en:"days to go — can't wait! 🎉", nl:"dagen te gaan — we kunnen niet wachten! 🎉", hy:"օր մնաց — չենք կարողանում սպասել! 🎉" },
+  heroDayOf:  { en:"Day {X} of our journey 🌺", nl:"Dag {X} van onze reis 🌺", hy:"Մեր ճանապարհի {X}-րդ օրը 🌺" },
+  heroAfter:  { en:"What an incredible journey ✨", nl:"Wat een geweldige reis was dat ✨", hy:"Ինչ հիանալի ճանապարհ էր դա ✨" },
+  journeyProgress:{ en:"Journey Progress", nl:"Reis Voortgang", hy:"Ճանապարհի Առաջընթաց" },
+  checkIn:    { en:"Check-in", nl:"Inchecken", hy:"Ժամանում" },
+  checkOut:   { en:"Check-out", nl:"Uitchecken", hy:"Մեկնում" },
+  duration:   { en:"Duration", nl:"Duur", hy:"Տևողություն" },
+  booking:    { en:"Booking", nl:"Boeking", hy:"Ամրագրում" },
+  nights:     { en:"nights", nl:"nachten", hy:"գիշեր" },
+  address:    { en:"Address", nl:"Adres", hy:"Հասցե" },
+  highlights: { en:"Highlights", nl:"Hoogtepunten", hy:"Առանձնահատկություններ" },
+  notesWishes:{ en:"Notes & wishes", nl:"Notities & wensen", hy:"Նշումներ & ցանկություններ" },
+  saveNote:   { en:"Save note", nl:"Notitie opslaan", hy:"Պահпанել ншумǝ" },
+  notePlaceholder:{ en:"Write something special here...", nl:"Schrijf hier iets bijzonders...", hy:"Գрете ինч-ор հатук бан..." },
+  weekBadge1: { en:"Weeks 1–4", nl:"Weken 1–4", hy:"1–4 Շабат" },
+  weekBadge2: { en:"Weeks 5–6", nl:"Weken 5–6", hy:"5–6 Շабат" },
+  toBeConfirmed:{ en:"— to be confirmed —", nl:"— nog te bevestigen —", hy:"— հаstатман карик унي —" },
+  dest1Name:  { en:"Selong Belanak, Lombok", nl:"Selong Belanak, Lombok", hy:"Сelong Белanaq, Лombоk" },
+  dest2Name:  { en:"Gili Air or Uluwatu, Bali", nl:"Gili Air of Uluwatu, Bali", hy:"Гили Эйр кам Улувату, Бали" },
+  dest3Name:  { en:"Third Destination — To Be Decided", nl:"Derde Bestemming — Nog Te Beslissen", hy:"Еррорд Вайрǝ — Дерр Орошвад Чэ" },
+  dest3Name_head:{ en:"Third Destination", nl:"Derde Bestemming", hy:"Եррорд Вайрǝ" },
+  packingTitle:{ en:"Packing Checklist", nl:"Inpaklijst", hy:"Փаthетавoрман цuцак" },
+  packingDocs: { en:"Documents", nl:"Documenten", hy:"Փастатгhтер" },
+  packingHealth:{ en:"Health & Allergy", nl:"Gezondheid & Allergie", hy:"Аrorьджuтyун & Алеrgia" },
+  packingClothes:{ en:"Clothing", nl:"Kleding", hy:"Hагuст" },
+  packingTech: { en:"Tech & Extras", nl:"Tech & Extra's", hy:"Техн & Лрацuчич" },
+  activitiesTitle:{ en:"Activities", nl:"Activiteiten", hy:"Горцoлутyunnер" },
+  filterAll:   { en:"All", nl:"Alles", hy:"Бolor" },
+  filterLearn: { en:"Learning", nl:"Leren", hy:"Uсuцum" },
+  filterAdventure:{ en:"Adventure", nl:"Avontuur", hy:"Аркац" },
+  filterRomance:{ en:"Romance", nl:"Romantiek", hy:"Романтik" },
+  filterSea:   { en:"Sea", nl:"Zee", hy:"Цov" },
+  filterCulture:{ en:"Culture", nl:"Cultuur", hy:"Мшakuyt" },
+  filterRelax: { en:"Relax", nl:"Relaxen", hy:"Hангctyuнь" },
+  filterOther: { en:"Other", nl:"Overig", hy:"Айл" },
+  saveBtn:     { en:"Save for later", nl:"Bewaren", hy:"Пahpanel" },
+  addAgendaBtn:{ en:"Add to Agenda", nl:"Aan agenda toevoegen", hy:"Аvелацnel Oрakarg" },
+  addedToast:  { en:"✓ Added to agenda!", nl:"✓ Toegevoegd aan agenda!", hy:"✓ Аvelacvac!" },
+  savedToast:  { en:"✓ Saved", nl:"✓ Opgeslagen", hy:"✓ Пahpanvac" },
+  agendaTitle: { en:"Our Agenda", nl:"Onze Agenda", hy:"Мер Oракаrgǝ" },
+  agendaEmpty: { en:"Nothing planned yet — tap an activity to add it here", nl:"Nog niks gepland — tik op een activiteit om toe te voegen", hy:"Дерр воčinč нахатесvac če" },
+  dateLabel:   { en:"Date", nl:"Datum", hy:"Амcатiv" },
+  noteLabel:   { en:"Note", nl:"Notitie", hy:"Нших" },
+  notePlaceholder2:{ en:"e.g. Confirm reservation", nl:"Bijv. reservering bevestigen", hy:"Oр. hасtатель амрагрumǝ" },
+  cancelBtn:   { en:"Cancel", nl:"Annuleren", hy:"Čegorцel" },
+  confirmBtn:  { en:"Confirm", nl:"Bevestigen", hy:"Hаctatел" },
+  aiTitle:     { en:"AI Assistant", nl:"AI Assistent", hy:"AI Огнаkаn" },
+  aiWelcome:   { en:"Hello! 👋 I'm your honeymoon assistant. I know everything about Lombok, Gili Air and Bali — and your allergies and preferences. Ask me anything!", nl:"Hallo! 👋 Ik ben jullie honeymoon assistent. Vraag me van alles!", hy:"Барев! 👋 Эс джэр мегhamisi ognакaнн эм:" },
+  aiPlaceholder:{ en:"Ask something...", nl:"Vraag iets...", hy:"Hарцрек..." },
+  budgetGreen: { en:"🟢 On track", nl:"🟢 Op schema", hy:"🟢 Čišt ujin vra" },
+  budgetYellow:{ en:"🟡 Watch out", nl:"🟡 Let op", hy:"🟡 Ушадрутyun" },
+  budgetRed:   { en:"🔴 Discuss", nl:"🔴 Even overleggen", hy:"🔴 Qnnarkel" },
+};
+
+const ACTIVITIES = [
+  { id:"swim",    icon:"🏊", cat:"learn",     phase:"🇮🇩🏝️", price:"€25–45/les",
+    name:{ en:"Sea Swimming Lessons", nl:"Zwemlessen in zee", hy:"Ծovum loyci dacer" },
+    desc:{ en:"Private lessons in open sea with certified coach. After 5–10 lessons you'll swim confidently. Sea only — no pool (chlorine allergy).", nl:"Privélessen in open zee. Na 5–10 lessen zwem je zelfverzekerd. Alleen zee — geen zwembad ivm chloorallergie.", hy:"Անhататаgан даsер баc цovum havataqrвac марzhchi het:" },
+    allergy:{ en:"💧 100% safe — sea only, no chlorine", nl:"💧 100% veilig — alleen zee, geen chloor", hy:"💧 Анхтанг — мياйн цov, воч лouzanots" },
+    providers:[
+      { name:"JustSwim Bali", price:"€35/les", phone:"+62 813-3757-2580", addr:"Seminyak, Bali", url:"https://justswim.co.id", rating:"⭐ 4.9" },
+      { name:"Lombok Beach Coach", price:"€25/les", phone:"+62 878-6500-0001", addr:"Selong Belanak", url:"", rating:"⭐ 4.7" }
+    ]},
+  { id:"horse",   icon:"🐴", cat:"learn",     phase:"🇮🇩", price:"€25–60/sessie",
+    name:{ en:"Horse Riding on the Beach", nl:"Paardrijden op strand", hy:"Djiavarutyun covafin" },
+    desc:{ en:"Beginner lessons on the white sand beach of Selong Belanak. Ride together along the waterfront at sunset.", nl:"Beginnerslessen op het witte strand van Selong Belanak. Na een paar sessies rijd je samen langs het water.", hy:"Скusнаkineri dacer Сelong Белanaqi сpitак aвazи covafin:" },
+    allergy:null,
+    providers:[
+      { name:"Selong Belanak Horse Riding", price:"€30/uur", phone:"+62 819-1600-0001", addr:"Selong Belanak Beach", url:"https://getyourguide.com", rating:"⭐ 4.8" },
+      { name:"Lombok Horse Experience", price:"€40/2u", phone:"+62 878-1234-5678", addr:"Kuta Lombok Beach", url:"https://viator.com", rating:"⭐ 4.6" }
+    ]},
+  { id:"skydive", icon:"🪂", cat:"adventure", phase:"🏝️", price:"$1.200 p.p.",
+    name:{ en:"Tandem Skydive Bali", nl:"Tandem Skydive Bali", hy:"Тандем Скайдайв Бали" },
+    desc:{ en:"15,000 feet, 60 seconds freefall above the Bali coast. Each jumps separately with own instructor but simultaneously — side by side in the air. Video + photo included.", nl:"15.000 voet, 60 sec vrije val. Elk apart met eigen instructor maar tegelijk naast elkaar. Video + foto inbegrepen.", hy:"15.000 voti, 60 vayrkan azat anкum Балики afи verevum:" },
+    allergy:{ en:"⚠️ Each jumps SEPARATELY with own instructor — not together on 1 parachute. But at the same time!", nl:"⚠️ Elk APART met eigen instructor — niet samen op 1 parachute. Wel tegelijk!", hy:"⚠️ Ամен voк АРАЖIN ir marzhchi het — voч мiасин 1 парашютi vra:" },
+    providers:[
+      { name:"The Skydive Bali", price:"$1.200 p.p.", phone:"+62 361-849-6050", addr:"Buleleng, Nord-Bali", url:"https://theskydivebali.com", rating:"⭐ 4.9" }
+    ]},
+  { id:"parasail",icon:"🪁", cat:"romance",   phase:"🏝️", price:"€40–70 voor 2",
+    name:{ en:"Tandem Parasailing (together!)", nl:"Tandem Parasailing (samen!)", hy:"Тандем Парасайлинг (мiasin!)" },
+    desc:{ en:"You and your wife on the same rope above the Indian Ocean. THIS can be done together! The romantic alternative to flying together.", nl:"Jij en je vrouw aan hetzelfde touw boven de Indische Oceaan. KAN WEL samen!", hy:"Դuք ev djez kinǝ nayin рaранi vra Hнtkaкан oвkiаnоsi verevum:" },
+    allergy:{ en:"✅ CAN be done together on 1 rope — you really fly as one!", nl:"✅ KAN samen aan 1 touw — jullie vliegen echt als één!", hy:"✅ KARELि ЭH мiasin 1 рarани vrа — тrchum eq orbes mi:" },
+    providers:[
+      { name:"Tanjung Benoa Water Sports", price:"€55 voor 2", phone:"+62 361-771-757", addr:"Tanjung Benoa, Bali", url:"https://viator.com", rating:"⭐ 4.6" },
+      { name:"Bali Parasailing Center", price:"€65 voor 2", phone:"+62 361-700-001", addr:"Nusa Dua, Bali", url:"https://klook.com", rating:"⭐ 4.5" }
+    ]},
+  { id:"snorkel", icon:"🤿", cat:"sea",       phase:"🇮🇩🏝️", price:"€30–80 p.p.",
+    name:{ en:"Snorkelling + Sea Turtles", nl:"Snorkelen + Zeeschildpadden", hy:"Снорклинг + Ծovayin кrias" },
+    desc:{ en:"Snorkelling at the Gili Islands — sea turtles literally swim beside you. PADI intro dive also available.", nl:"Snorkelen bij de Gili eilanden — zeeschildpadden zwemmen letterlijk naast je.", hy:"Снорклинг Гили кghzinerum — ծovаyin крianerǝ ugrecorinakiorpen loyum en koghqit:" },
+    allergy:null,
+    providers:[
+      { name:"Gili Air Dive Center", price:"€35 p.p.", phone:"+62 370-642-337", addr:"Gili Air pier", url:"https://divegiliair.com", rating:"⭐ 4.8" },
+      { name:"Blue Marlin Dive", price:"€45 p.p.", phone:"+62 370-614-497", addr:"Gili Trawangan", url:"https://bluemarlindive.com", rating:"⭐ 4.7" }
+    ]},
+  { id:"dinner",  icon:"🕯️", cat:"romance",  phase:"🇮🇩🏝️", price:"€60–120 voor 2",
+    name:{ en:"Private Beach Dinner", nl:"Privé Stranddiner", hy:"Маснавор loyafi нthriq" },
+    desc:{ en:"Candlelit dinner on the beach at sunset. Private chef, fresh seafood, flower petal decoration. The most romantic moment of the honeymoon.", nl:"Candlelit diner op het strand bij zonsondergang. Eigen chef, verse zeevruchten, bloemblaadjes.", hy:"Мomнeri luysу nеркойum нthriq loyafin mayramutic zhаманак:" },
+    allergy:null,
+    providers:[
+      { name:"Selong Belanak Beach Dinner", price:"€80 voor 2", phone:"Via resort", addr:"Selong Belanak Beach", url:"", rating:"⭐ 5.0" },
+      { name:"Jimbaran Bay Seafood BBQ", price:"€65 voor 2", phone:"+62 361-701-010", addr:"Jimbaran Bay, Bali", url:"https://jimbaran-seafood.com", rating:"⭐ 4.7" }
+    ]},
+  { id:"phinisi", icon:"⛵", cat:"sea",       phase:"🇮🇩🏝️", price:"€80–150 voor 2",
+    name:{ en:"Private Gili Island Boat Tour", nl:"Privé Bootdagtocht Gili", hy:"Маснавор нав Гили кghziner" },
+    desc:{ en:"Your own private boat to all 3 Gili Islands. Snorkelling with manta rays, lunch on board, swimming from the boat.", nl:"Eigen privéboot langs alle 3 Gili eilanden. Snorkelen bij mantaroggen, lunch aan boord.", hy:"Jер sexnakan навǝ 3 Гили кghziner: Снорклинг манта ճаghагайtнeri hет:" },
+    allergy:null,
+    providers:[
+      { name:"Lombok Phinisi Charter", price:"€120 (hele dag)", phone:"+62 817-5700-1234", addr:"Bangsal Haven, Lombok", url:"https://getyourguide.com", rating:"⭐ 4.8" }
+    ]},
+  { id:"massage", icon:"💆", cat:"relax",     phase:"🇮🇩🏝️", price:"€20–45/uur",
+    name:{ en:"In-villa Massage", nl:"In-villa Massage", hy:"Виллаюм масаж" },
+    desc:{ en:"Masseuse comes to your villa. Balinese massage, aromatherapy. Together in your own private space.", nl:"Masseur komt naar jullie villa. Balinese massage, aromatherapie. Samen in jullie eigen privéruimte.", hy:"Масажиctǝ galis er jez villa: Балиакан масаж, ароматерапia:" },
+    allergy:null,
+    providers:[
+      { name:"Mobile Massage Lombok", price:"€25/uur p.p.", phone:"+62 819-2233-4455", addr:"Comes to your villa", url:"", rating:"⭐ 4.7" },
+      { name:"Selong Selo Spa", price:"€45/uur", phone:"Via resort", addr:"Selong Selo Resort", url:"https://selongselo.com", rating:"⭐ 4.9" }
+    ]},
+  { id:"cooking", icon:"🍜", cat:"culture",   phase:"🇮🇩", price:"€25–45 voor 2",
+    name:{ en:"Sasak Cooking Class", nl:"Sasak Kookcursus", hy:"Сасаq khohararutyun дас" },
+    desc:{ en:"Learn traditional Lombok/Sasak dishes at a local family's home. Market visit included. Ayam taliwang, plecing kangkung.", nl:"Leer traditionele Sasak gerechten bij een lokale familie. Marktbezoek inbegrepen.", hy:"Sovoreq avandakan Ломбок/Сасаq utestner teghakan entaniqi тanǝ:" },
+    allergy:null,
+    providers:[
+      { name:"Warung Selong Local Kitchen", price:"€25 voor 2", phone:"+62 819-5566-7788", addr:"Selong Belanak", url:"", rating:"⭐ 4.8" },
+      { name:"Lombok Cooking Class", price:"€35 voor 2", phone:"+62 878-6400-1122", addr:"Mataram, Lombok", url:"https://viator.com", rating:"⭐ 4.6" }
+    ]},
+  { id:"gold",    icon:"🥇", cat:"other",     phase:"🇮🇩🏝️", price:"±€165/gram (24K)",
+    name:{ en:"Buy Gold — Pegadaian", nl:"Goud kopen — Pegadaian", hy:"Voски gnel — Pegadaian" },
+    desc:{ en:"Official certified gold from the Indonesian state company. Wife takes it to Armenia. Keep the RECEIPT — required for Armenian customs.", nl:"Officieel gecertificeerd goud van het Indonesische staatsbedrijf. Bewaar de BON — verplicht voor Armeense douane.", hy:"Паштонакан havataqrвад voски Индонезиаई петакан enkерутyunits:" },
+    allergy:{ en:"📋 Max €500 duty-free into Armenia, then 15% customs. ALWAYS keep receipt.", nl:"📋 Max €500 vrij naar Armenië, daarna 15% heffing. BON ALTIJD bewaren.", hy:"📋 Аvелагuyнǝ €500 aзat Haiastan, aрка 15% макcaturg: KTRONNƎ PAHKEQ:" },
+    providers:[
+      { name:"Pegadaian Mataram, Lombok", price:"Dagprijs op site", phone:"+62 370-623-005", addr:"Jl. Pejanggik, Mataram, Lombok", url:"https://pegadaian.co.id", rating:"⭐ 4.8" },
+      { name:"Antam Butik Emas Bali", price:"Spotprijs +5%", phone:"+62 361-xxx-xxx", addr:"Denpasar, Bali", url:"https://logammulia.com", rating:"⭐ 4.9" }
+    ]},
+  { id:"dive",    icon:"🐠", cat:"sea",       phase:"🏝️", price:"€60–100 p.p.",
+    name:{ en:"PADI Intro Dive", nl:"PADI Intro Duikles", hy:"PADI сузум" },
+    desc:{ en:"Beginner dives at Gili Air — best diving area in the region. No experience needed. Dive to 12 metres. Sea turtles and manta rays guaranteed.", nl:"Beginnersdives bij Gili Air — het beste duikgebied. Geen ervaring nodig. Na intro duik tot 12 meter. Schildpadden en mantaroggen.", hy:"Скусnak сузumner Гили Эйрум — SharePoint шрджани лавагyun вайрǝ: Фoрj petq чe:" },
+    allergy:null,
+    providers:[
+      { name:"Gili Air Dive School", price:"€75 p.p.", phone:"+62 370-642-337", addr:"Gili Air", url:"https://divegiliair.com", rating:"⭐ 4.9" },
+      { name:"Dream Divers Gili", price:"€65 p.p.", phone:"+62 370-693-738", addr:"Gili Air", url:"https://dreamdivers.com", rating:"⭐ 4.8" }
+    ]}
+];
+
+const PACK_ITEMS = {
+  docs: [
+    { id:"pk_pass", en:"Passport & copies", nl:"Paspoort & kopieën" },
+    { id:"pk_tick", en:"Flight tickets (print + digital)", nl:"Vliegtickets (print + digitaal)" },
+    { id:"pk_ins",  en:"Travel insurance card", nl:"Reisverzekeringspas" },
+    { id:"pk_lic",  en:"International driving licence", nl:"Internationaal rijbewijs" },
+    { id:"pk_visa", en:"Visa B211A confirmation", nl:"Visa B211A bevestiging" },
+    { id:"pk_vacc", en:"Vaccination card", nl:"Vaccinatiepas" },
+  ],
+  health: [
+    { id:"pk_anti", en:"Antihistamine — 6 weeks supply (GRASS ALLERGY)", nl:"Antihistamine — 6 weken (GRASALLERGIE)" },
+    { id:"pk_sun",  en:"Sunscreen SPF50+", nl:"Zonbrandcrème SPF50+" },
+    { id:"pk_mosk", en:"Mosquito spray with DEET", nl:"Muggenspray met DEET" },
+    { id:"pk_dia",  en:"Anti-diarrhea + painkillers", nl:"Diarreemedicatie + pijnstillers" },
+    { id:"pk_wpho", en:"Waterproof phone case", nl:"Waterdicht telefoonhoesje" },
+  ],
+  clothes: [
+    { id:"pk_dres", en:"Light dresses / summer wear (cotton)", nl:"Lichte jurken (katoen)" },
+    { id:"pk_swim", en:"Swimwear (2–3 sets)", nl:"Zwemkleding (2–3 stuks)" },
+    { id:"pk_saro", en:"Sarong / pareo (required at Balinese temples)", nl:"Sarong / pareo (verplicht bij tempels)" },
+    { id:"pk_card", en:"Light cardigan (plane/AC)", nl:"Lichte cardigan (vliegtuig/airco)" },
+    { id:"pk_shoe", en:"Sport shoes (for horse riding)", nl:"Sportschoenen (voor paardrijden)" },
+    { id:"pk_sand", en:"Sandals + flip-flops", nl:"Sandalen + slippers" },
+  ],
+  tech: [
+    { id:"pk_adap", en:"Universal travel adapter", nl:"Universele reisadapter" },
+    { id:"pk_powr", en:"Power bank (large)", nl:"Powerbank (groot formaat)" },
+    { id:"pk_apps", en:"Apps downloaded: Grab, Gojek, Maps.me offline", nl:"Apps: Grab, Gojek, Maps.me offline" },
+    { id:"pk_sim",  en:"Buy local SIM at arrival (Telkomsel)", nl:"Lokale SIM kopen bij aankomst (Telkomsel)" },
+  ]
+};
+
+const HIGHLIGHTS = {
+  lombok:[
+    { en:"Pristine white-sand beach — one of the most beautiful in Lombok", nl:"Prachtig wit zandstrand — een van de mooiste van Lombok" },
+    { en:"Dry season Jun–Jul: ideal weather, little rain", nl:"Droogseizoen jun–jul: ideaal weer, weinig regen" },
+    { en:"Horse riding on the beach available", nl:"Paardrijden op het strand mogelijk" },
+    { en:"Local Sasak culture and authentic food", nl:"Lokale Sasak cultuur en authentiek eten" },
+    { en:"Gili Islands just 30 min by speedboat", nl:"Gili eilanden op 30 min speedboat" }
+  ],
+  tbd:[
+    { en:"Option A: Gili Meno — smallest Gili, most romantic", nl:"Optie A: Gili Meno — kleinste Gili, meest romantisch" },
+    { en:"Option B: Nusa Penida, Bali — dramatic cliffs & top snorkelling", nl:"Optie B: Nusa Penida — dramatische kliffen & topsnorkelen" },
+    { en:"Option C: Komodo/Flores — overwater villa, manta rays", nl:"Optie C: Komodo/Flores — overwater villa, mantaroggen" },
+    { en:"Option D: Stay longer in Lombok and explore more", nl:"Optie D: Langer in Lombok blijven" }
+  ]
+};
+
+const QUICK_QS = {
+  en:["Can we horse ride AND swim same day?","How to get from Lombok to Gili Air?","Good restaurants near Selong Belanak?","Gold customs rules for Armenia?","What to do if it rains in Lombok?","Scooter rental cost per month?","Is ATM use safe in Indonesia?","Which activities suit our allergy?"],
+  nl:["Kunnen we paardrijden én zwemmen op 1 dag?","Hoe van Lombok naar Gili Air?","Goede restaurants bij Selong Belanak?","Douaneregels goud naar Armenië?","Wat doen bij regen op Lombok?","Scooter huren per maand kosten?","Veilig pinnen in Indonesië?","Welke activiteit past bij allergie?"],
+  hy:["Կaroyq enq djiavarut. ev loyov zaghvel nuyн oрǝ?","Inchpes hасtel Lombok-it Gili Air?","Lav restoranner Selong Belanak-i mot?","Mаkcаyin kanonner voski Hayastan?","Inch aнel ete andzrev ga Lombok-um?","Scooter vardzakaret artsakarq?","APM-ic gumар havrelik аnvtаng e?","Vor gorczolutyunner harkir en mez?"],
+};
+
+/* ── ADDED KEYS (journey logic, budget, editorial) ── */
+Object.assign(TRANSLATIONS, {
+  navBudget: { en:"Budget", nl:"Budget", hy:"Բյուջե" },
+  destTitle: { en:"Where We Stay", nl:"Waar We Verblijven", hy:"Որտեղ Ենք Մնում" },
+  actNote:   { en:"tap to explore", nl:"tik om te ontdekken", hy:"հպեք՝ բացելու" },
+  budgetTitle:{ en:"Budget", nl:"Budget", hy:"Բյուջե" },
+  budgetNote:{ en:"live · updates as you plan", nl:"live · werkt bij terwijl je plant", hy:"կենդանի · թարմացվում է" },
+  budgetEmpty:{ en:"Add experiences to your agenda and I'll track the cost here, with tips to stay on budget.", nl:"Voeg activiteiten toe aan je agenda — ik houd de kosten hier bij, met tips om binnen budget te blijven.", hy:"Ավելացրեք փորձառություններ օրակարգում, և ես կհետևեմ ծախսերին այստեղ:" },
+  options:   { en:"Options", nl:"Opties", hy:"Տարբերակներ" },
+  lombokAllergy:{ en:"No jungle or rice fields — right by the sea", nl:"Geen jungle of rijstvelden — direct aan zee", hy:"Ոչ ջունգլի, ոչ բրնձի դաշտեր — ծովի մոտ" },
+  soloLeg:   { en:"Abdul solo:", nl:"Abdul solo:", hy:"Աբդուլ մենակ:" },
+  soloLegTxt:{ en:"Netherlands → Yerevan · Jun 8 (before we meet)", nl:"Nederland → Yerevan · 8 jun (voordat we samen zijn)", hy:"Նիդեռլանդներ → Երևան · հունիս 8" },
+  phWed:     { en:"Yerevan", nl:"Yerevan", hy:"Երևան" },
+  phFly:     { en:"Fly together", nl:"Samen vliegen", hy:"Միասին թռչել" },
+  phLombok:  { en:"Lombok", nl:"Lombok", hy:"Լոմբոկ" },
+  phBali:    { en:"Gili/Bali", nl:"Gili/Bali", hy:"Գիլի/Բալի" },
+  aiName:    { en:"Honeymoon Assistant", nl:"Honeymoon Assistent", hy:"Մեղրամսի Օգնական" },
+  aiTagline: { en:"I can plan, add to your agenda & track budget", nl:"Ik kan plannen, agenda vullen & budget bijhouden", hy:"Կարող եմ պլանավորել և հետևել բյուջեին" },
+  heroLabel: { en:"Until our honeymoon begins", nl:"Tot onze huwelijksreis begint", hy:"Մինչև մեր մեղրամիսը" },
+  heroSubTpl:{ en:"days until we fly together to Indonesia 🌺", nl:"dagen tot we samen naar Indonesië vliegen 🌺", hy:"օր մինչև միասին թռչենք Ինդոնեզիա 🌺" },
+  heroDayOf: { en:"Day {X} together in paradise", nl:"Dag {X} samen in het paradijs", hy:"{X}-րդ օրը դրախտում" },
+  heroAfter: { en:"What a journey it was ✨", nl:"Wat een reis was dat ✨", hy:"Ինչ ճանապարհ էր ✨" },
+  notePh:    { en:"Write something special...", nl:"Schrijf iets bijzonders...", hy:"Գրեք ինչ-որ հատուկ բան..." },
+  notePh2:   { en:"e.g. Confirm reservation", nl:"Bijv. reservering bevestigen", hy:"Օր. հաստատել ամրագրումը" },
+  aiPh:      { en:"Ask me anything, or tell me what to plan...", nl:"Vraag iets, of zeg wat ik moet plannen...", hy:"Հարցրեք կամ ասեք ինչ պլանավորել..." },
+  budgetOf:  { en:"of {T} planned", nl:"van {T} gepland", hy:"{T}-ից պլանավորված" },
+  budgetLeft:{ en:"{X} left", nl:"{X} over", hy:"{X} մնացած" },
+  budgetGreenTip:{ en:"You're comfortably on track. Plenty of room for a few more experiences.", nl:"Je zit ruim op schema. Genoeg ruimte voor nog wat activiteiten.", hy:"Դուք լավ ուղու վրա եք:" },
+  budgetYellowTip:{ en:"Getting close to your target. Consider cheaper alternatives for big-ticket items.", nl:"Je nadert je doel. Overweeg goedkopere alternatieven voor de dure posten.", hy:"Մոտենում եք նպատակին:" },
+  budgetRedTip:{ en:"Over the planned budget. Want me to suggest what to trim or swap?", nl:"Boven het geplande budget. Zal ik voorstellen wat je kunt schrappen of vervangen?", hy:"Բյուջեից վեր:" },
+  baseLabel: { en:"Flights & stays (est.)", nl:"Vluchten & verblijf (schatting)", hy:"Թռիչքներ & կացարան" },
+  plannedLabel:{ en:"Planned experiences", nl:"Geplande activiteiten", hy:"Պլանավորված փորձառություններ" },
+  callBtn:   { en:"Call", nl:"Bellen", hy:"Զանգել" },
+  websiteBtn:{ en:"Website", nl:"Website", hy:"Կայք" },
+  providerFound:{ en:"providers", nl:"aanbieders", hy:"մատակարար" },
+  impactTpl: { en:"Adds about {X} to your planned budget", nl:"Voegt ongeveer {X} toe aan je budget", hy:"Ավելացնում է մոտ {X}" },
+  aiOffline: { en:"No connection right now — back when you're online 🌐", nl:"Even geen verbinding — ik ben er als je weer online bent 🌐", hy:"Կապ չկա — կվերադառնամ 🌐" },
+});
+/* ═══════════════════════════════════════════════════════
+   📸 IMAGES — swap these URLs for your own trip photos later.
+   These are free Unsplash photos. If one ever fails to load,
+   it falls back to a tasteful gradient automatically.
+═══════════════════════════════════════════════════════ */
+const IMAGES = {
+  hero:   'https://images.unsplash.com/photo-1537956965359-7573183d1f57?w=1600&q=80&auto=format&fit=crop',
+  lombok: 'https://images.unsplash.com/photo-1559628233-100c798642d4?w=1000&q=80&auto=format&fit=crop',
+  bali:   'https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?w=1000&q=80&auto=format&fit=crop',
+  tbd:    'https://images.unsplash.com/photo-1604999333679-b86d54738315?w=1000&q=80&auto=format&fit=crop',
+  // activity photos (keyed by activity id)
+  swim:    'https://images.unsplash.com/photo-1530549387789-4c1017266635?w=800&q=80&auto=format&fit=crop',
+  horse:   'https://images.unsplash.com/photo-1553284965-83fd3e82fa5a?w=800&q=80&auto=format&fit=crop',
+  skydive: 'https://images.unsplash.com/photo-1521673252667-e05da380b252?w=800&q=80&auto=format&fit=crop',
+  parasail:'https://images.unsplash.com/photo-1599580546666-c26bca85d6a1?w=800&q=80&auto=format&fit=crop',
+  snorkel: 'https://images.unsplash.com/photo-1582967788606-a171c1080cb0?w=800&q=80&auto=format&fit=crop',
+  dinner:  'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&q=80&auto=format&fit=crop',
+  phinisi: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&q=80&auto=format&fit=crop',
+  massage: 'https://images.unsplash.com/photo-1600334129128-685c5582fd35?w=800&q=80&auto=format&fit=crop',
+  cooking: 'https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=800&q=80&auto=format&fit=crop',
+  gold:    'https://images.unsplash.com/photo-1610375461246-83df859d849d?w=800&q=80&auto=format&fit=crop',
+  dive:    'https://images.unsplash.com/photo-1544551763-7ef420be5dd6?w=800&q=80&auto=format&fit=crop'
+};
+const FALLBACK_GRAD = {
+  hero:'linear-gradient(135deg,#2E7DAA,#1A5C82 60%,#C2922F)',
+  default:'linear-gradient(135deg,#2E7DAA,#1A5C82)'
+};
+/* set a background image with graceful gradient fallback */
+function setBg(el, url, gradKey){
+  if(!el) return;
+  const grad = FALLBACK_GRAD[gradKey] || FALLBACK_GRAD.default;
+  el.style.backgroundImage = grad; // show gradient immediately
+  if(!url){ return; }
+  const img = new Image();
+  img.onload = ()=>{ el.style.backgroundImage = `url("${url}")`; };
+  img.onerror = ()=>{ el.style.backgroundImage = grad; };
+  img.src = url;
+}
+
+/* ═══════════════════════════════════════════════════════
+   ☁️ SUPABASE — keys get filled in by Chrome Claude / you
+═══════════════════════════════════════════════════════ */
+const SUPABASE_URL = 'PASTE_YOUR_SUPABASE_URL_HERE';
+const SUPABASE_KEY = 'PASTE_YOUR_SUPABASE_ANON_KEY_HERE';
+const DEVICE_ID    = 'honeymoon_shared';
+
+/* AI endpoint: the Netlify Function proxy (keeps the API key server-side & secret).
+   Leave as-is once the function is deployed. */
+const AI_ENDPOINT = '/.netlify/functions/chat';
+
+async function sbGet(table){
+  try{
+    const r = await fetch(`${SUPABASE_URL}/rest/v1/${table}?device_id=eq.${DEVICE_ID}&select=*`,
+      {headers:{apikey:SUPABASE_KEY,Authorization:`Bearer ${SUPABASE_KEY}`}});
+    const rows = await r.json();
+    return rows.length ? rows[0] : null;
+  }catch(e){ return null; }
+}
+async function sbUpsert(table,payload){
+  try{
+    await fetch(`${SUPABASE_URL}/rest/v1/${table}`,{method:'POST',
+      headers:{apikey:SUPABASE_KEY,Authorization:`Bearer ${SUPABASE_KEY}`,'Content-Type':'application/json',Prefer:'resolution=merge-duplicates'},
+      body:JSON.stringify({device_id:DEVICE_ID,...payload,updated_at:new Date().toISOString()})});
+  }catch(e){}
+}
+let syncEl=null, lastHash='', pollT=null;
+function setSync(s){ if(!syncEl)return; const m={syncing:'⏳',ok:'☁️',off:'📵',unconf:'⚙️'}; syncEl.textContent=m[s]||'☁️';
+  syncEl.title={syncing:'Syncing…',ok:'Synced',off:'Offline — local only',unconf:'Set up Supabase to sync'}[s]; }
+function startPoll(){
+  if(pollT||SUPABASE_URL.includes('PASTE'))return;
+  pollT=setInterval(async()=>{
+    if(document.hidden)return;
+    const row=await sbGet('hhq_state'); if(!row)return;
+    if(row.updated_at===lastHash)return; lastHash=row.updated_at;
+    const remote=JSON.parse(row.data||'{}');
+    state=Object.assign({},state,remote,{lang:state.lang});
+    saveLocal(); applyLang(); restoreNotes(); renderAgenda(); renderActs(curFilter); renderPacking(); renderBudget();
+    showToast('🔄 Synced with partner');
+  },8000);
+}
+
+/* ═══════════════════════════════════════════════════════
+   💰 BUDGET — estimated cost per activity (EUR, midpoint).
+   Used for live budget tracking when added to agenda.
+═══════════════════════════════════════════════════════ */
+const BUDGET_TOTAL = 7000;            // target total honeymoon budget
+const ACT_COST = {                    // per booking, EUR (rough midpoint)
+  swim:70, horse:45, skydive:2100, parasail:55, snorkel:80,
+  dinner:90, phinisi:120, massage:60, cooking:35, gold:300, dive:140
+};
+/* baseline fixed costs already roughly committed (flights, stays) — shown for context */
+const BUDGET_BASE = 4200;             // flights + accommodation estimate
+function fmtEur(n){ return '€'+Math.round(n).toLocaleString('en-US'); }
+
+/* ═══════════════════════════════════════════════════════
+   STATE
+═══════════════════════════════════════════════════════ */
+const KEY='honeymoon_hq_v4';
+let state={ lang:'en', checklist:{}, notes:{lombok:'',bali:'',tbd:''}, agenda:[], chat:[], saved:[], inAgenda:[] };
+let curSheet=null, curFilter='all';
+
+function loadState(){ try{const s=JSON.parse(localStorage.getItem(KEY)); if(s)state=Object.assign(state,s);}catch(e){} }
+function saveLocal(){ try{localStorage.setItem(KEY,JSON.stringify(state));}catch(e){} }
+async function saveState(){
+  saveLocal();
+  if(SUPABASE_URL.includes('PASTE'))return;
+  setSync('syncing');
+  try{ await sbUpsert('hhq_state',{data:JSON.stringify(state)}); setSync('ok'); }catch(e){ setSync('off'); }
+}
+async function loadRemote(){
+  if(SUPABASE_URL.includes('PASTE')){ setSync('unconf'); return; }
+  setSync('syncing');
+  const row=await sbGet('hhq_state');
+  if(row){ lastHash=row.updated_at||''; const r=JSON.parse(row.data||'{}'); const lp=state.lang;
+    state=Object.assign({},state,r,{lang:lp}); saveLocal();
+    applyLang(); restoreNotes(); renderAgenda(); renderActs(curFilter); renderPacking(); renderBudget(); setSync('ok');
+  } else { await saveState(); setSync('ok'); }
+  startPoll();
+}
+
+/* ═══════════════════════════════════════════════════════
+   I18N
+═══════════════════════════════════════════════════════ */
+function t(k,lang=state.lang){ const tr=TRANSLATIONS[k]; if(!tr)return k; return tr[lang]||tr.en||k; }
+function setLang(lang){ state.lang=lang; saveState(); document.getElementById('lang-d').classList.remove('open');
+  document.body.style.transition='opacity .18s'; document.body.style.opacity='0';
+  setTimeout(()=>{ applyLang(); document.body.style.opacity='1'; },180); }
+function applyLang(){
+  const lang=state.lang; document.documentElement.lang=lang;
+  document.querySelectorAll('[data-i18n]').forEach(el=>{ const v=t(el.dataset.i18n,lang); if(v!==el.dataset.i18n)el.textContent=v; });
+  document.querySelectorAll('[data-i18n-ph]').forEach(el=>{ el.placeholder=t(el.dataset.i18nPh,lang); });
+  document.getElementById('cur-flag').textContent={en:'🇬🇧',nl:'🇳🇱',hy:'🇦🇲'}[lang];
+  document.getElementById('cur-lang').textContent={en:'EN',nl:'NL',hy:'ՀՅ'}[lang];
+  ['en','nl','hy'].forEach(l=>document.getElementById('ck-'+l).textContent=l===lang?'✓':'');
+  updateHero(); renderHighlights(); renderPacking(); renderActs(curFilter); renderAgenda(); renderChips(); renderBudget();
+}
+function toggleLang(){ document.getElementById('lang-d').classList.toggle('open'); }
+document.addEventListener('click',e=>{ if(!e.target.closest('#lang'))document.getElementById('lang-d').classList.remove('open'); });
+
+/* ═══════════════════════════════════════════════════════
+   JOURNEY — counts from the moment they fly TOGETHER (Jun 12)
+   The NL→Yerevan solo leg (Jun 8) is shown separately above.
+═══════════════════════════════════════════════════════ */
+const DATES={
+  yerevan:   new Date('2026-06-08'),  // wedding + together in Yerevan
+  together:  new Date('2026-06-12'),  // fly Yerevan → Indonesia (HONEYMOON DAY 1)
+  bali:      new Date('2026-07-10'),
+  end:       new Date('2026-07-24')
+};
+const dayDiff=(a,b)=>Math.round((b-a)/864e5);
+function updateHero(){
+  const now=new Date(), lang=state.lang;
+  const num=document.getElementById('hero-num'), eb=document.getElementById('hero-eyebrow'),
+        ti=document.getElementById('hero-title'), sb=document.getElementById('hero-sub');
+  if(now<DATES.together){
+    const d=dayDiff(now,DATES.together);
+    eb.textContent=t('heroLabel',lang); num.textContent=d; ti.textContent='';
+    sb.textContent=d+' '+t('heroSubTpl',lang);
+  } else if(now<=DATES.end){
+    const d=dayDiff(DATES.together,now)+1;
+    eb.textContent=''; num.textContent=d; ti.textContent=t('heroDayOf',lang).replace('{X}',d); sb.textContent='';
+  } else { eb.textContent=''; num.textContent='✨'; ti.textContent=t('heroAfter',lang); sb.textContent=''; }
+  // timeline (from together → end)
+  const total=dayDiff(DATES.together,DATES.end);
+  const el=Math.max(0,Math.min(total,dayDiff(DATES.together,now)));
+  const pct=Math.round(el/total*100);
+  document.getElementById('tl-fill').style.width=pct+'%';
+  document.getElementById('tl-pct').textContent=pct+'%';
+  let cur=0; if(now>=DATES.yerevan)cur=0; if(now>=DATES.together)cur=1; if(now>=DATES.together)cur=2; if(now>=DATES.bali)cur=3;
+  ['tp0','tp1','tp2','tp3'].forEach((id,i)=>document.getElementById(id).classList.toggle('cur',i===cur));
+}
+
+/* ═══════════════════════════════════════════════════════
+   BUDGET ENGINE — live
+═══════════════════════════════════════════════════════ */
+function plannedSpend(){
+  let sum=0; state.agenda.forEach(it=>{ sum+=ACT_COST[it.actId]||0; }); return sum;
+}
+function budgetStatus(spent){
+  const ratio=(BUDGET_BASE+spent)/BUDGET_TOTAL;
+  if(ratio<0.85)return'green'; if(ratio<1.0)return'yellow'; return'red';
+}
+function renderBudget(){
+  const lang=state.lang;
+  const spent=plannedSpend(), all=BUDGET_BASE+spent, left=BUDGET_TOTAL-all;
+  const ratio=Math.min(1.2,all/BUDGET_TOTAL), pct=Math.round(all/BUDGET_TOTAL*100);
+  const st=budgetStatus(spent);
+  document.getElementById('bud-spent').textContent=fmtEur(all);
+  document.getElementById('bud-of').textContent=t('budgetOf',lang).replace('{T}',fmtEur(BUDGET_TOTAL));
+  document.getElementById('bud-left').textContent=t('budgetLeft',lang).replace('{X}',fmtEur(Math.max(0,left)));
+  document.getElementById('bud-pct').textContent=pct+'%';
+  const fill=document.getElementById('bud-fill');
+  fill.style.width=Math.min(100,ratio*100)+'%';
+  fill.style.background=st==='green'?'var(--ok)':st==='yellow'?'var(--gold)':'var(--bad)';
+  const pill=document.getElementById('bud-pill');
+  pill.className='bud-pill '+st;
+  pill.textContent={green:t('budgetGreen',lang),yellow:t('budgetYellow',lang),red:t('budgetRed',lang)}[st];
+  const tip=document.getElementById('bud-tip-txt');
+  if(state.agenda.length===0){ tip.textContent=t('budgetEmpty',lang); }
+  else { tip.textContent={green:t('budgetGreenTip',lang),yellow:t('budgetYellowTip',lang),red:t('budgetRedTip',lang)}[st]; }
+  // breakdown
+  const br=document.getElementById('bud-break');
+  if(state.agenda.length===0){ br.style.display='none'; }
+  else{
+    br.style.display='';
+    br.innerHTML=`<div class="bud-row"><span>${t('baseLabel',lang)}</span><span class="amt">${fmtEur(BUDGET_BASE)}</span></div>
+      <div class="bud-row"><span>${t('plannedLabel',lang)} (${state.agenda.length})</span><span class="amt">${fmtEur(spent)}</span></div>`;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════
+   HIGHLIGHTS + DESTINATIONS
+═══════════════════════════════════════════════════════ */
+const BALI_HL={ en:["No cars on Gili Air — just bicycles & horse carts","Sea turtles swim right off the shore","Uluwatu: dramatic cliffs over the Indian Ocean","Skydive & tandem parasailing nearby","Romantic sunset beach dinner"],
+  nl:["Geen auto's op Gili Air — alleen fietsen & paard-en-wagen","Zeeschildpadden voor de kust","Uluwatu: dramatische kliffen boven de oceaan","Skydive & tandem parasailing dichtbij","Romantisch sunset stranddiner"],
+  hy:["Գիլի Էյրում մեքենաներ չկան","Ծովային կրիաներ ափի մոտ","Ուլուվաթու՝ ժայռեր օվկիանոսի վրա","Սկայդայվ և պարասայլինգ","Ռոմանտիկ ընթրիք ծովափին"] };
+function renderHighlights(){
+  const lang=state.lang;
+  document.getElementById('hl-lombok').innerHTML=HIGHLIGHTS.lombok.map(h=>`<div class="hl-i">${h[lang]||h.en}</div>`).join('');
+  document.getElementById('hl-tbd').innerHTML=HIGHLIGHTS.tbd.map(h=>`<div class="hl-i">${h[lang]||h.en}</div>`).join('');
+  document.getElementById('hl-bali').innerHTML=(BALI_HL[lang]||BALI_HL.en).map(x=>`<div class="hl-i">${x}</div>`).join('');
+}
+function toggleDest(id){ document.getElementById('d-'+id).classList.toggle('open'); }
+function saveNote(d){ state.notes[d]=document.getElementById('note-'+d).value; saveState(); showToast('✓ '+t('saveNote')); }
+function restoreNotes(){ ['lombok','bali','tbd'].forEach(d=>{ const ta=document.getElementById('note-'+d); if(ta)ta.value=state.notes[d]||''; }); }
+
+/* ═══════════════════════════════════════════════════════
+   PACKING
+═══════════════════════════════════════════════════════ */
+function renderPacking(){
+  const lang=state.lang;
+  Object.entries(PACK_ITEMS).forEach(([g,items])=>{
+    const grid=document.getElementById('pg-'+g); if(!grid)return;
+    grid.innerHTML=items.map(it=>{ const ck=state.checklist[it.id]||false; const tx=it[lang]||it.en;
+      return `<div class="pk-i ${ck?'ck':''}" onclick="togglePack('${it.id}',this)"><div class="pk-cb"></div><span class="pk-x">${tx}</span></div>`;
+    }).join('');
+  });
+}
+function togglePack(id,el){ state.checklist[id]=!state.checklist[id]; el.classList.toggle('ck',state.checklist[id]); saveState(); }
+
+/* ═══════════════════════════════════════════════════════
+   ACTIVITIES — photo cards
+═══════════════════════════════════════════════════════ */
+const FILTERS=[['all','filterAll'],['learn','filterLearn'],['adventure','filterAdventure'],['romance','filterRomance'],['sea','filterSea'],['culture','filterCulture'],['relax','filterRelax'],['other','filterOther']];
+function renderFilters(){ document.getElementById('filters').innerHTML=FILTERS.map(([c,k])=>`<button class="fp ${c===curFilter?'on':''}" onclick="setFilter('${c}')">${t(k)}</button>`).join(''); }
+function setFilter(c){ curFilter=c; renderActs(c); renderFilters(); }
+function renderActs(f='all'){
+  const lang=state.lang, grid=document.getElementById('acts');
+  const vis=f==='all'?ACTIVITIES:ACTIVITIES.filter(a=>a.cat===f);
+  grid.innerHTML=vis.map(a=>{
+    const inAg=state.inAgenda.includes(a.id);
+    return `<div class="act" onclick="openSheet('${a.id}')">
+      <div class="act-photo" data-img="${a.id}"></div>
+      ${inAg?'<span class="act-tick">✓</span>':''}
+      <div class="act-c"><div class="act-nm">${a.name[lang]||a.name.en}</div><div class="act-pr">${a.price}</div><div class="act-ph">${a.phase}</div></div>
+    </div>`;
+  }).join('');
+  // lazy set backgrounds with fallback
+  grid.querySelectorAll('.act-photo').forEach(el=>setBg(el,IMAGES[el.dataset.img],'default'));
+}
+
+/* ═══════════════════════════════════════════════════════
+   BOTTOM SHEET
+═══════════════════════════════════════════════════════ */
+function openSheet(id){
+  const a=ACTIVITIES.find(x=>x.id===id); if(!a)return; curSheet=a; const lang=state.lang;
+  setBg(document.getElementById('sheet-hero'),IMAGES[id],'default');
+  document.getElementById('sheet-emoji').textContent=a.icon;
+  document.getElementById('sheet-t').textContent=a.name[lang]||a.name.en;
+  document.getElementById('sheet-pr').textContent=a.price;
+  document.getElementById('sheet-d').textContent=a.desc[lang]||a.desc.en;
+  const al=document.getElementById('sheet-a');
+  if(a.allergy){ al.style.display=''; al.textContent=a.allergy[lang]||a.allergy.en; } else al.style.display='none';
+  // budget impact
+  const cost=ACT_COST[id]||0;
+  document.getElementById('sheet-impact-txt').textContent=t('impactTpl',lang).replace('{X}',fmtEur(cost));
+  document.getElementById('prov-l').textContent=`${a.providers.length} ${t('providerFound')}`;
+  document.getElementById('prov-list').innerHTML=a.providers.map(p=>`
+    <div class="prov"><div class="prov-top"><div class="prov-nm">${p.name}</div><div class="prov-pr">${p.price}</div></div>
+    <div class="prov-ad">📍 ${p.addr} · ${p.rating}</div>
+    <div class="prov-b"><a class="pb" href="tel:${p.phone}">${t('callBtn')} ${p.phone}</a>${p.url?`<a class="pb" href="${p.url}" target="_blank" rel="noopener">${t('websiteBtn')} ↗</a>`:''}</div></div>`).join('');
+  document.getElementById('dp').classList.remove('show');
+  document.getElementById('veil').classList.add('open');
+  document.getElementById('sheet').classList.add('open');
+}
+function closeSheet(){ document.getElementById('veil').classList.remove('open'); document.getElementById('sheet').classList.remove('open'); curSheet=null; }
+function toggleDP(){ document.getElementById('dp').classList.toggle('show'); }
+function saveActivity(){ if(!curSheet)return; if(!state.saved.includes(curSheet.id))state.saved.push(curSheet.id); saveState(); showToast(t('savedToast')); }
+function confirmAgenda(){
+  if(!curSheet)return;
+  const date=document.getElementById('dp-date').value, time=document.getElementById('dp-time').value, note=document.getElementById('dp-note').value;
+  if(!date){ showToast('📅 Pick a date'); return; }
+  addAgendaItem(curSheet.id,date,time,note);
+  showToast(t('addedToast')); closeSheet();
+}
+/* shared add (used by sheet AND by the AI agent) */
+function addAgendaItem(actId,date,time,note){
+  const a=ACTIVITIES.find(x=>x.id===actId); if(!a)return false;
+  state.agenda.push({ id:Date.now().toString()+Math.random().toString(36).slice(2,5), actId, icon:a.icon, name:a.name, date, time:time||'', note:note||'' });
+  if(!state.inAgenda.includes(actId))state.inAgenda.push(actId);
+  saveState(); renderAgenda(); renderActs(curFilter); renderBudget();
+  return true;
+}
+
+/* ═══════════════════════════════════════════════════════
+   AGENDA
+═══════════════════════════════════════════════════════ */
+function renderAgenda(){
+  const lang=state.lang, list=document.getElementById('ag-list');
+  if(state.agenda.length===0){ list.innerHTML=`<div class="ag-empty">${t('agendaEmpty')}</div>`; return; }
+  const sorted=[...state.agenda].sort((a,b)=>a.date.localeCompare(b.date));
+  list.innerHTML=sorted.map(it=>{
+    const cost=ACT_COST[it.actId]||0;
+    return `<div class="ag-i"><div class="ag-ic">${it.icon}</div>
+    <div class="ag-info"><div class="ag-nm">${it.name[lang]||it.name.en}</div>
+    <div class="ag-dt">${it.date}${it.time?' · '+it.time:''}</div>
+    ${cost?`<div class="ag-pr">~${fmtEur(cost)}</div>`:''}
+    ${it.note?`<div class="ag-nt">${it.note}</div>`:''}</div>
+    <button class="ag-x" onclick="delAgenda('${it.id}')">×</button></div>`;
+  }).join('');
+}
+function delAgenda(id){
+  const it=state.agenda.find(i=>i.id===id);
+  state.agenda=state.agenda.filter(i=>i.id!==id);
+  if(it&&!state.agenda.some(i=>i.actId===it.actId)) state.inAgenda=state.inAgenda.filter(a=>a!==it.actId);
+  saveState(); renderAgenda(); renderActs(curFilter); renderBudget();
+}
+
+/* ═══════════════════════════════════════════════════════
+   🤖 AI ASSISTANT — a real in-app AGENT (tool use).
+   It can read state AND act: add/remove agenda, check packing,
+   save notes, switch language, set budget context, navigate.
+═══════════════════════════════════════════════════════ */
+function renderChips(){
+  const qs=QUICK_QS[state.lang]||QUICK_QS.en;
+  document.getElementById('chips').innerHTML=qs.map(q=>`<button class="chip" onclick="chip(this)">${q}</button>`).join('');
+}
+function chip(el){ document.getElementById('ai-tx').value=el.textContent; send(); }
+function addMsg(role,content){
+  const m=document.getElementById('msgs'); const d=document.createElement('div'); d.className='msg '+role;
+  const av=document.createElement('div'); av.className='av'; av.textContent=role==='user'?'👤':'✦';
+  const b=document.createElement('div'); b.className='bub'; b.textContent=content;
+  d.appendChild(av); d.appendChild(b); m.appendChild(d); m.scrollTop=m.scrollHeight; return d;
+}
+function addActNote(txt){
+  const m=document.getElementById('msgs'); const d=document.createElement('div'); d.className='act-note'; d.textContent=txt;
+  m.appendChild(d); m.scrollTop=m.scrollHeight;
+}
+function showTyping(){ const m=document.getElementById('msgs'); const d=document.createElement('div'); d.className='msg ai'; d.id='typ';
+  d.innerHTML='<div class="av">✦</div><div class="typ"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>'; m.appendChild(d); m.scrollTop=m.scrollHeight; }
+function hideTyping(){ const t=document.getElementById('typ'); if(t)t.remove(); }
+
+/* tools the AI can call */
+const AI_TOOLS=[
+  { name:'add_to_agenda', description:'Add an activity to the couple\'s agenda on a specific date. Updates the live budget.',
+    input_schema:{type:'object',properties:{
+      activity_id:{type:'string',enum:ACTIVITIES.map(a=>a.id),description:'Which activity'},
+      date:{type:'string',description:'YYYY-MM-DD, between 2026-06-12 and 2026-07-24'},
+      time:{type:'string',description:'optional HH:MM'},
+      note:{type:'string',description:'optional note'}},required:['activity_id','date']}},
+  { name:'remove_from_agenda', description:'Remove an agenda item by its activity id.',
+    input_schema:{type:'object',properties:{activity_id:{type:'string'}},required:['activity_id']}},
+  { name:'check_packing_item', description:'Tick or untick a packing list item.',
+    input_schema:{type:'object',properties:{item_id:{type:'string'},checked:{type:'boolean'}},required:['item_id','checked']}},
+  { name:'save_destination_note', description:'Save a note/wish for a destination (lombok, bali, or tbd).',
+    input_schema:{type:'object',properties:{destination:{type:'string',enum:['lombok','bali','tbd']},text:{type:'string'}},required:['destination','text']}},
+  { name:'set_language', description:'Switch the whole app language.',
+    input_schema:{type:'object',properties:{lang:{type:'string',enum:['en','nl','hy']}},required:['lang']}},
+  { name:'navigate', description:'Scroll the app to a section.',
+    input_schema:{type:'object',properties:{section:{type:'string',enum:['hero','journey','destinations','activities','budget','packing','agenda','ai']}},required:['section']}},
+  { name:'get_status', description:'Read current agenda, planned budget total, and packing progress.',
+    input_schema:{type:'object',properties:{},required:[]}}
+];
+
+function runTool(name,inp){
+  const lang=state.lang;
+  try{
+    if(name==='add_to_agenda'){ const ok=addAgendaItem(inp.activity_id,inp.date,inp.time,inp.note);
+      const a=ACTIVITIES.find(x=>x.id===inp.activity_id);
+      if(ok){ addActNote(`✓ ${a?a.name[lang]||a.name.en:inp.activity_id} → ${inp.date}`); return {ok:true,added:inp.activity_id,date:inp.date,cost:ACT_COST[inp.activity_id]||0,new_total:BUDGET_BASE+plannedSpend()}; }
+      return {ok:false,error:'unknown activity'}; }
+    if(name==='remove_from_agenda'){ const items=state.agenda.filter(i=>i.actId===inp.activity_id);
+      items.forEach(i=>{ state.agenda=state.agenda.filter(x=>x.id!==i.id); });
+      state.inAgenda=state.inAgenda.filter(x=>x!==inp.activity_id);
+      saveState(); renderAgenda(); renderActs(curFilter); renderBudget(); addActNote(`✓ removed ${inp.activity_id}`);
+      return {ok:true,removed:inp.activity_id,new_total:BUDGET_BASE+plannedSpend()}; }
+    if(name==='check_packing_item'){ state.checklist[inp.item_id]=inp.checked; saveState(); renderPacking();
+      addActNote(`✓ ${inp.item_id} ${inp.checked?'checked':'unchecked'}`); return {ok:true}; }
+    if(name==='save_destination_note'){ state.notes[inp.destination]=inp.text; saveState(); restoreNotes();
+      addActNote(`✓ note saved for ${inp.destination}`); return {ok:true}; }
+    if(name==='set_language'){ addActNote(`✓ language → ${inp.lang}`); setLang(inp.lang); return {ok:true}; }
+    if(name==='navigate'){ goSection(inp.section); addActNote(`→ ${inp.section}`); return {ok:true}; }
+    if(name==='get_status'){ return { agenda:state.agenda.map(i=>({activity:i.actId,date:i.date,cost:ACT_COST[i.actId]||0})),
+      planned_experiences:plannedSpend(), base_costs:BUDGET_BASE, total:BUDGET_BASE+plannedSpend(), budget_target:BUDGET_TOTAL,
+      packing_done:Object.values(state.checklist).filter(Boolean).length }; }
+  }catch(e){ return {ok:false,error:String(e)}; }
+  return {ok:false,error:'unknown tool'};
+}
+
+function aiSystem(){
+  const li={en:"Respond in English.",nl:"Antwoord in het Nederlands.",hy:"Պատասխանիր հայերեն."};
+  const acts=ACTIVITIES.map(a=>`${a.id} (${a.name.en}, ~${fmtEur(ACT_COST[a.id]||0)})`).join('; ');
+  return `You are the personal in-app honeymoon assistant of Abdul and his wife — not just a chatbot, but an agent that can actually operate this app via tools.
+Trip: they marry June 8 in Yerevan, Armenia, then fly TOGETHER from Yerevan to Indonesia on June 12 (this is honeymoon day 1). Lombok (Selong Belanak) Jun 12–Jul 10, then Gili Air/Bali Jul 10–Jul 24. Abdul's Netherlands→Yerevan leg on Jun 8 is solo/separate and is NOT counted as honeymoon time.
+ALLERGIES: both grass + chlorine allergy. Always sea/beach/cliff, never jungle/rice fields, never chlorinated pools.
+ACTIVITIES available (id, name, approx cost): ${acts}.
+BUDGET: target ${fmtEur(BUDGET_TOTAL)} total; base flights+stays ~${fmtEur(BUDGET_BASE)}. When you add things, the budget updates live.
+GOLD: wife brings gold to Armenia, max €500 duty-free then 15% customs — always keep the receipt.
+You can use tools to add/remove agenda items, tick packing, save notes, switch language, navigate, and read status. When the user asks you to plan or add something, USE the tools to actually do it, then confirm warmly and mention the budget impact. Be concrete with prices and phone numbers. Keep replies under 160 words. ${li[state.lang]}`;
+}
+
+async function send(){
+  const inp=document.getElementById('ai-tx'); const text=inp.value.trim(); if(!text)return; inp.value='';
+  state.chat.push({role:'user',content:text}); addMsg('user',text); showTyping();
+  let messages=state.chat.slice(-12).map(m=>({role:m.role,content:m.content}));
+  try{
+    let loop=0;
+    while(loop++<5){
+      const res=await fetch(AI_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:800,system:aiSystem(),tools:AI_TOOLS,messages})});
+      const data=await res.json();
+      if(!data.content){ hideTyping(); addMsg('ai',t('aiOffline')); break; }
+      const toolUses=data.content.filter(c=>c.type==='tool_use');
+      const textOut=data.content.filter(c=>c.type==='text').map(c=>c.text).join('\n').trim();
+      if(toolUses.length){
+        messages.push({role:'assistant',content:data.content});
+        const results=toolUses.map(tu=>({type:'tool_result',tool_use_id:tu.id,content:JSON.stringify(runTool(tu.name,tu.input||{}))}));
+        messages.push({role:'user',content:results});
+        if(textOut){ hideTyping(); addMsg('ai',textOut); state.chat.push({role:'assistant',content:textOut}); showTyping(); }
+        continue; // get final response after tool execution
+      }
+      hideTyping();
+      const reply=textOut||t('aiOffline');
+      addMsg('ai',reply); state.chat.push({role:'assistant',content:reply});
+      break;
+    }
+    if(state.chat.length>40)state.chat=state.chat.slice(-40);
+    saveState();
+  }catch(e){ hideTyping(); addMsg('ai',t('aiOffline')); }
+}
+function restoreChat(){ const m=document.getElementById('msgs');
+  if(state.chat.length===0){ addMsg('ai',t('aiWelcome')); return; }
+  state.chat.forEach(x=>addMsg(x.role,x.content)); m.scrollTop=m.scrollHeight; }
+
+/* ═══════════════════════════════════════════════════════
+   TOAST / NAV / REVEAL / INIT
+═══════════════════════════════════════════════════════ */
+let toastT;
+function showToast(msg){ const e=document.getElementById('toast'); e.textContent=msg; e.classList.add('show');
+  clearTimeout(toastT); toastT=setTimeout(()=>e.classList.remove('show'),2200); }
+function goSection(id){ const e=document.getElementById(id); if(e)e.scrollIntoView({behavior:'smooth',block:'start'}); }
+function initSpy(){
+  const secs=['hero','journey','activities','budget','agenda','ai'];
+  const pills=document.querySelectorAll('.np');
+  const obs=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ const id=e.target.id;
+    pills.forEach((p,i)=>p.classList.toggle('on',secs[i]===id)); } }),{rootMargin:'-45% 0px -50% 0px'});
+  secs.forEach(id=>{ const el=document.getElementById(id); if(el)obs.observe(el); });
+}
+function initReveal(){ const obs=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting)e.target.classList.add('in'); }),{rootMargin:'0px 0px -60px 0px'});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el)); }
+
+window.addEventListener('load',()=>{
+  syncEl=document.getElementById('sync');
+  // hero + destination photos
+  setBg(document.getElementById('hero-img'),IMAGES.hero,'hero');
+  setBg(document.getElementById('ph-lombok'),IMAGES.lombok,'default');
+  setBg(document.getElementById('ph-bali'),IMAGES.bali,'default');
+  setBg(document.getElementById('ph-tbd'),IMAGES.tbd,'default');
+
+  loadState();
+  applyLang(); restoreNotes(); restoreChat();
+  renderFilters(); renderActs(); renderBudget();
+  initSpy(); initReveal(); updateHero();
+  setInterval(updateHero,60000);
+  loadRemote();
+});
+</script>
+</body>
+</html>

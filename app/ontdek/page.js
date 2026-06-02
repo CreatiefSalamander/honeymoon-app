@@ -1,194 +1,228 @@
 'use client'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import BottomNav, { Sidebar } from '@/components/BottomNav'
 import FloatingAI from '@/components/FloatingAI'
-import { savePlace, getSavedPlaces } from '@/lib/supabase'
+import { useLanguage } from '@/lib/i18n'
+import { useTrip, afstand, looptijd } from '@/lib/tripContext'
+import { savePlace, getSavedPlaces, addItineraryItem, addExpense, getBudget } from '@/lib/supabase'
+import { Log } from '@/lib/activityLog'
 
 const CATEGORIEEN = [
-  { key: 'restaurant',       icon: '🍽️', label: 'Eten',           zoek: 'restaurant' },
-  { key: 'cafe',             icon: '☕',  label: 'Café',           zoek: 'cafe coffee shop' },
-  { key: 'tourist_attraction',icon:'🏛️', label: 'Bezienswaardig', zoek: 'tourist attraction' },
-  { key: 'park',             icon: '🏖️', label: 'Natuur & park',  zoek: 'park beach nature' },
-  { key: 'night_club',       icon: '🎉', label: 'Uitgaan',         zoek: 'bar nightclub' },
-  { key: 'shopping_mall',    icon: '🛍️', label: 'Shopping',        zoek: 'shopping mall' },
-  { key: 'supermarket',      icon: '🛒', label: 'Supermarkt',      zoek: 'supermarket grocery' },
-  { key: 'pharmacy',         icon: '💊', label: 'Apotheek',        zoek: 'pharmacy drugstore' },
-  { key: 'atm',              icon: '🏧', label: 'Geldautomaat',    zoek: 'ATM bank' },
-  { key: 'hospital',         icon: '🏥', label: 'Ziekenhuis',      zoek: 'hospital emergency' },
-  { key: 'taxi_stand',       icon: '🚕', label: 'Taxi / OV',       zoek: 'taxi bus station' },
-  { key: 'jewelry_store',    icon: '💍', label: 'Juwelier',        zoek: 'jewelry gold shop' },
-  { key: 'spa',              icon: '💆', label: 'Spa / Wellness',  zoek: 'spa hammam massage' },
-  { key: 'art_gallery',      icon: '🎨', label: 'Museum / Kunst',  zoek: 'museum art gallery' },
-  { key: 'place_of_worship', icon: '🕌', label: 'Moskee / Kerk',   zoek: 'mosque church temple' },
+  { key:'restaurant',        icon:'🍽️', label:'Eten'          },
+  { key:'cafe',              icon:'☕',  label:'Café'          },
+  { key:'tourist_attraction',icon:'🏛️', label:'Zien'          },
+  { key:'park',              icon:'🌿', label:'Natuur'        },
+  { key:'night_club',        icon:'🎶', label:'Uitgaan'       },
+  { key:'shopping_mall',     icon:'🛍️', label:'Shopping'      },
+  { key:'supermarket',       icon:'🛒', label:'Super'         },
+  { key:'pharmacy',          icon:'💊', label:'Apotheek'      },
+  { key:'atm',               icon:'🏧', label:'ATM'           },
+  { key:'spa',               icon:'💆', label:'Spa'           },
+  { key:'art_gallery',       icon:'🎨', label:'Museum'        },
+  { key:'place_of_worship',  icon:'🕌', label:'Gebedsplaats'  },
+  { key:'jewelry_store',     icon:'💍', label:'Juwelier'      },
+  { key:'hospital',          icon:'🏥', label:'Ziekenhuis'    },
 ]
 
-const KEUKEN_TYPES = [
-  { label: 'Halal', emoji: '🕌' }, { label: 'Lokaal', emoji: '🍴' },
-  { label: 'Turks', emoji: '🇹🇷' }, { label: 'Arabisch', emoji: '🇦🇪' },
-  { label: 'Italiaans', emoji: '🇮🇹' }, { label: 'Vis & Zee', emoji: '🐟' },
-  { label: 'Vegetarisch', emoji: '🥗' }, { label: 'Frans', emoji: '🇫🇷' },
-  { label: 'Aziatisch', emoji: '🥢' }, { label: 'Fast food', emoji: '🍔' },
-  { label: 'Ontbijt', emoji: '🍳' }, { label: 'Dessert', emoji: '🍰' },
-]
+const KEUKEN = ['Halal','Lokaal','Turks','Arabisch','Italiaans','Vis','Vegetarisch','Aziatisch','Ontbijt']
 
-const AFSTAND_OPTIES = [
-  { label: '500 m', m: 500 }, { label: '1 km', m: 1000 },
-  { label: '2 km', m: 2000 }, { label: '5 km', m: 5000 },
-]
-
-function PlacePhoto({ photoRef, name, className = '' }) {
-  const [failed, setFailed] = useState(false)
-  if (!photoRef || failed) {
-    return (
-      <div className={`flex items-center justify-center text-4xl ${className}`}
-           style={{ background: 'rgba(201,162,75,0.08)' }}>
-        📍
-      </div>
-    )
-  }
-  return (
-    <img src={`/api/places/photo?name=${encodeURIComponent(photoRef)}&w=600`}
-         alt={name} className={`object-cover ${className}`}
-         loading="lazy" onError={() => setFailed(true)} />
-  )
-}
-
-function Sterren({ rating, count }) {
+function StarsRow({ rating, count }) {
   if (!rating) return null
-  const vol = Math.floor(rating)
+  const full = Math.floor(rating)
   return (
-    <span className="flex items-center gap-1">
-      <span className="text-xs" style={{ color: '#FFC107' }}>{'★'.repeat(vol)}{'☆'.repeat(5 - vol)}</span>
-      <span className="text-xs" style={{ color: 'var(--brown-soft)' }}>{rating.toFixed(1)}{count ? ` (${count})` : ''}</span>
+    <span style={{ display:'inline-flex', alignItems:'center', gap:4 }}>
+      <span style={{ color:'#EAB308', fontSize:'0.75rem' }}>{'★'.repeat(full)}{'☆'.repeat(5-full)}</span>
+      <span style={{ fontSize:'0.72rem', color:'var(--text-muted)' }}>{rating.toFixed(1)}{count ? ` (${count})` : ''}</span>
     </span>
   )
 }
 
-function ReviewBlok({ placeId, naam }) {
-  const [samenvatting, setSamenvatting] = useState(null)
+// Voeg aan agenda toe modal
+function AgendaModal({ plek, onClose, user, budgetData }) {
+  const [datum, setDatum] = useState('')
+  const [tijdslot, setTijdslot] = useState('Middag')
+  const [prijs, setPrijs] = useState('')
   const [loading, setLoading] = useState(false)
-  const [open, setOpen] = useState(false)
+  const [gedaan, setGedaan] = useState(false)
 
-  async function load() {
-    if (samenvatting || loading) return
+  async function voegToe() {
+    if (!datum) return
     setLoading(true)
     try {
-      const res = await fetch('/api/reviews', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ placeId, name: naam }),
+      const item = await addItineraryItem({
+        date: datum, time_slot: tijdslot,
+        activity: plek.name, location: plek.address || '',
+        lat: plek.lat, lng: plek.lng, place_id: plek.id,
+        phone: plek.phone || null, type: 'activiteit',
+        price: prijs ? Number(prijs) : null,
+        created_by: user,
       })
-      const data = await res.json()
-      setSamenvatting(data.summary)
+      if (item) {
+        Log.reis(plek.name, datum, user)
+        // Voeg automatisch toe aan budget als prijs ingevuld
+        if (prijs && Number(prijs) > 0 && budgetData) {
+          await addExpense({
+            amount: Number(prijs), category: 'Activiteiten',
+            description: plek.name, currency: budgetData.currency || 'EUR',
+            date: datum, paid_by: user,
+          })
+          Log.uitgave(prijs, 'Activiteiten', budgetData.currency || 'EUR', user)
+        }
+        setGedaan(true)
+        setTimeout(onClose, 1500)
+      }
     } finally { setLoading(false) }
   }
 
-  if (!open) {
-    return (
-      <button onClick={() => { setOpen(true); load() }}
-              className="w-full text-xs mt-2 py-1.5 rounded-xl"
-              style={{ background: 'rgba(201,162,75,0.08)', color: 'var(--gold)', border: '1px solid rgba(201,162,75,0.2)' }}>
-        ✦ AI-samenvatting van reviews
-      </button>
-    )
-  }
-
   return (
-    <div className="mt-2">
-      {loading ? (
-        <div className="flex gap-1 py-3 justify-center">
-          {[0, 1, 2].map(i => <div key={i} className="typing-dot" style={{ animationDelay: `${i * 0.2}s` }} />)}
-        </div>
-      ) : samenvatting ? (
-        <div className="glass-sm p-3 text-xs flex flex-col gap-2">
-          {samenvatting.positief?.length > 0 && (
-            <div>
-              <p className="font-semibold mb-0.5" style={{ color: '#4CAF50' }}>✅ Positief</p>
-              {samenvatting.positief.map((p, i) => <p key={i} style={{ color: 'var(--brown-soft)' }}>• {p}</p>)}
+    <div className="overlay" onClick={onClose}>
+      <div className="sheet" onClick={e => e.stopPropagation()} style={{ maxWidth: 440 }}>
+        {gedaan ? (
+          <div style={{ textAlign:'center', padding:'20px 0' }}>
+            <div style={{ fontSize:'3rem', marginBottom:12 }}>✅</div>
+            <p className="serif" style={{ fontSize:'1.2rem', fontWeight:700 }}>Toegevoegd aan Agenda!</p>
+            <p style={{ color:'var(--text-soft)', marginTop:6, fontSize:'0.875rem' }}>
+              {plek.name} staat nu in je planning
+            </p>
+          </div>
+        ) : (
+          <>
+            <div style={{ marginBottom:20 }}>
+              <p className="label" style={{ marginBottom:4 }}>Toevoegen aan planning</p>
+              <h2 className="serif" style={{ fontSize:'1.3rem', fontWeight:700, color:'var(--text)' }}>{plek.name}</h2>
+              {plek.address && <p style={{ fontSize:'0.8rem', color:'var(--text-muted)', marginTop:2 }}>📍 {plek.address}</p>}
             </div>
-          )}
-          {samenvatting.aandachtspunten?.length > 0 && (
-            <div>
-              <p className="font-semibold mb-0.5" style={{ color: 'var(--rose)' }}>⚠️ Let op</p>
-              {samenvatting.aandachtspunten.map((p, i) => <p key={i} style={{ color: 'var(--brown-soft)' }}>• {p}</p>)}
+
+            <div style={{ display:'flex', flexDirection:'column', gap:14 }}>
+              <div>
+                <label className="label" style={{ display:'block', marginBottom:6 }}>Datum *</label>
+                <input type="date" value={datum} onChange={e => setDatum(e.target.value)} className="input"
+                       min={new Date().toISOString().split('T')[0]} />
+              </div>
+              <div>
+                <label className="label" style={{ display:'block', marginBottom:8 }}>Tijdslot</label>
+                <div style={{ display:'flex', gap:8 }}>
+                  {['Ochtend','Middag','Avond','Nacht'].map(s => (
+                    <button key={s} onClick={() => setTijdslot(s)}
+                            className={`chip ${tijdslot===s?'active':''}`} style={{ flex:1, justifyContent:'center' }}>
+                      {s}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <label className="label" style={{ display:'block', marginBottom:6 }}>Geschatte kosten (optioneel)</label>
+                <div style={{ display:'flex', gap:8, alignItems:'center' }}>
+                  <span style={{ color:'var(--text-muted)', fontSize:'0.875rem' }}>{budgetData?.currency || 'EUR'}</span>
+                  <input type="number" value={prijs} onChange={e => setPrijs(e.target.value)}
+                         placeholder="0" className="input" inputMode="decimal" />
+                </div>
+                {prijs && <p style={{ fontSize:'0.72rem', color:'var(--gold)', marginTop:4 }}>
+                  → Wordt automatisch toegevoegd aan budget
+                </p>}
+              </div>
             </div>
-          )}
-          {samenvatting.onzeTip && (
-            <div className="p-2 rounded-lg" style={{ background: 'rgba(201,162,75,0.1)' }}>
-              <p className="font-semibold" style={{ color: 'var(--gold)' }}>💡 Tip voor jullie</p>
-              <p style={{ color: 'var(--brown-soft)' }}>{samenvatting.onzeTip}</p>
+
+            <div style={{ display:'flex', gap:12, marginTop:20 }}>
+              <button onClick={onClose} className="btn btn-ghost" style={{ flex:1 }}>Annuleer</button>
+              <button onClick={voegToe} disabled={!datum || loading} className="btn btn-gold" style={{ flex:2 }}>
+                {loading ? 'Toevoegen...' : '📅 Toevoegen aan agenda'}
+              </button>
             </div>
-          )}
-        </div>
-      ) : (
-        <p className="text-xs text-center" style={{ color: 'var(--brown-soft)' }}>Geen reviews beschikbaar</p>
-      )}
+          </>
+        )}
+      </div>
     </div>
   )
 }
 
-function PlaceKaart({ place, opgeslagen, onSla }) {
+function PlaceCard({ place, opgeslagen, onSla, onPlan }) {
   const [uitgevouwen, setUitgevouwen] = useState(false)
-  const prijsNiveaus = { PRICE_LEVEL_FREE: 'Gratis', PRICE_LEVEL_INEXPENSIVE: '€', PRICE_LEVEL_MODERATE: '€€', PRICE_LEVEL_EXPENSIVE: '€€€', PRICE_LEVEL_VERY_EXPENSIVE: '€€€€' }
+  const [fotoFout, setFotoFout] = useState(false)
+  const { currentLocation, hotel } = useTrip()
+
+  const basis = currentLocation || (hotel ? { lat: hotel.lat, lng: hotel.lng } : null)
+  const km = basis ? afstand(basis.lat, basis.lng, place.lat, place.lng) : null
+  const looptijdStr = km ? looptijd(km) : null
+
+  const prijsNiveaus = { PRICE_LEVEL_FREE:'Gratis', PRICE_LEVEL_INEXPENSIVE:'€', PRICE_LEVEL_MODERATE:'€€', PRICE_LEVEL_EXPENSIVE:'€€€', PRICE_LEVEL_VERY_EXPENSIVE:'€€€€' }
 
   function openRoute() {
     const q = encodeURIComponent(`${place.name} ${place.address || ''}`)
-    const isApple = /iPhone|iPad|Mac/.test(navigator.userAgent)
-    window.open(isApple ? `maps://maps.apple.com/?q=${q}&ll=${place.lat},${place.lng}` : `https://www.google.com/maps/search/?api=1&query=${q}`, '_blank')
+    window.open(`https://www.google.com/maps/search/?api=1&query=${q}`, '_blank')
   }
 
   return (
-    <div className="place-card mb-3">
-      {/* Foto + naam */}
-      <div className="h-44 relative cursor-pointer overflow-hidden" onClick={() => setUitgevouwen(!uitgevouwen)}>
-        <PlacePhoto photoRef={place.photoRef} naam={place.name} className="w-full h-full" />
-        <div className="absolute inset-0 hero-gradient" />
+    <div className="place-card" style={{ marginBottom:12 }}>
+      {/* Foto */}
+      <div style={{ height:180, position:'relative', overflow:'hidden', cursor:'pointer' }} onClick={() => setUitgevouwen(!uitgevouwen)}>
+        {!fotoFout && place.photoRef ? (
+          <img src={`/api/places/photo?name=${encodeURIComponent(place.photoRef)}&w=600`}
+               alt={place.name} style={{ width:'100%', height:'100%', objectFit:'cover' }}
+               loading="lazy" onError={() => setFotoFout(true)} />
+        ) : (
+          <div style={{ width:'100%', height:'100%', display:'flex', alignItems:'center', justifyContent:'center', background:'var(--bg-subtle)', fontSize:'3rem' }}>
+            {CATEGORIEEN.find(c => c.key === place.type)?.icon || '📍'}
+          </div>
+        )}
+        <div className="hero-gradient" style={{ position:'absolute', inset:0 }} />
+
+        {/* Status badge */}
         {place.open !== undefined && (
-          <span className="absolute top-3 right-3 text-xs font-semibold px-2.5 py-1 rounded-full"
-                style={{ background: place.open ? 'rgba(76,175,80,0.9)' : 'rgba(244,67,54,0.9)', color: 'white' }}>
+          <span className={`badge ${place.open ? 'badge-green' : 'badge-red'}`}
+                style={{ position:'absolute', top:12, left:12 }}>
             {place.open ? '● Open' : '● Gesloten'}
           </span>
         )}
-        <div className="absolute bottom-3 left-3 right-12">
-          <h3 className="font-bold text-white text-base leading-snug drop-shadow">{place.name}</h3>
-          {place.address && <p className="text-white/70 text-xs truncate mt-0.5">{place.address}</p>}
-        </div>
+
         {/* Bewaar-hart */}
         <button onClick={e => { e.stopPropagation(); onSla(place) }}
-                className="absolute bottom-3 right-3 w-9 h-9 rounded-full flex items-center justify-center"
-                style={{ background: 'rgba(255,255,255,0.85)', backdropFilter: 'blur(4px)' }}>
-          <span className="text-lg">{opgeslagen ? '❤️' : '🤍'}</span>
+                style={{ position:'absolute', top:10, right:10, width:34, height:34, borderRadius:'50%', background:'rgba(255,255,255,0.9)', border:'none', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'1.1rem' }}>
+          {opgeslagen ? '❤️' : '♡'}
         </button>
+
+        {/* Naam overlay */}
+        <div style={{ position:'absolute', bottom:12, left:14, right:14 }}>
+          <h3 style={{ color:'white', fontFamily:'Playfair Display,serif', fontSize:'1rem', fontWeight:700, margin:0, textShadow:'0 1px 4px rgba(0,0,0,0.4)' }}>{place.name}</h3>
+          {place.address && <p style={{ color:'rgba(255,255,255,0.8)', fontSize:'0.72rem', margin:'2px 0 0', overflow:'hidden', whiteSpace:'nowrap', textOverflow:'ellipsis' }}>{place.address}</p>}
+        </div>
       </div>
 
-      {/* Info balk */}
-      <div className="p-3">
-        <div className="flex items-center justify-between mb-2 flex-wrap gap-1">
-          <Sterren rating={place.rating} count={place.reviewCount} />
-          <span className="text-xs" style={{ color: 'var(--brown-soft)' }}>{prijsNiveaus[place.priceLevel] || ''}</span>
+      {/* Info */}
+      <div style={{ padding:'12px 14px' }}>
+        <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:10, flexWrap:'wrap', gap:6 }}>
+          <div style={{ display:'flex', alignItems:'center', gap:10 }}>
+            <StarsRow rating={place.rating} count={place.reviewCount} />
+            {place.priceLevel && <span className="badge badge-gold">{prijsNiveaus[place.priceLevel]}</span>}
+          </div>
+          {km !== null && (
+            <span style={{ fontSize:'0.72rem', color:'var(--text-muted)' }}>
+              📍 {km} km {looptijdStr ? `(${looptijdStr})` : ''}{hotel ? ' van hotel' : ''}
+            </span>
+          )}
         </div>
 
         {/* Actie-knoppen */}
-        <div className="flex gap-2 flex-wrap">
-          <button onClick={openRoute} className="btn-ghost text-xs px-3 py-1.5 flex items-center gap-1">
+        <div style={{ display:'flex', gap:8, flexWrap:'wrap' }}>
+          <button onClick={() => onPlan(place)} className="btn btn-gold btn-sm" style={{ flex:'1 1 auto' }}>
+            📅 Plan in agenda
+          </button>
+          <button onClick={openRoute} className="btn btn-ghost btn-sm">
             🧭 Route
           </button>
           {place.phone && (
-            <a href={`tel:${place.phone}`} className="btn-ghost text-xs px-3 py-1.5">📞 Bel</a>
+            <a href={`tel:${place.phone}`} className="btn btn-ghost btn-sm">📞</a>
           )}
           {place.website && (
-            <a href={place.website} target="_blank" rel="noreferrer" className="btn-ghost text-xs px-3 py-1.5">🌐 Website</a>
+            <a href={place.website} target="_blank" rel="noreferrer" className="btn btn-ghost btn-sm">🌐</a>
           )}
-          <button onClick={() => setUitgevouwen(!uitgevouwen)}
-                  className="btn-ghost text-xs px-3 py-1.5 ml-auto">
-            {uitgevouwen ? '▲ Minder' : '▼ Meer'}
-          </button>
         </div>
 
-        {/* Uitklap */}
+        {/* Uitklap: extra info */}
         {uitgevouwen && (
-          <div className="mt-2">
-            <ReviewBlok placeId={place.id} naam={place.name} />
+          <div style={{ marginTop:12, paddingTop:12, borderTop:'1px solid var(--border)' }}>
+            {place.phone && <p style={{ fontSize:'0.8rem', color:'var(--text-soft)', marginBottom:4 }}>📞 {place.phone}</p>}
+            {place.website && <a href={place.website} target="_blank" rel="noreferrer" style={{ fontSize:'0.8rem', color:'var(--gold)' }}>🌐 Website →</a>}
           </div>
         )}
       </div>
@@ -197,278 +231,196 @@ function PlaceKaart({ place, opgeslagen, onSla }) {
 }
 
 export default function OntdekPage() {
-  const [user] = useState(() => typeof window !== 'undefined' ? localStorage.getItem('honeymoon_user') || 'abdul' : 'abdul')
-  const [locatie, setLocatie] = useState(null)
+  const { t } = useLanguage()
+  const { user, currentLocation, hotel } = useTrip()
   const [activeCat, setActiveCat] = useState(null)
   const [zoekInput, setZoekInput] = useState('')
+  const [locatieInput, setLocatieInput] = useState('')
+  const [straal, setStraal] = useState(1500)
   const [plaatsen, setPlaatsen] = useState([])
   const [loading, setLoading] = useState(false)
   const [heeftGezocht, setHeeftGezocht] = useState(false)
   const [error, setError] = useState(null)
   const [missingKey, setMissingKey] = useState(false)
   const [opgeslagen, setOpgeslagen] = useState(new Set())
-  const [locatieInput, setLocatieInput] = useState('')
-  const [gpsStatus, setGpsStatus] = useState('ophalen') // 'ophalen' | 'ok' | 'fout'
-  const [straal, setStraal] = useState(1500)
-  const [activeKeuken, setActiveKeuken] = useState(null)
-  const zoekRef = useRef(null)
+  const [planModal, setPlanModal] = useState(null)
+  const [budgetData, setBudgetData] = useState(null)
+  const [gpsStatus, setGpsStatus] = useState('wachten')
 
   useEffect(() => {
     getSavedPlaces().then(ps => setOpgeslagen(new Set(ps.map(p => p.place_id))))
-  }, [])
+    getBudget().then(b => { if (b) setBudgetData(b) })
+    if (currentLocation) setGpsStatus('ok')
+    else {
+      navigator.geolocation?.getCurrentPosition(() => setGpsStatus('ok'), () => setGpsStatus('fout'), { timeout: 8000 })
+    }
+    if (hotel?.naam) setLocatieInput(hotel.naam)
+  }, [currentLocation, hotel])
 
-  useEffect(() => {
-    setGpsStatus('ophalen')
-    if ('geolocation' in navigator) {
-      navigator.geolocation.getCurrentPosition(
-        pos => { setLocatie({ lat: pos.coords.latitude, lng: pos.coords.longitude }); setGpsStatus('ok') },
-        () => setGpsStatus('fout'),
-        { timeout: 8000, enableHighAccuracy: false }
-      )
-    } else setGpsStatus('fout')
-  }, [])
-
-  async function zoek({ cat, query, lat, lng, radius }) {
+  async function zoek({ cat, query } = {}) {
     setLoading(true)
     setError(null)
     setHeeftGezocht(true)
-    try {
-      const body = {
-        lat: lat ?? locatie?.lat,
-        lng: lng ?? locatie?.lng,
-        radius: radius ?? straal,
-      }
+    const basis = currentLocation || (hotel ? { lat: hotel.lat, lng: hotel.lng } : null)
 
-      if (query) {
-        body.query = query
+    try {
+      const body = {}
+      if (basis) { body.lat = basis.lat; body.lng = basis.lng }
+      body.radius = straal
+      if (query || zoekInput) {
+        body.query = (query || zoekInput) + (locatieInput ? ` in ${locatieInput}` : '')
       } else if (cat) {
-        const catObj = CATEGORIEEN.find(c => c.key === cat)
-        body.query = `${catObj?.zoek || cat} near`
         body.category = cat
+        if (!basis && locatieInput) body.query = `${cat} in ${locatieInput}`
       }
 
       const res = await fetch('/api/places/nearby', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body),
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body)
       })
       const data = await res.json()
-
-      if (data.error?.includes('API') || data.error?.includes('sleutel') || data.error?.includes('key')) {
-        setMissingKey(true)
-        return
-      }
+      if (data.missingKey) { setMissingKey(true); return }
       if (data.error) { setError(data.error); return }
       setPlaatsen(data.places || [])
       setMissingKey(false)
-    } catch (e) {
-      setError('Verbindingsfout — controleer internet')
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  function handleCatKlik(cat) {
-    setActiveCat(cat)
-    setActiveKeuken(null)
-    setZoekInput('')
-    zoek({ cat })
-  }
-
-  function handleKeukenKlik(keuken) {
-    setActiveKeuken(keuken)
-    setActiveCat('restaurant')
-    zoek({ query: `${keuken} restaurant` })
-  }
-
-  function handleZoekFormulier(e) {
-    e?.preventDefault()
-    if (!zoekInput.trim()) return
-    setActiveCat(null)
-    setActiveKeuken(null)
-
-    if (locatieInput.trim()) {
-      // Zoek op ingevoerde locatie (stad)
-      zoek({ query: `${zoekInput} in ${locatieInput}` })
-    } else {
-      zoek({ query: zoekInput })
-    }
-  }
-
-  function handleLocatieZoek(e) {
-    e?.preventDefault()
-    if (locatieInput.trim()) {
-      // Zoek stad, gebruik dan als zoeklocatie via Google Places text search
-      zoek({ query: `${activeCat ? CATEGORIEEN.find(c => c.key === activeCat)?.zoek || activeCat : (zoekInput || 'attraction')} in ${locatieInput}` })
-    }
+    } catch { setError('Verbindingsfout') }
+    finally { setLoading(false) }
   }
 
   async function handleSla(place) {
     if (opgeslagen.has(place.id)) return
-    if ('vibrate' in navigator) navigator.vibrate(20)
     await savePlace({ place_id: place.id, name: place.name, category: activeCat, lat: place.lat, lng: place.lng, data: place })
     setOpgeslagen(prev => new Set([...prev, place.id]))
+    Log.plek(place.name, user)
+    if ('vibrate' in navigator) navigator.vibrate(20)
   }
 
-  const catObj = CATEGORIEEN.find(c => c.key === activeCat)
-  const isEten = activeCat === 'restaurant' || activeCat === null
+  const hotelBasis = hotel ? ` vanuit ${hotel.naam}` : currentLocation ? '' : ''
 
   return (
     <div className="app-shell">
       <Sidebar currentUser={user} />
       <div className="main-area">
-        <div className="page-content px-4 max-w-xl mx-auto">
+        <div className="page-content" style={{ padding:'20px 16px', maxWidth:520, margin:'0 auto' }}>
 
           {/* Header */}
-          <div className="flex items-center justify-between mb-4">
-            <div>
-              <h1 className="serif text-2xl font-bold">🧭 Ontdek</h1>
-              <p className="serif-italic text-xs mt-0.5" style={{ color: 'var(--brown-soft)' }}>
-                {gpsStatus === 'ok' ? '📍 GPS actief' : gpsStatus === 'ophalen' ? '⏳ Locatie ophalen...' : '📍 Geen GPS — zoek op stad'}
-              </p>
+          <div style={{ marginBottom:20 }}>
+            <p className="label" style={{ marginBottom:4 }}>
+              {gpsStatus === 'ok' ? `📍 GPS actief${hotelBasis}` : hotel?.naam ? `📍 ${hotel.naam}` : 'Locatie instellen'}
+            </p>
+            <h1 className="page-title">{t('ontdek')}</h1>
+          </div>
+
+          {/* Zoekbalk + locatie */}
+          <div style={{ display:'flex', flexDirection:'column', gap:8, marginBottom:16 }}>
+            <form onSubmit={e => { e.preventDefault(); setActiveCat(null); zoek() }} style={{ display:'flex', gap:8 }}>
+              <input value={zoekInput} onChange={e => setZoekInput(e.target.value)}
+                     placeholder={`Zoek bijv. "halal restaurant", "strand"...`} className="input" style={{ flex:1 }} />
+              <button type="submit" className="btn btn-gold btn-sm">→</button>
+            </form>
+            <div style={{ display:'flex', gap:8 }}>
+              <input value={locatieInput} onChange={e => setLocatieInput(e.target.value)}
+                     placeholder="📍 Stad / bestemming (optioneel)" className="input" style={{ flex:1, fontSize:'0.82rem' }} />
+              {gpsStatus === 'ok' && (
+                <button onClick={() => { setLocatieInput(''); if (activeCat) zoek({ cat: activeCat }) }}
+                        className="btn btn-ghost btn-sm">GPS</button>
+              )}
             </div>
           </div>
 
-          {/* Locatie invoer */}
-          <form onSubmit={handleLocatieZoek} className="flex gap-2 mb-3">
-            <input value={locatieInput} onChange={e => setLocatieInput(e.target.value)}
-                   placeholder="📍 Stad / bestemming (optioneel)..."
-                   className="input flex-1 text-sm" />
-            {locatieInput && (
-              <button type="submit" className="btn-gold px-3 text-sm">Stel in</button>
-            )}
-            {gpsStatus === 'ok' && (
-              <button type="button" onClick={() => { setLocatieInput(''); if (activeCat) zoek({ cat: activeCat }) }}
-                      className="btn-ghost px-3 text-sm">GPS</button>
-            )}
-          </form>
-
-          {/* Vrij zoeken */}
-          <form onSubmit={handleZoekFormulier} className="flex gap-2 mb-3" ref={zoekRef}>
-            <input value={zoekInput} onChange={e => setZoekInput(e.target.value)}
-                   placeholder="🔍 Zoek bijv. 'halal restaurant' of 'strand'..."
-                   className="input flex-1 text-sm" />
-            <button type="submit" className="btn-rose px-4">Zoek</button>
-          </form>
-
           {/* Straal */}
-          <div className="flex gap-2 mb-4">
-            <span className="text-xs self-center" style={{ color: 'var(--brown-soft)' }}>Straal:</span>
-            {AFSTAND_OPTIES.map(opt => (
-              <button key={opt.m} onClick={() => { setStraal(opt.m); if (activeCat) zoek({ cat: activeCat, radius: opt.m }) }}
-                      className={`chip text-xs ${straal === opt.m ? 'active' : ''}`}>
-                {opt.label}
+          <div style={{ display:'flex', alignItems:'center', gap:8, marginBottom:12 }}>
+            <span style={{ fontSize:'0.75rem', color:'var(--text-muted)' }}>Straal:</span>
+            {[500,1000,2000,5000].map(r => (
+              <button key={r} onClick={() => { setStraal(r); if (activeCat) zoek({ cat: activeCat }) }}
+                      className={`chip ${straal===r?'active':''}`} style={{ fontSize:'0.72rem', padding:'4px 10px' }}>
+                {r<1000?r+'m':r/1000+'km'}
               </button>
             ))}
           </div>
 
-          {/* Categorieën — scrollbaar */}
-          <div className="flex gap-2 overflow-x-auto pb-2 mb-3">
+          {/* Categorieën */}
+          <div style={{ display:'flex', gap:8, overflowX:'auto', paddingBottom:8, marginBottom:16 }} className="no-scrollbar">
             {CATEGORIEEN.map(c => (
-              <button key={c.key} onClick={() => handleCatKlik(c.key)}
-                      className={`chip flex-shrink-0 ${activeCat === c.key ? 'active' : ''}`}>
+              <button key={c.key} onClick={() => { setActiveCat(c.key); zoek({ cat: c.key }) }}
+                      className={`chip ${activeCat===c.key?'active':''}`} style={{ flexShrink:0 }}>
                 {c.icon} {c.label}
               </button>
             ))}
           </div>
 
-          {/* Keukentype (alleen bij eten) */}
-          {isEten && (
-            <div className="mb-4">
-              <p className="text-xs mb-2" style={{ color: 'var(--brown-soft)' }}>Keuken kiezen:</p>
-              <div className="flex gap-2 overflow-x-auto pb-1">
-                {KEUKEN_TYPES.map(k => (
-                  <button key={k.label} onClick={() => handleKeukenKlik(k.label)}
-                          className={`chip flex-shrink-0 ${activeKeuken === k.label ? 'active' : ''}`}>
-                    {k.emoji} {k.label}
-                  </button>
-                ))}
-              </div>
+          {/* Keukentype (bij eten) */}
+          {activeCat === 'restaurant' && (
+            <div style={{ display:'flex', gap:6, overflowX:'auto', paddingBottom:8, marginBottom:12 }} className="no-scrollbar">
+              {KEUKEN.map(k => (
+                <button key={k} onClick={() => zoek({ query: k + ' restaurant' })}
+                        className="chip" style={{ flexShrink:0, fontSize:'0.72rem' }}>{k}</button>
+              ))}
             </div>
           )}
 
           {/* API sleutel nodig */}
           {missingKey && (
-            <div className="glass p-5 mb-4 text-center">
-              <p className="text-3xl mb-3">🔑</p>
-              <h3 className="serif font-semibold mb-2">Google Places sleutel nodig</h3>
-              <p className="text-sm mb-3" style={{ color: 'var(--brown-soft)' }}>
-                Voeg <code className="text-xs px-1 py-0.5 rounded" style={{ background: 'rgba(201,162,75,0.15)' }}>GOOGLE_PLACES_API_KEY</code> toe
-                in Netlify → Site settings → Environment variables
+            <div className="card" style={{ padding:20, textAlign:'center', marginBottom:16 }}>
+              <p style={{ fontSize:'2rem', marginBottom:8 }}>🔑</p>
+              <h3 className="serif" style={{ fontSize:'1.1rem', marginBottom:8 }}>Google Places sleutel nodig</h3>
+              <p style={{ fontSize:'0.82rem', color:'var(--text-soft)', marginBottom:16 }}>
+                Voeg <code style={{ background:'var(--gold-light)', padding:'2px 6px', borderRadius:4, fontSize:'0.75rem' }}>GOOGLE_PLACES_API_KEY</code> toe in Netlify → Site settings → Environment variables
               </p>
-              <div className="text-left glass-sm p-3 text-xs" style={{ color: 'var(--brown-soft)' }}>
-                <p className="font-semibold mb-1" style={{ color: 'var(--brown)' }}>Hoe doe je dat?</p>
-                <p>1. Ga naar <strong>console.cloud.google.com</strong></p>
-                <p>2. Maak een project of selecteer bestaand</p>
-                <p>3. Schakel <strong>Places API (New)</strong> in</p>
-                <p>4. Ga naar Credentials → Create API Key</p>
-                <p>5. Voeg de key toe in Netlify env vars</p>
-              </div>
-              <a href="https://console.cloud.google.com" target="_blank" rel="noreferrer" className="btn-gold inline-block mt-4 text-sm px-5 py-2">
+              <a href="https://console.cloud.google.com" target="_blank" rel="noreferrer" className="btn btn-gold btn-sm">
                 Google Cloud Console →
               </a>
             </div>
           )}
 
-          {/* Foutmelding */}
+          {/* Fout */}
           {error && !missingKey && (
-            <div className="glass p-4 text-center mb-4">
-              <p className="text-2xl mb-2">😕</p>
-              <p className="font-semibold text-sm">{error}</p>
-              <p className="text-xs mt-1" style={{ color: 'var(--brown-soft)' }}>Probeer een andere categorie of controleer de locatie</p>
+            <div className="card" style={{ padding:20, textAlign:'center', marginBottom:16 }}>
+              <p style={{ color:'var(--text-soft)', fontSize:'0.875rem' }}>😕 {error}</p>
             </div>
           )}
 
-          {/* Loading skeleton */}
+          {/* Loading */}
           {loading && (
-            <div className="flex flex-col gap-3">
-              {[1, 2, 3].map(i => (
-                <div key={i} className="rounded-3xl overflow-hidden">
-                  <div className="skeleton h-44" />
-                  <div className="p-3 flex flex-col gap-1.5">
-                    <div className="skeleton h-4 w-3/4" />
-                    <div className="skeleton h-3 w-1/2" />
-                  </div>
-                </div>
-              ))}
+            <div style={{ display:'flex', flexDirection:'column', gap:12 }}>
+              {[1,2,3].map(i => <div key={i} className="skeleton" style={{ height:220, borderRadius:20 }} />)}
             </div>
           )}
 
           {/* Resultaten */}
           {!loading && !error && !missingKey && heeftGezocht && (
             plaatsen.length === 0 ? (
-              <div className="text-center py-12">
-                <p className="text-4xl mb-3">🗺️</p>
-                <h3 className="serif text-lg mb-1">Niets gevonden</h3>
-                <p className="serif-italic text-sm" style={{ color: 'var(--brown-soft)' }}>
+              <div style={{ textAlign:'center', padding:'40px 0' }}>
+                <p style={{ fontSize:'3rem', marginBottom:12 }}>🗺️</p>
+                <h3 className="serif" style={{ fontSize:'1.2rem', marginBottom:8 }}>Niets gevonden</h3>
+                <p style={{ color:'var(--text-soft)', fontSize:'0.875rem' }}>
                   Probeer een grotere straal, andere categorie of typ een stad in
                 </p>
               </div>
             ) : (
               <>
-                <p className="text-xs mb-3" style={{ color: 'var(--brown-soft)' }}>
-                  {plaatsen.length} plekken gevonden {catObj ? `voor ${catObj.icon} ${catObj.label}` : ''} {locatieInput ? `in ${locatieInput}` : ''}
+                <p style={{ fontSize:'0.75rem', color:'var(--text-muted)', marginBottom:12 }}>
+                  {plaatsen.length} resultaten gevonden
                 </p>
-                {plaatsen.map(place => (
-                  <PlaceKaart key={place.id} place={place} opgeslagen={opgeslagen.has(place.id)} onSla={handleSla} />
+                {plaatsen.map(p => (
+                  <PlaceCard key={p.id} place={p} opgeslagen={opgeslagen.has(p.id)}
+                             onSla={handleSla} onPlan={() => setPlanModal(p)} />
                 ))}
               </>
             )
           )}
 
-          {/* Lege staat (nog niet gezocht) */}
+          {/* Lege staat */}
           {!loading && !heeftGezocht && !missingKey && (
-            <div className="text-center py-10">
-              <p className="text-5xl mb-4">🧭</p>
-              <h3 className="serif text-xl mb-2">Ontdek de omgeving</h3>
-              <p className="serif-italic text-sm mb-6" style={{ color: 'var(--brown-soft)' }}>
-                Kies een categorie hierboven of zoek op naam.<br/>
-                {gpsStatus === 'fout' ? 'Typ een stad in het locatieveld bovenaan.' : 'We gebruiken je GPS-locatie.'}
+            <div style={{ textAlign:'center', padding:'40px 0' }}>
+              <p style={{ fontSize:'4rem', marginBottom:16 }}>🧭</p>
+              <h3 className="serif" style={{ fontSize:'1.3rem', marginBottom:8 }}>Ontdek de omgeving</h3>
+              <p style={{ color:'var(--text-soft)', fontSize:'0.875rem', marginBottom:24 }}>
+                Kies een categorie of zoek op naam.<br/>
+                {gpsStatus !== 'ok' && 'Typ een stad in het zoekveld.'}
               </p>
-              <div className="flex flex-wrap gap-2 justify-center">
-                {CATEGORIEEN.slice(0, 6).map(c => (
-                  <button key={c.key} onClick={() => handleCatKlik(c.key)}
-                          className="chip">
+              <div style={{ display:'flex', flexWrap:'wrap', gap:8, justifyContent:'center' }}>
+                {CATEGORIEEN.slice(0,6).map(c => (
+                  <button key={c.key} onClick={() => { setActiveCat(c.key); zoek({ cat: c.key }) }} className="chip">
                     {c.icon} {c.label}
                   </button>
                 ))}
@@ -476,6 +428,12 @@ export default function OntdekPage() {
             </div>
           )}
         </div>
+
+        {/* Plan modal */}
+        {planModal && (
+          <AgendaModal plek={planModal} user={user} budgetData={budgetData}
+                       onClose={() => setPlanModal(null)} />
+        )}
 
         <BottomNav />
         <FloatingAI currentUser={user} pagina="ontdek" />

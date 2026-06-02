@@ -1,9 +1,10 @@
 import './globals.css'
 import { LanguageProvider } from '@/lib/i18n'
+import { TripProvider } from '@/lib/tripContext'
 
 export const metadata = {
-  title: 'Abdul & Lilia 💍',
-  description: 'Onze persoonlijke huwelijksreis-app',
+  title: 'Abdul & Lilia',
+  description: 'Onze persoonlijke huwelijksreis',
   manifest: '/manifest.json',
   appleWebApp: { capable: true, statusBarStyle: 'default', title: 'Abdul & Lilia' },
 }
@@ -14,7 +15,7 @@ export const viewport = {
   maximumScale: 1,
   userScalable: false,
   viewportFit: 'cover',
-  themeColor: '#E3A6B5',
+  themeColor: '#FFFFFF',
 }
 
 export default function RootLayout({ children }) {
@@ -30,15 +31,17 @@ export default function RootLayout({ children }) {
       </head>
       <body>
         <LanguageProvider>
-          {children}
+          <TripProvider>
+            {children}
+          </TripProvider>
         </LanguageProvider>
         <script dangerouslySetInnerHTML={{ __html: `
           (function(){
             var t = localStorage.getItem('theme')
-            if(t==='dark'||(!t&&window.matchMedia('(prefers-color-scheme:dark)').matches))
-              document.documentElement.classList.add('dark')
+            // Standaard: LICHT — alleen dark als expliciet ingesteld
+            if(t === 'dark') document.documentElement.classList.add('dark')
             if('serviceWorker' in navigator)
-              window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').catch(()=>{})})
+              window.addEventListener('load', function(){ navigator.serviceWorker.register('/sw.js').catch(function(){}) })
           })()
         `}} />
       </body>

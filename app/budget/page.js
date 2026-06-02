@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import BottomNav, { Sidebar } from '@/components/BottomNav'
 import FloatingAI from '@/components/FloatingAI'
 import { getBudget, upsertBudget, getExpenses, addExpense, deleteExpense } from '@/lib/supabase'
@@ -110,7 +110,31 @@ export default function BudgetPage() {
   const [loading, setLoading] = useState(true)
   const [showExpForm, setShowExpForm] = useState(false)
   const [showBudForm, setShowBudForm] = useState(false)
+  const [scanning, setScanning] = useState(false)
   const [form, setForm] = useState({ amount:'', category:'Eten', description:'', date:'' })
+  const scanRef = useRef(null)
+
+  async function handleBonnetjeScan(e) {
+    const file = e.target.files?.[0]
+    if (!file) return
+    setScanning(true)
+    try {
+      const fd = new FormData()
+      fd.append('file', file)
+      const res = await fetch('/api/budget/scan', { method:'POST', body:fd })
+      const data = await res.json()
+      if (!data.error) {
+        setForm(prev => ({
+          ...prev,
+          amount: data.amount ? String(data.amount) : prev.amount,
+          category: data.category || prev.category,
+          description: data.description || prev.description,
+          date: data.date || prev.date,
+        }))
+        setShowExpForm(true)
+      }
+    } finally { setScanning(false); e.target.value = '' }
+  }
   const [budForm, setBudForm] = useState({ total:'', currency:'EUR' })
   const [activeTab, setActiveTab] = useState('overzicht')
 
@@ -167,7 +191,13 @@ export default function BudgetPage() {
               <h1 className="serif text-2xl font-bold">💰 Budget</h1>
               <p className="serif-italic text-xs mt-0.5" style={{ color:'var(--brown-soft)' }}>Financieel overzicht</p>
             </div>
-            <button onClick={() => setShowExpForm(true)} className="btn-gold px-4 py-2 text-sm">+ Uitgave</button>
+            <div className="flex gap-2">
+              <input ref={scanRef} type="file" accept="image/*" capture="environment" onChange={handleBonnetjeScan} className="hidden" />
+              <button onClick={() => scanRef.current?.click()} disabled={scanning} className="btn-ghost px-3 py-2 text-sm" title="Scan bonnetje">
+                {scanning ? '⏳' : '📷'}
+              </button>
+              <button onClick={() => setShowExpForm(true)} className="btn-gold px-4 py-2 text-sm">+ Uitgave</button>
+            </div>
           </div>
 
           {/* Tabs */}

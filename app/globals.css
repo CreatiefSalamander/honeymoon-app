@@ -4,9 +4,9 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap');
 
-/* ── Design tokens ───────────────────────────────── */
+/* ── Design tokens (Horizon stijl) ──────────────── */
 :root {
-  --cream:      #FBF6EF;
+  --cream:      #F8F4EE;
   --sand:       #D9C7B0;
   --rose:       #E3A6B5;
   --gold:       #C9A24B;
@@ -58,6 +58,20 @@ body {
 }
 @media (min-width: 768px) {
   .page-content { padding-bottom: 32px; }
+}
+
+/* ── Horizon: Hero sectie met gradient ───────────── */
+.horizon-card {
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 2px 20px rgba(46,38,32,0.06), 0 1px 4px rgba(46,38,32,0.04);
+  border: 1px solid rgba(217,199,176,0.3);
+}
+.horizon-stat {
+  background: linear-gradient(135deg, rgba(201,162,75,0.08), rgba(227,166,181,0.06));
+  border: 1px solid rgba(201,162,75,0.18);
+  border-radius: 20px;
+  padding: 20px;
 }
 
 /* ── Glassmorphism kaarten ───────────────────────── */

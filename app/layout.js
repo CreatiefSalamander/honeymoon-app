@@ -1,4 +1,5 @@
 import './globals.css'
+import { LanguageProvider } from '@/lib/i18n'
 
 export const metadata = {
   title: 'Abdul & Lilia 💍',
@@ -28,7 +29,9 @@ export default function RootLayout({ children }) {
         <meta name="format-detection" content="telephone=no" />
       </head>
       <body>
-        {children}
+        <LanguageProvider>
+          {children}
+        </LanguageProvider>
         <script dangerouslySetInnerHTML={{ __html: `
           (function(){
             var t = localStorage.getItem('theme')

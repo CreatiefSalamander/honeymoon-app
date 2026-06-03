@@ -1,0 +1,27 @@
+# Netlify config voor Honeymoon HQ (Vite + React)
+# Base = hq/ omdat de app in een subfolder van de repo staat.
+
+[build]
+  base = "hq"
+  command = "npm install && npm run build"
+  publish = "dist"
+  functions = "netlify/functions"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+# SPA routing — alle paden naar index.html
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+  force = false
+
+# Scheduled function: proactief brein (elke 30 min)
+[functions."scheduled-engine"]
+  schedule = "*/30 * * * *"
+
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"

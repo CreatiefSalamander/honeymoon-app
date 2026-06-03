@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react'
 import { getCurrentLocation, pushLocation, getCachedLocation, Coords } from './geo'
+import { pullChecks } from './supabase'
 
 export type Phone = 'abdul' | 'lilia'
 export type Settings = {
@@ -37,6 +38,7 @@ export function TripProvider({ children }: { children: ReactNode }) {
     if (p) setPhoneState(p)
     const h = localStorage.getItem('hq_hotel'); if (h) setHotelState(h)
     try { const s = localStorage.getItem('hq_settings'); if (s) setSettings({ ...DEFAULT_SETTINGS, ...JSON.parse(s) }) } catch {}
+    pullChecks() // synct afgevinkte items van de andere telefoon
   }, [])
 
   // Thema + animaties toepassen

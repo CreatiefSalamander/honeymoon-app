@@ -55,7 +55,12 @@ export default function Home() {
     const cached = localStorage.getItem('hq_tip')
     if (cached) { try { const c = JSON.parse(cached); if (c.day === today) { setTip(c.tip); return } } catch {} }
     api.chat([{ role: 'user', content: `Geef één warme, concrete reistip (max 22 woorden) voor Abdul & Lilia op huwelijksreis in Lombok/Bali. Taal: ${i18n.language}. Alleen de tip, geen inleiding.` }])
-      .then(r => { const tip = r.message || ''; setTip(tip); localStorage.setItem('hq_tip', JSON.stringify({ day: today, tip })) })
+      .then(r => {
+        const tip = r.message || ''
+        setTip(tip)
+        // Cache alleen echte tips (geen fout/config-melding)
+        if (tip && !/geconfigureerd|configured|error|ANTHROPIC/i.test(tip)) localStorage.setItem('hq_tip', JSON.stringify({ day: today, tip }))
+      })
       .catch(() => setTip(t('chat.welcome')))
   }, [])
 

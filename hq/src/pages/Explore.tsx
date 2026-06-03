@@ -100,6 +100,7 @@ export default function Explore() {
   const [needKey, setNeedKey] = useState(false)
   const [plan, setPlan] = useState<any>(null)
   const [favs, setFavs] = useState<Set<string>>(new Set())
+  const [view, setView] = useState<'list' | 'map'>('list')
 
   useEffect(() => { getFavorites().then((f: any[]) => setFavs(new Set(f.map(x => x.place_id)))) }, [])
 
@@ -138,6 +139,31 @@ export default function Explore() {
       <div style={{ display: 'flex', gap: 8, overflowX: 'auto', paddingBottom: 8, marginBottom: 14 }} className="no-sb">
         {ACTIVITY_FILTERS.map(f => <button key={f.key} className={`pill ${filter === f.key ? 'on' : ''}`} onClick={() => { setFilter(f.key); setPlaces([]) }}>{t('explore.' + (f.key === 'all' ? 'mapView' : f.key)) !== 'explore.' + f.key ? '' : ''}{f.key === 'all' ? 'Alles' : f.key}</button>)}
       </div>
+
+      {/* Lijst / Kaart toggle */}
+      <div style={{ display: 'flex', gap: 8, marginBottom: 12 }}>
+        <button className={`pill ${view === 'list' ? 'on' : ''}`} style={{ flex: 1, justifyContent: 'center' }} onClick={() => setView('list')}>📋 {t('explore.listView')}</button>
+        <button className={`pill ${view === 'map' ? 'on' : ''}`} style={{ flex: 1, justifyContent: 'center' }} onClick={() => setView('map')}>🗺️ {t('explore.mapView')}</button>
+      </div>
+
+      {/* Kaartweergave (interactieve Google-kaart, gecentreerd op locatie of zoekgebied) */}
+      {view === 'map' && (
+        <div className="photo-card reveal" style={{ marginBottom: 14, overflow: 'hidden' }}>
+          <iframe
+            title="map"
+            style={{ width: '100%', height: 320, border: 0 }}
+            loading="lazy"
+            src={`https://maps.google.com/maps?q=${encodeURIComponent(
+              query ? query + ' Indonesia' : location ? `${location.lat},${location.lng}` : 'Lombok Bali Indonesia'
+            )}&z=12&output=embed`}
+          />
+          <div style={{ padding: '10px 14px', display: 'flex', gap: 8 }}>
+            <a className="btn btn-ghost btn-sm" style={{ flex: 1 }} target="_blank" rel="noreferrer"
+              href={`https://www.google.com/maps/search/${encodeURIComponent(query || (location ? `${location.lat},${location.lng}` : 'Lombok'))}`}>🧭 Open in Maps</a>
+            {location && <a className="btn btn-ghost btn-sm" target="_blank" rel="noreferrer" href={`https://www.google.com/maps/@${location.lat},${location.lng},14z`}>📍 Mijn locatie</a>}
+          </div>
+        </div>
+      )}
 
       {/* Live resultaten */}
       {needKey && <div className="card" style={{ padding: 18, textAlign: 'center', marginBottom: 14 }}><div style={{ fontSize: 28 }}>🔑</div><p style={{ fontSize: 13, color: 'var(--ink-2)', marginTop: 6 }}>{t('explore.needKey')}</p></div>}

@@ -74,11 +74,19 @@ export async function removeFavorite(placeId: string) {
   await supabase.from('saved_places').delete().eq('place_id', placeId)
 }
 
-// ── Checklist-status (paklijst + bucketlist) via key-value in localStorage + Supabase notes ──
+// ── Checklist-status (paklijst + bucketlist) — eigen tabel app_checks (id text) ──
 export function getChecks(): Record<string, any> { return cacheGet('checks', {}) }
 export function setCheck(id: string, val: any) {
-  const c = getChecks(); c[id] = val; cacheSet('checks', c)
-  if (hasSupabase) supabase.from('list_items').upsert({ id, checked: !!val, meta: val }).then(() => {}, () => {})
+  const c = getChecks(); if (val == null) delete c[id]; else c[id] = val; cacheSet('checks', c)
+  if (hasSupabase) supabase.from('app_checks').upsert({ id, val, updated_at: new Date().toISOString() }, { onConflict: 'id' }).then(() => {}, () => {})
+}
+// Eenmalig ophalen + samenvoegen met lokale cache (cross-telefoon sync)
+export async function pullChecks() {
+  if (!hasSupabase) return
+  try {
+    const { data } = await supabase.from('app_checks').select('id,val')
+    if (data) { const c = getChecks(); data.forEach((r: any) => { if (r.val != null) c[r.id] = r.val }); cacheSet('checks', c) }
+  } catch {}
 }
 
 // ── Chat ──

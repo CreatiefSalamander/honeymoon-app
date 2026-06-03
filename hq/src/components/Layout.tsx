@@ -37,16 +37,34 @@ function FAB() {
   )
 }
 
+// Volgorde voor swipe-navigatie tussen pagina's
+const SWIPE_ORDER = ['/', '/agenda', '/explore', '/budget', '/bucketlist', '/travel', '/packing', '/profile', '/settings']
+
 export default function Layout({ children }: { children: ReactNode }) {
   const [drawer, setDrawer] = useState(false)
-  const touchX = useRef<number | null>(null)
+  const touch = useRef<{ x: number; y: number; inScroller: boolean } | null>(null)
   const loc = useLocation()
+  const nav = useNavigate()
 
-  // Swipe vanaf linkerrand opent het menu
-  function onTouchStart(e: React.TouchEvent) { touchX.current = e.touches[0].clientX }
+  function onTouchStart(e: React.TouchEvent) {
+    const t = e.touches[0]
+    const inScroller = !!(e.target as HTMLElement).closest?.('.no-sb, input, textarea, .drawer')
+    touch.current = { x: t.clientX, y: t.clientY, inScroller }
+  }
   function onTouchEnd(e: React.TouchEvent) {
-    if (touchX.current != null && touchX.current < 28 && e.changedTouches[0].clientX - touchX.current > 60) setDrawer(true)
-    touchX.current = null
+    const s = touch.current; touch.current = null
+    if (!s) return
+    const dx = e.changedTouches[0].clientX - s.x
+    const dy = e.changedTouches[0].clientY - s.y
+    // 1) Swipe vanaf linkerrand → menu openen
+    if (s.x < 28 && dx > 55) { setDrawer(true); return }
+    // 2) Horizontale swipe → vorige/volgende pagina (niet in horizontale scrollers/inputs)
+    if (!s.inScroller && Math.abs(dx) > 80 && Math.abs(dy) < 55) {
+      const i = SWIPE_ORDER.indexOf(loc.pathname)
+      if (i === -1) return
+      if (dx < 0 && i < SWIPE_ORDER.length - 1) { if ('vibrate' in navigator) navigator.vibrate(6); nav(SWIPE_ORDER[i + 1]) }
+      else if (dx > 0 && i > 0) { if ('vibrate' in navigator) navigator.vibrate(6); nav(SWIPE_ORDER[i - 1]) }
+    }
   }
 
   return (

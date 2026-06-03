@@ -15,7 +15,7 @@ const DEFAULT_SETTINGS: Settings = {
   notifGlobal: true, reminders: 'both', suggestEmpty: true, suggestFreq: '4h', maxPerDay: 5,
   nearbyAlerts: true, bucketAlerts: true, quietFrom: '22:00', quietTo: '08:00',
   defaultRadius: 5000, defaultTransport: 'scooter', totalBudget: 7000, currency: 'EUR',
-  animations: 'full', theme: 'light',
+  animations: 'full', theme: 'night',
 }
 
 type Ctx = {

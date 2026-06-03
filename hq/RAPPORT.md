@@ -1,5 +1,18 @@
 # 💍 Honeymoon HQ — Eindrapport (v4)
 
+> **🔴 LIVE PREVIEW:** https://abdulilia-hq.netlify.app — bekijk de app meteen (werkt op je telefoon én pc).
+
+## ✦ Wat veranderde in de restyle (v4.1)
+- **Donker premium glas-thema** (#0A1628 + goud) is nu de standaard-look; "Horizon licht" blijft als toggle in Instellingen.
+- **Zwevend telefoon-frame** op een zachte lichte achtergrond op desktop (met grote zachte schaduw, ronde hoeken); full-screen op mobiel.
+- **Slide-out menu** vervangt de onderbalk: open via de menuknop linksboven óf swipe vanaf de linkerrand. Met lijn-iconen + mini-foto's (Lombok, snorkelen, skydive) en gouden accent op de actieve pagina.
+- **Soepele glij-overgangen** tussen pagina's (Framer Motion, horizontale slide + fade), respecteert "reduce motion".
+- **Zwevende gouden AI-knop** (✦) op elke pagina.
+- Alle functies, teksten (EN/NL/Armeens) en data ongewijzigd behouden.
+
+---
+
+
 Herbouw van de Indonesië-huwelijksreisapp (Abdul & Lilia) op een moderne, onderhoudbare stack.
 Gebouwd op branch **`v4-vite`** in de map **`hq/`** — je huidige live app op `main` blijft volledig ongemoeid.
 

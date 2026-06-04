@@ -24,6 +24,7 @@ type Ctx = {
   hotel: string; setHotel: (h: string) => void
   location: Coords | null
   settings: Settings; updateSettings: (s: Partial<Settings>) => void
+  loggedIn: boolean; login: (p: Phone) => void; logout: () => void
 }
 const TripCtx = createContext<Ctx>(null as any)
 
@@ -32,10 +33,11 @@ export function TripProvider({ children }: { children: ReactNode }) {
   const [hotel, setHotelState] = useState('')
   const [location, setLocation] = useState<Coords | null>(getCachedLocation())
   const [settings, setSettings] = useState<Settings>(DEFAULT_SETTINGS)
+  const [loggedIn, setLoggedIn] = useState(false)
 
   useEffect(() => {
     const p = localStorage.getItem('hq_phone') as Phone | null
-    if (p) setPhoneState(p)
+    if (p) { setPhoneState(p); setLoggedIn(true) }
     const h = localStorage.getItem('hq_hotel'); if (h) setHotelState(h)
     try { const s = localStorage.getItem('hq_settings'); if (s) setSettings({ ...DEFAULT_SETTINGS, ...JSON.parse(s) }) } catch {}
     pullChecks() // synct afgevinkte items van de andere telefoon
@@ -55,12 +57,14 @@ export function TripProvider({ children }: { children: ReactNode }) {
   }, [phone])
 
   function setPhone(p: Phone) { setPhoneState(p); localStorage.setItem('hq_phone', p) }
+  function login(p: Phone) { setPhoneState(p); localStorage.setItem('hq_phone', p); setLoggedIn(true) }
+  function logout() { localStorage.removeItem('hq_phone'); setLoggedIn(false) }
   function setHotel(h: string) { setHotelState(h); localStorage.setItem('hq_hotel', h) }
   function updateSettings(s: Partial<Settings>) {
     setSettings(prev => { const next = { ...prev, ...s }; localStorage.setItem('hq_settings', JSON.stringify(next)); return next })
   }
 
-  return <TripCtx.Provider value={{ phone, setPhone, hotel, setHotel, location, settings, updateSettings }}>{children}</TripCtx.Provider>
+  return <TripCtx.Provider value={{ phone, setPhone, hotel, setHotel, location, settings, updateSettings, loggedIn, login, logout }}>{children}</TripCtx.Provider>
 }
 
 export const useTrip = () => useContext(TripCtx)

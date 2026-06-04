@@ -1,6 +1,30 @@
-# 💍 Honeymoon HQ — Eindrapport (v4)
+# 💍 Honeymoon HQ — Eindrapport
 
-> **🔴 LIVE PREVIEW:** https://abdulilia-hq.netlify.app — bekijk de app meteen (werkt op je telefoon én pc).
+> **🔴 LIVE:** https://honeymoon-app-v2.netlify.app — dit is **Honeymoon-app v2** (de echte app).
+> De oude app (`honeymoon-app.netlify.app`, Next.js/cream) = **v1**, blijft als archief staan.
+
+## 🔎 Zelf-analyse v2 (wat ik nagekeken & toegevoegd heb)
+Ik heb mijn eigen werk vergeleken met al je eerdere wensen. Toegevoegd in deze ronde:
+- ✅ **Persoonlijk login-scherm** (Abdul / Lilia) met sfeerfoto — kiest wie de telefoon is.
+- ✅ **Agenda = echt rooster**: week-strip + uur-tijdlijn (07:00–23:00) met grote gekleurde blokken (geen lelijke witte vakken). Tik een blok → opmerking noteren, suggesties zoeken, route, verwijderen. Toevoegen zonder ouderwets datum-prutsen (de gekozen dag staat al klaar).
+- ✅ **Gedeelde chat + @claude**: jij en Lilia in één chat, realtime gesynct. Claude leest mee en antwoordt zodra je **@claude** typt (en springt af en toe spontaan bij) — als coworker die plekken/agenda/budget voorstelt.
+- ✅ **Vergeten pagina's teruggezet & werkend**: 📸 Dagboek (foto's uploaden/liken/lightbox), 🔔 Meldingen (wie deed wat, realtime), ❤️ Favorieten, ⛅ Weer (jouw locatie + Lombok + Bali), ✈️ Vluchten (zoek & vergelijk + boarding-pass scannen + live status).
+- ✅ **Soepelere nihi-achtige glij-overgangen** + **swipe tussen álle pagina's**.
+- ✅ **Alles gekoppeld**: foto/uitgave/reis-plek → verschijnt in Meldingen; plek uit Explore/Favorieten → in Agenda → kosten → in Budget.
+- ✅ **Live & veilig**: AI werkt (server-side key), Supabase synct tussen telefoons, alle externe calls via Netlify-functies (geen sleutels in de app).
+
+### Nog te activeren (3 gratis sleutels — anders nette fallback):
+| Functie | Sleutel |
+|---|---|
+| Live plekken + foto's in Explore | `GOOGLE_PLACES_API_KEY` |
+| Echte weergegevens | `OPENWEATHER_API_KEY` |
+| Live vluchtstatus (gate/vertraging) | `AVIATIONSTACK_KEY` |
+
+De ingebouwde **kaartweergave** in Explore werkt al (Google-kaart-embed, zónder sleutel); een kaart met geclusterde pins is de volgende verfijning.
+
+---
+
+> Origineel v4-rapport hieronder.
 
 ## ✦ Wat veranderde in de restyle (v4.1)
 - **Donker premium glas-thema** (#0A1628 + goud) is nu de standaard-look; "Horizon licht" blijft als toggle in Instellingen.

@@ -155,6 +155,17 @@ export async function addFlight(f: any) {
 }
 export async function deleteFlight(id: string) { if (hasSupabase) await supabase.from('flights').delete().eq('id', id); else cacheSet('flights', cacheGet<any[]>('flights', []).filter(f => f.id !== id)) }
 
+// ── Live locaties (Snapchat-stijl kaart) ──
+export async function getLocations() {
+  if (!hasSupabase) { const c = cacheGet<any>('location', null); return c ? [{ phone: 'me', ...c }] : [] }
+  const { data } = await supabase.from('phone_location').select('*')
+  return data || []
+}
+export function subscribeLocations(cb: (row: any) => void) {
+  if (!hasSupabase) return { unsubscribe() {} }
+  return supabase.channel('loc').on('postgres_changes', { event: '*', schema: 'public', table: 'phone_location' }, (p: any) => cb(p.new)).subscribe()
+}
+
 // ── Activiteiten-log (Meldingen) ──
 export async function logActivity(type: string, description: string, by: string) {
   if (hasSupabase) supabase.from('activity_log').insert({ type, description, created_by: by }).then(() => {}, () => {})

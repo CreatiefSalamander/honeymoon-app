@@ -21,4 +21,5 @@ export const api = {
   placePhoto: (name: string, w = 800) => `${BASE}/place-photo?name=${encodeURIComponent(name)}&w=${w}`,
   weather: (lat: number, lng: number) => get('weather', { lat: String(lat), lng: String(lng) }),
   webInfo: (place: string) => post('web-info', { place }),
+  sendPush: (phone: string, title: string, body: string, url = '/') => post('send-push', { phone, title, body, url }),
 }

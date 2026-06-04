@@ -19,6 +19,7 @@ import Meldingen from './pages/Meldingen'
 import Favorieten from './pages/Favorieten'
 import Weer from './pages/Weer'
 import Vluchten from './pages/Vluchten'
+import Kaart from './pages/Kaart'
 
 // Nihi-achtige soepele glij: spring-easing, korte duur
 const variants = {
@@ -54,6 +55,7 @@ export default function App() {
             <Route path="/favorieten" element={<Favorieten />} />
             <Route path="/weer" element={<Weer />} />
             <Route path="/vluchten" element={<Vluchten />} />
+            <Route path="/kaart" element={<Kaart />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="*" element={<Home />} />

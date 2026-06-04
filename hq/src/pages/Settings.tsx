@@ -5,6 +5,7 @@ import { useTrip } from '@/lib/store'
 import { LANGS, setLang } from '@/lib/i18n'
 import { hasSupabase } from '@/lib/supabase'
 import { enablePush, pushSupported, pushEnabled } from '@/lib/push'
+import { api } from '@/lib/api'
 import { toast } from '@/lib/notify'
 
 function Row({ icon, label, hint, children }: any) {
@@ -91,6 +92,11 @@ export default function Settings() {
           <span className="mono" style={{ fontSize: 12 }}>{settings.quietFrom}–{settings.quietTo}</span>
         </Row>
         {pushSupported() && !pushEnabled() && <div style={{ padding: 12 }}><button className="btn btn-ocean" style={{ width: '100%' }} onClick={turnOnPush}>🔔 {t('settings.notifGlobal')}</button></div>}
+        {pushSupported() && pushEnabled() && <div style={{ padding: 12, display: 'flex', gap: 8 }}>
+          <span className="badge badge-ok" style={{ alignSelf: 'center' }}>● aan</span>
+          <button className="btn btn-ghost btn-sm" style={{ flex: 1 }} onClick={async () => { const r = await api.sendPush(phone, 'Honeymoon HQ ✦', 'Testmelding werkt! 💛'); toast(r.ok ? '✓ verstuurd' : 'Geen abonnement') }}>Stuur testmelding</button>
+        </div>}
+        {!pushSupported() && <div style={{ padding: 12, fontSize: 12, color: 'var(--text-3)' }}>📱 Zet de app eerst op je iPhone-beginscherm (Safari → Deel → Zet op beginscherm) voor meldingen.</div>}
       </Group>
 
       <Group title={'🧭 ' + t('settings.exploreMap')}>

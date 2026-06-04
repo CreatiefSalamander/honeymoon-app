@@ -38,7 +38,7 @@ function FAB() {
 }
 
 // Volgorde voor swipe-navigatie tussen pagina's
-const SWIPE_ORDER = ['/', '/agenda', '/explore', '/budget', '/chat', '/dagboek', '/favorieten', '/bucketlist', '/travel', '/vluchten', '/weer', '/packing', '/meldingen', '/profile', '/settings']
+const SWIPE_ORDER = ['/', '/agenda', '/explore', '/kaart', '/budget', '/chat', '/dagboek', '/favorieten', '/bucketlist', '/travel', '/vluchten', '/weer', '/packing', '/meldingen', '/profile', '/settings']
 
 export default function Layout({ children }: { children: ReactNode }) {
   const [drawer, setDrawer] = useState(false)

@@ -28,6 +28,7 @@ const MENU = [
   { to: '/', key: 'nav.home' },
   { to: '/agenda', key: 'nav.agenda' },
   { to: '/explore', key: 'nav.explore', thumb: ACTIVITIES.find(a => a.id === 'snorkel')?.img },
+  { to: '/kaart', key: 'nav.explore', label: 'Kaart (live)', thumb: DESTINATIONS[1]?.img },
   { to: '/budget', key: 'nav.budget' },
   { to: '/chat', key: 'more.chat' },
   { to: '/dagboek', key: 'more.profile', label: 'Dagboek', thumb: ACTIVITIES.find(a => a.id === 'dinner')?.img },

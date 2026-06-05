@@ -1,321 +1,219 @@
 'use client'
-import { useState, useEffect } from 'react'
-import BottomNav, { Sidebar } from '@/components/BottomNav'
-import FloatingAI from '@/components/FloatingAI'
+import { useState, useEffect, useRef } from 'react'
+import { motion, useScroll, useTransform } from 'framer-motion'
+import Link from 'next/link'
 import { useLanguage } from '@/lib/i18n'
-import { useTrip } from '@/lib/tripContext'
-import { getCountdown, upsertCountdown, getItinerary, getBudget, getExpenses } from '@/lib/supabase'
+import { supabase } from '@/lib/supabase'
 
-function Countdown({ date, t }) {
-  const [tijd, setTijd] = useState(null)
-  const [getrouwd, setGetrouwd] = useState(false)
-
-  useEffect(() => {
-    if (!date) return
-    const tick = () => {
-      const diff = new Date(date) - new Date()
-      if (diff <= 0) { setGetrouwd(true); return }
-      setTijd({ d: Math.floor(diff/86400000), h: Math.floor(diff%86400000/3600000), m: Math.floor(diff%3600000/60000), s: Math.floor(diff%60000/1000) })
-    }
-    tick()
-    const id = setInterval(tick, 1000)
-    return () => clearInterval(id)
-  }, [date])
-
-  if (!date) return null
-  if (getrouwd) return (
-    <div className="card" style={{ padding:'28px 20px', textAlign:'center' }}>
-      <div style={{ fontSize:'3rem', marginBottom:12 }}>💍</div>
-      <p className="serif" style={{ fontSize:'1.5rem', fontWeight:700 }}>{t('getrouwd')}</p>
-    </div>
-  )
-  if (!tijd) return <div className="skeleton" style={{ height:120 }} />
-
-  return (
-    <div className="card" style={{ padding:'20px 16px' }}>
-      <p className="label" style={{ textAlign:'center', marginBottom:14 }}>{t('nogTot')}</p>
-      <div style={{ display:'grid', gridTemplateColumns:'repeat(4,1fr)', gap:8 }}>
-        {[['d',tijd.d,t('dag')+'en'],['h',tijd.h,t('dag').replace('ag','ur')+'en'],['m',tijd.m,'Min'],['s',tijd.s,'Sec']].map(([k,v,l]) => (
-          <div key={k} className="card-gold" style={{ padding:'12px 6px', textAlign:'center' }}>
-            <p className="serif" style={{ fontSize:'1.8rem', fontWeight:700, color:'var(--gold)', lineHeight:1 }}>
-              {String(v).padStart(2,'0')}
-            </p>
-            <p style={{ fontSize:'0.65rem', textTransform:'uppercase', letterSpacing:'0.06em', color:'var(--text-muted)', marginTop:3 }}>{l}</p>
-          </div>
-        ))}
-      </div>
-      <p style={{ textAlign:'center', fontSize:'0.78rem', color:'var(--text-muted)', marginTop:10 }}>
-        {new Date(date).toLocaleDateString('nl-NL',{weekday:'long',day:'numeric',month:'long',year:'numeric'})}
-      </p>
-    </div>
-  )
+// Bestemmingen met Unsplash fotos
+const BGS = {
+  lombok: 'https://images.unsplash.com/photo-1588668214407-6ea9a6d8c272?w=800&q=80',
+  gili: 'https://images.unsplash.com/photo-1573790387438-4da905039392?w=800&q=80',
+  bali: 'https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=800&q=80',
 }
 
-function FloatingHearts() {
-  return (
-    <div style={{ position:'fixed', inset:0, pointerEvents:'none', overflow:'hidden', zIndex:0 }} aria-hidden>
-      {['💕','🌹','✨','🌸'].map((e,i) => (
-        <span key={i} className="float-heart" style={{ left:`${12+i*22}%`, bottom:'-2rem', fontSize:'1.2rem', animationDuration:`${8+i*1.5}s`, animationDelay:`${i*1.3}s` }}>{e}</span>
-      ))}
-    </div>
-  )
+const ROUTE = [
+  { naam: 'Lombok', emoji: '🏝️', start: '2026-06-12', eind: '2026-06-25', kleur: '#4ecdc4' },
+  { naam: 'Gili Air', emoji: '🌊', start: '2026-06-25', eind: '2026-07-05', kleur: '#c9a84c' },
+  { naam: 'Bali', emoji: '🌴', start: '2026-07-05', eind: '2026-07-24', kleur: '#e8813a' },
+]
+
+function getBestemming() {
+  const now = new Date()
+  for (const d of ROUTE) {
+    if (now >= new Date(d.start) && now <= new Date(d.eind)) return d
+  }
+  return now < new Date(ROUTE[0].start) ? ROUTE[0] : ROUTE[ROUTE.length - 1]
+}
+
+function useCountdown(target) {
+  const [t, setT] = useState({ d: 0, h: 0, m: 0, s: 0 })
+  useEffect(() => {
+    const tick = () => {
+      const diff = new Date(target) - new Date()
+      if (diff <= 0) return
+      setT({ d: Math.floor(diff/86400000), h: Math.floor((diff%86400000)/3600000), m: Math.floor((diff%3600000)/60000), s: Math.floor((diff%60000)/1000) })
+    }
+    tick(); const id = setInterval(tick, 1000); return () => clearInterval(id)
+  }, [target])
+  return t
 }
 
 export default function HomePage() {
   const { t } = useLanguage()
-  const { user, setUser, hotel, setHotel } = useTrip()
-  const [splash, setSplash] = useState(false)
-  const [showUserSelect, setShowUserSelect] = useState(false)
-  const [countdown, setCountdown] = useState(null)
-  const [editDate, setEditDate] = useState('')
-  const [showEdit, setShowEdit] = useState(false)
-  const [vandaag, setVandaag] = useState([])
-  const [budgetData, setBudgetData] = useState(null)
-  const [gespendeerd, setGespendeerd] = useState(0)
+  const heroRef = useRef(null)
+  const { scrollY } = useScroll()
+  const parallax = useTransform(scrollY, [0, 300], [0, -80])
+  const cd = useCountdown('2026-06-12T00:00:00')
+  const dest = getBestemming()
+  const reisGestart = new Date() >= new Date('2026-06-12')
+  const dagsSinds = reisGestart ? Math.max(0, Math.round((new Date() - new Date('2026-06-12'))/86400000)) : 0
+  const [currentUser] = useState(typeof window !== 'undefined' ? localStorage.getItem('currentUser')||'abdul' : 'abdul')
   const [weer, setWeer] = useState(null)
-  const [hotelNaam, setHotelNaam] = useState(hotel?.naam || '')
+  const [budget, setBudget] = useState({ totaal: 10000, uitgegeven: 0 })
+  const [agenda, setAgenda] = useState([])
 
   useEffect(() => {
-    if (!sessionStorage.getItem('splashSeen')) {
-      setSplash(true)
-      sessionStorage.setItem('splashSeen','1')
-      setTimeout(() => setSplash(false), 2000)
-    }
-    if (!localStorage.getItem('honeymoon_user')) setShowUserSelect(true)
-  }, [])
-
-  useEffect(() => {
-    Promise.all([getCountdown(), getItinerary(), getBudget(), getExpenses()]).then(([cd, it, bud, exp]) => {
-      setCountdown(cd)
-      if (cd?.wedding_date) setEditDate(cd.wedding_date)
-      const heute = new Date().toISOString().split('T')[0]
-      setVandaag(it.filter(i => i.date === heute).slice(0,3))
-      setBudgetData(bud)
-      setGespendeerd(exp.reduce((s,e) => s+Number(e.amount),0))
+    fetch('/api/weather?location=' + dest.naam).then(r=>r.json()).then(setWeer).catch(()=>{})
+    supabase.from('expenses').select('bedrag').then(({data}) => {
+      if (data) setBudget(prev => ({...prev, uitgegeven: data.reduce((s,e) => s+(e.bedrag||0), 0)}))
     })
-    // Weer ophalen
-    if ('geolocation' in navigator) {
-      navigator.geolocation.getCurrentPosition(pos => {
-        fetch(`/api/weather?lat=${pos.coords.latitude}&lng=${pos.coords.longitude}`).then(r=>r.json()).then(d => { if (!d.error) setWeer(d) }).catch(()=>{})
-      }, () => {})
-    }
-  }, [])
+    const today = new Date().toISOString().split('T')[0]
+    supabase.from('itinerary').select('*').eq('date', today).order('time').then(({data}) => setAgenda(data||[]))
+  }, [dest.naam])
 
-  function selectUser(naam) {
-    setUser(naam)
-    setShowUserSelect(false)
-    if ('vibrate' in navigator) navigator.vibrate([15,40,15])
-  }
-
-  function slaHotelOp() {
-    if (!hotelNaam.trim()) return
-    setHotel({ naam: hotelNaam.trim() })
-    setShowEdit(false)
-  }
-
-  async function slaDateOp() {
-    if (!editDate) return
-    const data = await upsertCountdown(editDate)
-    setCountdown(data)
-    setShowEdit(false)
-  }
-
-  const uur = new Date().getHours()
-  const groet = t(uur < 12 ? 'goedemorgen' : uur < 18 ? 'goedemiddag' : 'goedenavond')
-  const naam = user ? user.charAt(0).toUpperCase()+user.slice(1) : ''
-
-  const totaal = budgetData?.total_budget || 0
-  const pct = totaal > 0 ? Math.min(gespendeerd/totaal*100,100) : 0
-  const curr = budgetData?.currency || 'EUR'
-
-  // Splash
-  if (splash) return (
-    <div style={{ position:'fixed', inset:0, background:'white', display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', zIndex:50 }}>
-      <div style={{ width:56, height:56, borderRadius:16, background:'linear-gradient(135deg,var(--rose),var(--gold))', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'1.8rem', marginBottom:20, animation:'fadeIn 0.5s ease-out 0.2s both' }}>
-        💍
-      </div>
-      <h1 className="serif" style={{ fontSize:'2.2rem', fontWeight:700, textAlign:'center', lineHeight:1.2, animation:'slideUp 0.5s ease-out 0.5s both' }}>
-        <span style={{ color:'var(--rose)' }}>Abdul</span>
-        {' & '}
-        <span style={{ color:'var(--gold)' }}>Lilia</span>
-      </h1>
-      <p className="serif-italic" style={{ color:'var(--text-muted)', marginTop:8, fontSize:'0.9rem', animation:'fadeIn 0.5s ease-out 0.9s both' }}>
-        Huwelijksreis ✨
-      </p>
-    </div>
-  )
+  const resterend = budget.totaal - budget.uitgegeven
+  const budgetPct = Math.min((budget.uitgegeven/budget.totaal)*100, 100)
 
   return (
-    <div className="app-shell">
-      <Sidebar currentUser={user} />
-      <div className="main-area" style={{ position:'relative' }}>
-        <FloatingHearts />
-
-        {/* Profiel kiezen */}
-        {showUserSelect && (
-          <div className="overlay">
-            <div className="sheet" style={{ maxWidth:380 }}>
-              <h2 className="serif" style={{ fontSize:'1.4rem', fontWeight:700, textAlign:'center', marginBottom:6 }}>Wie ben jij?</h2>
-              <p className="serif-italic" style={{ textAlign:'center', color:'var(--text-soft)', fontSize:'0.875rem', marginBottom:24 }}>Kies je profiel om te beginnen 💕</p>
-              <div style={{ display:'flex', gap:14 }}>
-                {['abdul','lilia'].map(n => (
-                  <button key={n} onClick={() => selectUser(n)} className="card" style={{ flex:1, padding:'24px 12px', textAlign:'center', cursor:'pointer', border:'2px solid transparent', transition:'all 0.15s' }}>
-                    <div style={{ fontSize:'3.2rem', marginBottom:8 }}>{n==='lilia'?'👰':'🤵'}</div>
-                    <p className="serif" style={{ fontWeight:700, fontSize:'1rem', textTransform:'capitalize' }}>{n}</p>
-                  </button>
-                ))}
-              </div>
-            </div>
+    <div className="page-content" style={{paddingTop:0}}>
+      {/* HERO */}
+      <div ref={heroRef} style={{position:'relative',height:420,overflow:'hidden'}}>
+        <motion.div style={{y:parallax,position:'absolute',inset:'-40px 0 -40px 0'}}>
+          <img src={BGS[dest.naam?.toLowerCase().replace(' ','')] || BGS.bali} alt={dest.naam}
+            style={{width:'100%',height:'100%',objectFit:'cover'}} onError={e=>e.target.style.display='none'} />
+          <div style={{position:'absolute',inset:0,background:'linear-gradient(to bottom,rgba(10,22,40,0.4) 0%,rgba(10,22,40,0.3) 40%,rgba(10,22,40,0.97) 100%)'}} />
+        </motion.div>
+        <div style={{height:'env(safe-area-inset-top,12px)'}} />
+        <div style={{position:'relative',padding:'12px 20px 0',display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+          <div>
+            <p style={{color:'rgba(240,236,228,0.7)',fontSize:'0.78rem',margin:0}}>{reisGestart ? '🌏 '+dest.naam : '✈️ Vertrek over'}</p>
+            <h1 style={{fontFamily:"'Cormorant Garamond',serif",fontSize:'1.6rem',fontWeight:600,color:'#f0ece4',margin:0}}>Abdul & Lilia</h1>
           </div>
-        )}
-
-        {/* Datum/hotel bewerken */}
-        {showEdit && (
-          <div className="overlay" onClick={() => setShowEdit(false)}>
-            <div className="sheet" onClick={e => e.stopPropagation()} style={{ maxWidth:420 }}>
-              <h2 className="serif" style={{ fontSize:'1.2rem', fontWeight:700, marginBottom:20 }}>Instellingen</h2>
-              <div style={{ display:'flex', flexDirection:'column', gap:14 }}>
-                <div>
-                  <label className="label" style={{ display:'block', marginBottom:6 }}>Huwelijksdatum</label>
-                  <input type="date" value={editDate} onChange={e => setEditDate(e.target.value)} className="input" />
-                </div>
-                <div>
-                  <label className="label" style={{ display:'block', marginBottom:6 }}>Huidig verblijf / hotel</label>
-                  <input type="text" value={hotelNaam} onChange={e => setHotelNaam(e.target.value)} placeholder="Naam van hotel of verblijf" className="input" />
-                </div>
-              </div>
-              <div style={{ display:'flex', gap:10, marginTop:20 }}>
-                <button onClick={() => setShowEdit(false)} className="btn btn-ghost" style={{ flex:1 }}>Annuleer</button>
-                <button onClick={() => { slaDateOp(); slaHotelOp() }} className="btn btn-gold" style={{ flex:2 }}>Opslaan</button>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Pagina-inhoud */}
-        <div className="page-content" style={{ padding:'20px 16px', maxWidth:520, margin:'0 auto', position:'relative', zIndex:1 }}>
-
-          {/* Header */}
-          <div style={{ display:'flex', alignItems:'flex-start', justifyContent:'space-between', marginBottom:24 }}>
-            <div>
-              <p style={{ fontSize:'0.8rem', color:'var(--text-muted)', marginBottom:4, fontWeight:500 }}>
-                {new Date().toLocaleDateString('nl-NL',{weekday:'long', day:'numeric', month:'long'})}
-              </p>
-              <h1 className="serif" style={{ fontSize:'1.6rem', fontWeight:700, lineHeight:1.2, margin:0 }}>
-                {groet}<br/>
-                <span style={{ color:'var(--rose)' }}>{naam}</span> ❤️
-              </h1>
-              {hotel?.naam && (
-                <p style={{ fontSize:'0.75rem', color:'var(--text-muted)', marginTop:4 }}>🏨 {hotel.naam}</p>
-              )}
-            </div>
-            <div style={{ display:'flex', gap:8, flexShrink:0 }}>
-              <button onClick={() => setShowEdit(true)} style={{ width:38, height:38, borderRadius:10, background:'var(--bg-subtle)', border:'1px solid var(--border)', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'1rem' }}>✏️</button>
-              <button onClick={() => setShowUserSelect(true)} style={{ width:38, height:38, borderRadius:10, background:'var(--bg-subtle)', border:'1px solid var(--border)', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'1.3rem' }}>
-                {user === 'lilia' ? '👰' : '🤵'}
-              </button>
-            </div>
-          </div>
-
-          {/* Countdown */}
-          <div style={{ marginBottom:16 }}>
-            <Countdown date={countdown?.wedding_date} t={t} />
-            {!countdown?.wedding_date && (
-              <button onClick={() => setShowEdit(true)} className="btn btn-ghost" style={{ width:'100%', marginTop:8 }}>
-                📅 Huwelijksdatum instellen
-              </button>
-            )}
-          </div>
-
-          {/* Vandaag */}
-          {vandaag.length > 0 && (
-            <div className="card" style={{ padding:'16px 18px', marginBottom:16 }}>
-              <div className="section-header">
-                <h2 className="section-title">{t('vandaag')}</h2>
-              </div>
-              <div style={{ display:'flex', flexDirection:'column', gap:8 }}>
-                {vandaag.map(item => (
-                  <div key={item.id} style={{ display:'flex', alignItems:'center', gap:12, padding:'8px 10px', borderRadius:10, background:'var(--bg-soft)' }}>
-                    <span style={{ fontSize:'0.72rem', fontWeight:600, color:'var(--gold)', width:52, flexShrink:0 }}>{item.time_slot?.substring(0,3) || '—'}</span>
-                    <div style={{ minWidth:0 }}>
-                      <p style={{ fontWeight:600, fontSize:'0.875rem', overflow:'hidden', whiteSpace:'nowrap', textOverflow:'ellipsis' }}>{item.activity||item.title}</p>
-                      {item.location && <p style={{ fontSize:'0.72rem', color:'var(--text-muted)', overflow:'hidden', whiteSpace:'nowrap', textOverflow:'ellipsis' }}>📍 {item.location}</p>}
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <a href="/agenda" style={{ display:'block', textAlign:'center', fontSize:'0.78rem', color:'var(--gold)', marginTop:10, textDecoration:'none', fontWeight:500 }}>
-                Volledig schema →
-              </a>
-            </div>
-          )}
-
-          {/* Weer + Budget rij */}
-          <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:12, marginBottom:16 }}>
-            <a href="/weer" className="card" style={{ padding:'16px 14px', textDecoration:'none', display:'block' }}>
-              <p className="label" style={{ marginBottom:8 }}>{t('vandaag').replace('aag','er') === 'Wer' ? 'Weer' : 'Weer'}</p>
-              {weer ? (
-                <>
-                  <div style={{ display:'flex', alignItems:'center', gap:4 }}>
-                    <img src={`https://openweathermap.org/img/wn/${weer.icon}.png`} alt="" style={{ width:32, height:32 }} />
-                    <span className="serif" style={{ fontSize:'1.6rem', fontWeight:700, color:'var(--gold)' }}>{weer.temp}°</span>
-                  </div>
-                  <p style={{ fontSize:'0.72rem', color:'var(--text-muted)', marginTop:2, textTransform:'capitalize' }}>{weer.city}</p>
-                  <p style={{ fontSize:'0.7rem', color:'var(--text-muted)', textTransform:'capitalize' }}>{weer.description}</p>
-                </>
-              ) : (
-                <p style={{ fontSize:'0.82rem', color:'var(--text-muted)' }}>Tik voor weersinfo →</p>
-              )}
-            </a>
-            <a href="/budget" className="card" style={{ padding:'16px 14px', textDecoration:'none', display:'block' }}>
-              <p className="label" style={{ marginBottom:8 }}>{t('budget')}</p>
-              {totaal > 0 ? (
-                <>
-                  <p className="serif" style={{ fontSize:'1.4rem', fontWeight:700, color:'var(--gold)', lineHeight:1 }}>
-                    {curr} {Math.max(0, totaal-gespendeerd).toFixed(0)}
-                  </p>
-                  <p style={{ fontSize:'0.7rem', color:'var(--text-muted)', marginTop:2 }}>{t('nogOver')}</p>
-                  <div className="progress-track" style={{ marginTop:8 }}>
-                    <div className="progress-fill" style={{ width:`${pct}%`, background: pct<50?'#22C55E':pct<80?'var(--gold)':'var(--rose)' }} />
-                  </div>
-                </>
-              ) : (
-                <p style={{ fontSize:'0.78rem', color:'var(--gold)', fontWeight:500 }}>Instellen →</p>
-              )}
-            </a>
-          </div>
-
-          {/* Snelknoppen */}
-          <div style={{ marginBottom:16 }}>
-            <p className="label" style={{ marginBottom:10 }}>Snel toevoegen</p>
-            <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10 }}>
-              {[
-                { href:'/dagboek', icon:'📷', t:'Foto toevoegen',  s:'Vastleggen' },
-                { href:'/budget',  icon:'💸', t:'Uitgave noteren', s:'Bijhouden' },
-                { href:'/ontdek',  icon:'🧭', t:'Ontdek omgeving', s:'Activiteiten & eten' },
-                { href:'/vluchten',icon:'✈️', t:'Vlucht zoeken',   s:'Vergelijk prijzen' },
-              ].map(item => (
-                <a key={item.href} href={item.href} className="card" style={{ padding:'14px 12px', textDecoration:'none', display:'block', transition:'box-shadow 0.15s' }}>
-                  <span style={{ fontSize:'1.5rem', display:'block', marginBottom:6 }}>{item.icon}</span>
-                  <p style={{ fontWeight:600, fontSize:'0.82rem', color:'var(--text)', marginBottom:2 }}>{item.t}</p>
-                  <p style={{ fontSize:'0.72rem', color:'var(--text-muted)' }}>{item.s}</p>
-                </a>
-              ))}
-            </div>
-          </div>
-
-          {/* Quote */}
-          <div className="card-gold" style={{ padding:'18px 20px', textAlign:'center' }}>
-            <p className="serif-italic" style={{ color:'var(--text-soft)', fontSize:'0.95rem' }}>
-              "Niet waarheen je reist, maar met wie."
-            </p>
-            <p style={{ fontSize:'0.72rem', color:'var(--gold)', marginTop:8, fontWeight:500 }}>— Voor altijd samen 💕</p>
+          <div style={{display:'flex'}}>
+            <Link href="/instellingen">
+              <div style={{width:38,height:38,borderRadius:'50%',border:'2px solid #4ecdc4',background:'linear-gradient(135deg,#4ecdc4,#2980b9)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'1rem'}}>👩</div>
+            </Link>
+            <Link href="/instellingen">
+              <div style={{width:38,height:38,borderRadius:'50%',border:'2px solid #c9a84c',background:'linear-gradient(135deg,#c9a84c,#e8813a)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'1rem',marginLeft:-10}}>👨</div>
+            </Link>
           </div>
         </div>
+        <motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{delay:0.3}}
+          style={{position:'absolute',bottom:20,left:20,right:20}}>
+          <div className="glass" style={{padding:'14px 16px',borderRadius:16}}>
+            {reisGestart ? (
+              <div>
+                <p style={{color:'#c9a84c',fontSize:'0.7rem',fontWeight:700,letterSpacing:'0.08em',textTransform:'uppercase',margin:'0 0 6px'}}>✨ Op huwelijksreis · {dagsSinds} dagen onderweg</p>
+                <div style={{height:4,background:'rgba(255,255,255,0.08)',borderRadius:2,overflow:'hidden',marginBottom:10}}>
+                  <div style={{height:'100%',width:Math.min((dagsSinds/43)*100,100)+'%',background:'linear-gradient(90deg,#c9a84c,#4ecdc4)',borderRadius:2}} />
+                </div>
+                <div style={{display:'flex',alignItems:'center',gap:6}}>
+                  {ROUTE.map((d,i) => (
+                    <div key={i} style={{display:'flex',alignItems:'center',gap:4}}>
+                      <span style={{fontSize:'0.68rem',fontWeight:600,padding:'3px 8px',borderRadius:100,color:d.naam===dest.naam?'#0a1628':d.kleur,background:d.naam===dest.naam?d.kleur:'rgba(255,255,255,0.08)',border:'1px solid '+d.kleur+'40'}}>{d.emoji} {d.naam}</span>
+                      {i<2&&<span style={{color:'rgba(240,236,228,0.3)',fontSize:'0.6rem'}}>→</span>}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <div>
+                <p style={{color:'#c9a84c',fontSize:'0.7rem',fontWeight:700,letterSpacing:'0.08em',textTransform:'uppercase',margin:'0 0 8px'}}>✨ Huwelijksreis begint over</p>
+                <div style={{display:'flex',alignItems:'center',gap:20}}>
+                  {[['d',cd.d],['u',cd.h],['m',cd.m],['s',cd.s]].map(([l,v]) => (
+                    <div key={l} style={{textAlign:'center'}}>
+                      <span style={{fontFamily:"'DM Mono',monospace",fontSize:'1.8rem',fontWeight:600,color:'#f0ece4',display:'block',lineHeight:1}}>{String(v).padStart(2,'0')}</span>
+                      <span style={{fontSize:'0.58rem',color:'#8a9ab5',textTransform:'uppercase'}}>{l}</span>
+                    </div>
+                  ))}
+                  <div style={{marginLeft:'auto',textAlign:'right'}}>
+                    <p style={{color:'#f0ece4',fontSize:'0.75rem',margin:0}}>📍 Lombok</p>
+                    <p style={{color:'#8a9ab5',fontSize:'0.62rem',margin:0,fontFamily:"'DM Mono',monospace"}}>12 jun 2026</p>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        </motion.div>
+      </div>
 
-        <BottomNav />
-        <FloatingAI currentUser={user} pagina="home" locatieNaam={hotel?.naam || weer?.city} />
+      {/* WIDGETS */}
+      <div style={{padding:'14px 14px 0'}}>
+        <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:8,marginBottom:8}}>
+          <Link href="/weer" style={{textDecoration:'none'}}>
+            <motion.div initial={{opacity:0,y:16}} animate={{opacity:1,y:0}} transition={{delay:0.2}} whileTap={{scale:0.96}} className="card" style={{padding:14,cursor:'pointer',height:'100%'}}>
+              <div style={{display:'flex',alignItems:'center',gap:8,marginBottom:6}}>
+                <div style={{width:32,height:32,borderRadius:8,background:'rgba(78,205,196,0.15)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'1rem'}}>☀️</div>
+                <div>
+                  <p style={{color:'#8a9ab5',fontSize:'0.62rem',margin:0}}>{dest.naam}</p>
+                  <p style={{color:'#f0ece4',fontWeight:600,fontSize:'0.9rem',margin:0,fontFamily:"'DM Mono',monospace"}}>{weer?.temp||'--'}°C</p>
+                </div>
+              </div>
+              <p style={{color:'#8a9ab5',fontSize:'0.62rem',margin:0}}>{weer?.description||'Tik voor weer'}</p>
+            </motion.div>
+          </Link>
+          <Link href="/budget" style={{textDecoration:'none'}}>
+            <motion.div initial={{opacity:0,y:16}} animate={{opacity:1,y:0}} transition={{delay:0.25}} whileTap={{scale:0.96}} className="card" style={{padding:14,cursor:'pointer',height:'100%'}}>
+              <div style={{display:'flex',alignItems:'center',gap:8,marginBottom:6}}>
+                <div style={{width:32,height:32,borderRadius:8,background:'rgba(201,168,76,0.15)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'1rem'}}>💰</div>
+                <div>
+                  <p style={{color:'#8a9ab5',fontSize:'0.62rem',margin:0}}>Budget over</p>
+                  <p style={{color:'#c9a84c',fontWeight:600,fontSize:'0.9rem',margin:0,fontFamily:"'DM Mono',monospace"}}>€{Math.round(resterend).toLocaleString('nl')}</p>
+                </div>
+              </div>
+              <div style={{height:4,background:'rgba(255,255,255,0.08)',borderRadius:2,overflow:'hidden'}}>
+                <div style={{height:'100%',width:budgetPct+'%',background:'linear-gradient(90deg,#c9a84c,'+(budgetPct>80?'#ef4444':'#e8c97a')+')',borderRadius:2}} />
+              </div>
+            </motion.div>
+          </Link>
+        </div>
+
+        <Link href="/agenda" style={{textDecoration:'none'}}>
+          <motion.div initial={{opacity:0,y:16}} animate={{opacity:1,y:0}} transition={{delay:0.3}} whileTap={{scale:0.98}} className="card" style={{padding:'12px 14px',marginBottom:8,cursor:'pointer'}}>
+            <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:8}}>
+              <div style={{display:'flex',alignItems:'center',gap:8}}><span>📅</span><span style={{color:'#f0ece4',fontWeight:600,fontSize:'0.85rem'}}>Vandaag</span></div>
+              <span style={{color:'#8a9ab5',fontSize:'0.68rem',fontFamily:"'DM Mono',monospace"}}>{new Date().toLocaleDateString('nl',{day:'numeric',month:'short'})}</span>
+            </div>
+            {agenda.length > 0 ? agenda.slice(0,3).map((item,i) => (
+              <div key={i} style={{display:'flex',alignItems:'center',gap:8,marginBottom:6}}>
+                <div style={{width:3,height:32,borderRadius:2,background:i===0?'#4ecdc4':i===1?'#c9a84c':'#e8c97a',flexShrink:0}} />
+                <div><p style={{color:'#f0ece4',fontSize:'0.8rem',fontWeight:500,margin:0}}>{item.title||item.naam}</p><p style={{color:'#8a9ab5',fontSize:'0.65rem',fontFamily:"'DM Mono',monospace",margin:0}}>{item.time||item.date}</p></div>
+              </div>
+            )) : <p style={{color:'#8a9ab5',fontSize:'0.78rem',margin:0}}>Nog niets gepland vandaag ✨</p>}
+          </motion.div>
+        </Link>
+
+        <motion.div initial={{opacity:0,y:16}} animate={{opacity:1,y:0}} transition={{delay:0.33}} className="card" style={{padding:'12px 14px',marginBottom:8,background:'linear-gradient(135deg,rgba(201,168,76,0.10),rgba(201,168,76,0.02))',border:'1px solid rgba(201,168,76,0.25)'}}>
+          <div style={{display:'flex',alignItems:'flex-start',gap:10}}>
+            <div style={{width:36,height:36,borderRadius:10,background:'linear-gradient(135deg,#c9a84c,#e8c97a)',display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}}>✨</div>
+            <div style={{flex:1}}>
+              <p style={{color:'#c9a84c',fontSize:'0.62rem',fontWeight:700,letterSpacing:'0.08em',textTransform:'uppercase',margin:'0 0 3px'}}>AI Suggestie</p>
+              <p style={{color:'#f0ece4',fontSize:'0.8rem',lineHeight:1.5,margin:0,fontFamily:"'Cormorant Garamond',serif"}}>
+                {reisGestart ? 'Snorkelen bij Gili Air is perfect voor Lilia — puur oceaan, geen chloor! 🐠' : 'Over '+cd.d+' dagen begint het avontuur! Check of alle documenten klaar zijn 💍'}
+              </p>
+            </div>
+            <Link href="/meer" style={{color:'#c9a84c',textDecoration:'none',fontSize:'1.2rem',flexShrink:0}}>›</Link>
+          </div>
+        </motion.div>
+
+        <p style={{color:'#8a9ab5',fontSize:'0.62rem',fontWeight:700,letterSpacing:'0.1em',textTransform:'uppercase',margin:'0 0 8px 4px'}}>Snel toevoegen</p>
+        <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:8,marginBottom:8}}>
+          {[
+            {href:'/fotos',e:'📸',l:'Foto maken',s:'Vastleggen',c:'#4ecdc4'},
+            {href:'/budget',e:'💸',l:'Uitgave',s:'Bijhouden',c:'#c9a84c'},
+            {href:'/ontdek',e:'🧭',l:'Ontdek',s:'Activiteiten',c:'#e8813a'},
+            {href:'/locatie',e:'🗺️',l:'Kaart',s:'Snap Map',c:'#9b59b6'},
+          ].map((item,i) => (
+            <Link key={i} href={item.href} style={{textDecoration:'none'}}>
+              <motion.div initial={{opacity:0,y:16}} animate={{opacity:1,y:0}} transition={{delay:0.35+i*0.05}} whileTap={{scale:0.95}} className="card" style={{padding:12,cursor:'pointer'}}>
+                <div style={{width:32,height:32,borderRadius:8,background:item.c+'20',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'1rem',marginBottom:6}}>{item.e}</div>
+                <p style={{color:'#f0ece4',fontSize:'0.8rem',fontWeight:600,margin:0}}>{item.l}</p>
+                <p style={{color:'#8a9ab5',fontSize:'0.65rem',margin:'2px 0 0'}}>{item.s}</p>
+              </motion.div>
+            </Link>
+          ))}
+        </div>
+
+        <Link href="/vluchten" style={{textDecoration:'none'}}>
+          <motion.div initial={{opacity:0,y:16}} animate={{opacity:1,y:0}} transition={{delay:0.5}} whileTap={{scale:0.98}} className="card" style={{padding:'12px 14px',marginBottom:8,display:'flex',alignItems:'center',gap:10,cursor:'pointer'}}>
+            <div style={{width:38,height:38,borderRadius:10,background:'rgba(78,205,196,0.12)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'1.2rem'}}>✈️</div>
+            <div style={{flex:1}}><p style={{color:'#f0ece4',fontWeight:600,fontSize:'0.85rem',margin:0}}>Vluchten</p><p style={{color:'#8a9ab5',fontSize:'0.7rem',margin:'2px 0 0',fontFamily:"'DM Mono',monospace"}}>AMS → CGK · 12 jun 2026</p></div>
+            <span style={{color:'#4ecdc4',fontSize:'0.68rem',fontWeight:600,background:'rgba(78,205,196,0.12)',padding:'3px 8px',borderRadius:100}}>Op schema</span>
+          </motion.div>
+        </Link>
+        <div style={{height:20}} />
       </div>
     </div>
   )
-}
+              }—

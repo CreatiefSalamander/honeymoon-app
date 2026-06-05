@@ -180,7 +180,7 @@ export default function HomePage() {
             <div style={{flex:1}}>
               <p style={{color:'#c9a84c',fontSize:'0.62rem',fontWeight:700,letterSpacing:'0.08em',textTransform:'uppercase',margin:'0 0 3px'}}>AI Suggestie</p>
               <p style={{color:'#f0ece4',fontSize:'0.8rem',lineHeight:1.5,margin:0,fontFamily:"'Cormorant Garamond',serif"}}>
-                {reisGestart ? 'Snorkelen bij Gili Air is perfect voor Lilia — puur oceaan, geen chloor! 🐠' : 'Over '+cd.d+' dagen begint het avontuur! Check of alle documenten klaar zijn 💍'}
+                {reisGestart ? 'Snorkelen bij Gili Air is perfect voor Lilia - puur oceaan, geen chloor! 🐠' : 'Over '+cd.d+' dagen begint het avontuur! Check of alle documenten klaar zijn 💍'}
               </p>
             </div>
             <Link href="/meer" style={{color:'#c9a84c',textDecoration:'none',fontSize:'1.2rem',flexShrink:0}}>›</Link>
@@ -216,4 +216,4 @@ export default function HomePage() {
       </div>
     </div>
   )
-              }—
+}

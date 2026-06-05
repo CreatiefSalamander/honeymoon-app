@@ -1,298 +1,204 @@
 'use client'
-import { useState, useEffect, useCallback } from 'react'
-import BottomNav, { Sidebar } from '@/components/BottomNav'
-import FloatingAI from '@/components/FloatingAI'
+import { useState, useEffect } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { useLanguage } from '@/lib/i18n'
-import { getItinerary, getFlights, getSavedPlaces } from '@/lib/supabase'
+import { supabase } from '@/lib/supabase'
 
-function haversine(lat1, lon1, lat2, lon2) {
-  const R = 6371
-  const dLat = (lat2 - lat1) * Math.PI / 180
-  const dLon = (lon2 - lon1) * Math.PI / 180
-  const a = Math.sin(dLat/2)**2 + Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLon/2)**2
-  return Math.round(R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)) * 10) / 10
-}
+const ACT_CATS = [
+  { id: 'strand', label: 'Strand', emoji: '🏖️', color: '#4ecdc4' },
+  { id: 'eten', label: 'Eten', emoji: '🍜', color: '#e8813a' },
+  { id: 'activiteit', label: 'Activiteit', emoji: '🏄', color: '#c9a84c' },
+  { id: 'vervoer', label: 'Vervoer', emoji: '✈️', color: '#9b59b6' },
+  { id: 'verblijf', label: 'Verblijf', emoji: '🏨', color: '#3498db' },
+  { id: 'overig', label: 'Overig', emoji: '✨', color: '#8a9ab5' },
+]
+const REIS_START = new Date('2026-06-12')
+const REIS_EIND = new Date('2026-07-24')
+const MAANDEN = ['Januari','Februari','Maart','April','Mei','Juni','Juli','Augustus','September','Oktober','November','December']
+const DAGNAMEN = ['Ma','Di','Wo','Do','Vr','Za','Zo']
 
-function dagNaamNL(datum) {
-  const d = new Date(datum)
-  const namen = ['zo','ma','di','wo','do','vr','za']
-  const maanden = ['jan','feb','mrt','apr','mei','jun','jul','aug','sep','okt','nov','dec']
-  return `${namen[d.getDay()]} ${d.getDate()} ${maanden[d.getMonth()]}`
-}
+function toStr(d) { return d.toISOString().split('T')[0] }
+function isReis(d) { return d >= REIS_START && d <= REIS_EIND }
 
-function DagKolom({ datum, items, vluchten, locatie, budgetPerDag }) {
-  const isVandaag = datum === new Date().toISOString().split('T')[0]
-  const isGisteren = datum === new Date(Date.now()-86400000).toISOString().split('T')[0]
-  const isMorgen = datum === new Date(Date.now()+86400000).toISOString().split('T')[0]
-
-  const label = isVandaag ? 'Vandaag' : isMorgen ? 'Morgen' : isGisteren ? 'Gisteren' : dagNaamNL(datum)
-
-  // Bereken afstanden tussen opeenvolgende items met lat/lng
-  const metAfstand = items.map((item, i) => {
-    if (i === 0 || !item.lat || !items[i-1].lat) return { ...item, afstand: null }
-    return { ...item, afstand: haversine(items[i-1].lat, items[i-1].lng, item.lat, item.lng) }
-  })
-
-  const vluchtVandaag = vluchten.filter(f => f.depart_at?.startsWith(datum) || f.arrive_at?.startsWith(datum))
-
-  const SLOT_KLEUREN = { Ochtend: '#F0D060', Middag: '#E3A6B5', Avond: '#C9A24B', Nacht: '#8B7A8B' }
-
-  return (
-    <div className={`glass p-0 overflow-hidden mb-4 ${isVandaag ? 'ring-2' : ''}`}
-         style={{ '--tw-ring-color': 'rgba(201,162,75,0.5)' }}>
-      {/* Dag-header */}
-      <div className="px-4 py-3 flex items-center justify-between"
-           style={{ background: isVandaag ? 'linear-gradient(135deg,rgba(201,162,75,0.15),rgba(227,166,181,0.15))' : 'rgba(201,162,75,0.05)' }}>
-        <div>
-          <p className="font-bold text-sm" style={{ color: isVandaag ? 'var(--gold)' : 'var(--brown)' }}>{label}</p>
-          <p className="text-xs" style={{ color: 'var(--brown-soft)' }}>{new Date(datum).toLocaleDateString('nl-NL', { day:'numeric', month:'long', year:'numeric' })}</p>
-        </div>
-        {budgetPerDag > 0 && (
-          <span className="text-xs font-semibold px-2 py-1 rounded-full" style={{ background: 'rgba(201,162,75,0.15)', color: 'var(--gold)' }}>
-            ≈ €{budgetPerDag}
-          </span>
-        )}
-        {isVandaag && <span className="text-xs font-bold px-2 py-1 rounded-full" style={{ background: 'var(--gold)', color: 'white' }}>NU</span>}
-      </div>
-
-      {/* Vluchten */}
-      {vluchtVandaag.map(v => (
-        <div key={v.id} className="flex items-center gap-3 px-4 py-3 border-b" style={{ borderColor: 'var(--gold-line)', background: 'rgba(33,150,243,0.05)' }}>
-          <span className="text-2xl">✈️</span>
-          <div className="flex-1">
-            <p className="font-bold text-sm">{v.flight_no} · {v.from_code} → {v.to_code}</p>
-            <p className="text-xs" style={{ color: 'var(--brown-soft)' }}>
-              {v.depart_at ? new Date(v.depart_at).toLocaleTimeString('nl-NL',{hour:'2-digit',minute:'2-digit'}) : ''}
-              {v.arrive_at ? ' → ' + new Date(v.arrive_at).toLocaleTimeString('nl-NL',{hour:'2-digit',minute:'2-digit'}) : ''}
-              {v.seat ? ` · Stoel ${v.seat}` : ''}
-            </p>
-          </div>
-        </div>
-      ))}
-
-      {/* Activiteiten */}
-      {metAfstand.length === 0 && vluchtVandaag.length === 0 ? (
-        <div className="px-4 py-6 text-center">
-          <p className="text-2xl mb-1">🌴</p>
-          <p className="text-xs serif-italic" style={{ color: 'var(--brown-soft)' }}>Vrije dag — geniet!</p>
-        </div>
-      ) : (
-        metAfstand.map((item, i) => (
-          <div key={item.id}>
-            {item.afstand !== null && item.afstand > 0 && (
-              <div className="flex items-center gap-2 px-5 py-1.5" style={{ background: 'rgba(201,162,75,0.04)' }}>
-                <div className="w-px h-4" style={{ background: 'rgba(201,162,75,0.3)', marginLeft: 10 }} />
-                <span className="text-xs" style={{ color: 'var(--brown-soft)' }}>🚶 {item.afstand} km</span>
-              </div>
-            )}
-            <div className="flex items-start gap-3 px-4 py-3 border-b" style={{ borderColor: 'var(--gold-line)' }}>
-              <div className="flex flex-col items-center gap-1 flex-shrink-0">
-                <div className="w-2 h-2 rounded-full mt-1" style={{ background: SLOT_KLEUREN[item.time_slot] || 'var(--gold)' }} />
-                <span className="text-[10px] font-medium" style={{ color: SLOT_KLEUREN[item.time_slot] || 'var(--gold)', writingMode: 'horizontal-tb' }}>
-                  {item.time_slot?.substring(0,3) || '—'}
-                </span>
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="font-semibold text-sm" style={{ color: 'var(--brown)' }}>{item.activity || item.title}</p>
-                {item.location && (
-                  <p className="text-xs mt-0.5 truncate" style={{ color: 'var(--brown-soft)' }}>📍 {item.location}</p>
-                )}
-                {item.hotel && (
-                  <p className="text-xs" style={{ color: 'var(--brown-soft)' }}>🏨 {item.hotel}</p>
-                )}
-                {item.notes && (
-                  <p className="text-xs mt-1 text-ellipsis overflow-hidden" style={{ color: 'var(--brown-soft)', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
-                    {item.notes}
-                  </p>
-                )}
-              </div>
-              {item.price && <span className="text-xs font-semibold" style={{ color: 'var(--gold)' }}>€{item.price}</span>}
-            </div>
-          </div>
-        ))
-      )}
-
-      {/* Locatie */}
-      {locatie && (isVandaag || isMorgen) && (
-        <div className="px-4 py-2 flex items-center gap-2" style={{ background: 'rgba(76,175,80,0.05)', borderTop: '1px solid var(--gold-line)' }}>
-          <span className="text-sm">📍</span>
-          <p className="text-xs" style={{ color: 'var(--brown-soft)' }}>
-            {isVandaag ? `Jouw locatie: ${locatie.city || 'Ophalen...'}` : `Morgen naar: ${items[0]?.location || '—'}`}
-          </p>
-        </div>
-      )}
-    </div>
-  )
+function dagInMaand(jaar, maand) {
+  const days = []
+  const eerste = new Date(jaar, maand, 1)
+  for (let i = 0; i < (eerste.getDay() || 7) - 1; i++) days.push(null)
+  for (let d = 1; d <= new Date(jaar, maand + 1, 0).getDate(); d++) days.push(new Date(jaar, maand, d))
+  return days
 }
 
 export default function AgendaPage() {
-  const [user] = useState(() => typeof window !== 'undefined' ? localStorage.getItem('honeymoon_user') || 'abdul' : 'abdul')
-  const { t } = useLanguage()
+  const now = new Date()
+  const [jaar, setJaar] = useState(2026)
+  const [maand, setMaand] = useState(5)
+  const [selDate, setSelDate] = useState(toStr(now < REIS_START ? REIS_START : now))
   const [items, setItems] = useState([])
-  const [vluchten, setVluchten] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [view, setView] = useState('week') // 'week' | 'dag' | 'lijst'
-  const [locatie, setLocatie] = useState(null)
-  const [geselecteerdeDag, setGeselecteerdeDag] = useState(new Date().toISOString().split('T')[0])
+  const [showForm, setShowForm] = useState(false)
+  const [editItem, setEditItem] = useState(null)
+  const [form, setForm] = useState({ title: '', time: '10:00', type: 'activiteit', datum: selDate, prijs: '', notitie: '', duur: '2' })
 
-  useEffect(() => {
-    Promise.all([getItinerary(), getFlights()]).then(([it, fl]) => {
-      setItems(it)
-      setVluchten(fl)
-      setLoading(false)
-    })
-    // GPS
-    if (navigator.geolocation) {
-      navigator.geolocation.watchPosition(pos => {
-        fetch(`/api/weather?lat=${pos.coords.latitude}&lng=${pos.coords.longitude}`)
-          .then(r => r.json()).then(d => { if (!d.error) setLocatie({ ...pos.coords, city: d.city }) })
-          .catch(() => setLocatie(pos.coords))
-      }, () => {}, { enableHighAccuracy: false, timeout: 10000 })
-    }
-  }, [])
+  const load = async () => {
+    const { data } = await supabase.from('itinerary').select('*').order('time')
+    setItems(data || [])
+  }
+  useEffect(() => { load() }, [])
 
-  // Groepeer per datum
-  const alleData = [...new Set(items.map(i => i.date))].sort()
+  const forDay = (ds) => items.filter(i => (i.date || i.datum) === ds)
+  const hasDots = new Set(items.map(i => i.date || i.datum))
+  const dagItems = forDay(selDate).sort((a, b) => (a.time || '').localeCompare(b.time || ''))
 
-  // Huidige en volgende 7 dagen
-  const vandaag = new Date()
-  const weekDagen = Array.from({length:7}, (_, i) => {
-    const d = new Date(vandaag)
-    d.setDate(d.getDate() + i - 1)
-    return d.toISOString().split('T')[0]
-  })
+  const prevM = () => { if (maand === 0) { setMaand(11); setJaar(j => j-1) } else setMaand(m => m-1) }
+  const nextM = () => { if (maand === 11) { setMaand(0); setJaar(j => j+1) } else setMaand(m => m+1) }
 
-  // Week-view data
-  const weekData = view === 'week' ? weekDagen : alleData.length > 0 ? alleData : weekDagen
+  const save = async () => {
+    if (!form.title) return
+    const data = { title: form.title, time: form.time, type: form.type, date: form.datum, datum: form.datum, prijs: form.prijs ? parseFloat(form.prijs) : null, notitie: form.notitie, duur: parseInt(form.duur)||1 }
+    if (editItem) await supabase.from('itinerary').update(data).eq('id', editItem.id)
+    else await supabase.from('itinerary').insert(data)
+    setShowForm(false); setEditItem(null)
+    setForm({ title: '', time: '10:00', type: 'activiteit', datum: selDate, prijs: '', notitie: '', duur: '2' })
+    load()
+  }
 
-  // Budget schatting per dag (gemiddelde)
-  const itemsMetPrijs = items.filter(i => i.price)
-  const gemPrijsPerDag = itemsMetPrijs.length > 0 ? Math.round(itemsMetPrijs.reduce((s,i) => s + Number(i.price), 0) / Math.max(alleData.length, 1)) : 0
+  const del = async (id) => { if (!confirm('Verwijderen?')) return; await supabase.from('itinerary').delete().eq('id', id); load() }
+  const openEdit = (item) => { setEditItem(item); setForm({ title: item.title||item.naam||'', time: item.time||'10:00', type: item.type||'activiteit', datum: item.date||item.datum||selDate, prijs: item.prijs?String(item.prijs):'', notitie: item.notitie||'', duur: item.duur?String(item.duur):'2' }); setShowForm(true) }
+  const openNew = () => { setEditItem(null); setForm({ title: '', time: '10:00', type: 'activiteit', datum: selDate, prijs: '', notitie: '', duur: '2' }); setShowForm(true) }
 
-  // Statistieken
-  const totaalItems = items.length
-  const gedaanItems = items.filter(i => new Date(i.date) < vandaag).length
-
-  const VIEWS = [
-    { key: 'week',  label: '📅 7 Dagen' },
-    { key: 'all',   label: '🗓️ Alles' },
-    { key: 'lijst', label: '📋 Lijst' },
-  ]
+  const selDateObj = new Date(selDate)
 
   return (
-    <div className="app-shell">
-      <Sidebar currentUser={user} />
-      <div className="main-area">
-        <div className="page-content px-4 max-w-xl mx-auto">
-          {/* Header */}
-          <div className="flex items-center justify-between mb-4">
-            <div>
-              <h1 className="serif text-2xl font-bold">📅 {t('agenda')}</h1>
-              <p className="serif-italic text-xs mt-0.5" style={{ color: 'var(--brown-soft)' }}>
-                Smart reiskalender {locatie?.city ? `· 📍 ${locatie.city}` : ''}
-              </p>
-            </div>
-            <a href="/reis" className="btn-ghost text-xs px-3 py-1.5">+ Toevoegen</a>
+    <div className="page-content">
+      <div style={{ padding: '20px 18px 0', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <div>
+          <p style={{ color: '#8a9ab5', fontSize: '0.68rem', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', margin: 0 }}>Agenda</p>
+          <h1 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: '1.7rem', fontWeight: 700, color: '#f0ece4', margin: 0 }}>Huwelijksreis</h1>
+        </div>
+        <button onClick={openNew} style={{ width: 36, height: 36, borderRadius: '50%', background: 'linear-gradient(135deg,#c9a84c,#e8c97a)', border: 'none', cursor: 'pointer', color: '#0a1628', fontSize: '1.3rem', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700 }}>+</button>
+      </div>
+
+      {/* Kalender */}
+      <div style={{ margin: '14px 16px 0' }}>
+        <div className="card" style={{ padding: '14px 12px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
+            <button onClick={prevM} style={{ width: 30, height: 30, borderRadius: '50%', background: 'rgba(255,255,255,0.06)', border: 'none', cursor: 'pointer', color: '#8a9ab5', fontSize: '1rem' }}>‹</button>
+            <p style={{ color: '#f0ece4', fontFamily: "'Cormorant Garamond',serif", fontWeight: 700, fontSize: '1.05rem', margin: 0 }}>{MAANDEN[maand]} {jaar}</p>
+            <button onClick={nextM} style={{ width: 30, height: 30, borderRadius: '50%', background: 'rgba(255,255,255,0.06)', border: 'none', cursor: 'pointer', color: '#8a9ab5', fontSize: '1rem' }}>›</button>
           </div>
-
-          {/* Stats */}
-          {!loading && items.length > 0 && (
-            <div className="glass-sm p-4 mb-4 grid grid-cols-3 gap-3">
-              {[
-                { v: alleData.length, l: 'Reisdagen' },
-                { v: totaalItems, l: 'Activiteiten' },
-                { v: gemPrijsPerDag > 0 ? `€${gemPrijsPerDag}` : '—', l: 'Per dag (gem.)' },
-              ].map(s => (
-                <div key={s.l} className="text-center">
-                  <p className="serif font-bold text-xl gold-text">{s.v}</p>
-                  <p className="text-[10px]" style={{ color: 'var(--brown-soft)' }}>{s.l}</p>
-                </div>
-              ))}
-            </div>
-          )}
-
-          {/* View toggle */}
-          <div className="flex gap-2 mb-4">
-            {VIEWS.map(v => (
-              <button key={v.key} onClick={() => setView(v.key)}
-                      className={`chip flex-1 justify-center text-xs ${view === v.key ? 'active' : ''}`}>
-                {v.label}
-              </button>
-            ))}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7,1fr)', marginBottom: 4 }}>
+            {DAGNAMEN.map(d => <p key={d} style={{ color: '#8a9ab5', fontSize: '0.58rem', fontWeight: 700, textAlign: 'center', margin: 0 }}>{d}</p>)}
           </div>
-
-          {/* Content */}
-          {loading ? (
-            <div className="flex flex-col gap-3">{[1,2,3].map(i => <div key={i} className="skeleton h-40" />)}</div>
-          ) : items.length === 0 ? (
-            <div className="text-center py-16">
-              <p className="text-5xl mb-4">📅</p>
-              <h3 className="serif text-xl mb-2">Agenda is leeg</h3>
-              <p className="serif-italic text-sm mb-4" style={{ color: 'var(--brown-soft)' }}>
-                Voeg activiteiten toe in het Reisschema
-              </p>
-              <a href="/reis" className="btn-gold px-6 py-2.5 inline-block">Ga naar Reis →</a>
-            </div>
-          ) : view === 'lijst' ? (
-            // Lijst-weergave
-            <div className="flex flex-col gap-2">
-              {items.map(item => (
-                <div key={item.id} className="glass-sm p-3 flex items-center gap-3">
-                  <div className="text-center w-12 flex-shrink-0">
-                    <p className="text-xs font-bold" style={{ color: 'var(--gold)' }}>
-                      {new Date(item.date).toLocaleDateString('nl-NL', { day:'numeric', month:'short' })}
-                    </p>
-                    <p className="text-[10px]" style={{ color: 'var(--brown-soft)' }}>{item.time_slot?.substring(0,3)}</p>
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="font-semibold text-sm truncate">{item.activity || item.title}</p>
-                    {item.location && <p className="text-xs truncate" style={{ color: 'var(--brown-soft)' }}>📍 {item.location}</p>}
-                  </div>
-                  {item.price && <span className="text-xs font-bold" style={{ color: 'var(--gold)' }}>€{item.price}</span>}
-                </div>
-              ))}
-            </div>
-          ) : (
-            // Dag/week weergave
-            (view === 'week' ? weekDagen : alleData).map(datum => {
-              const dagItems = items.filter(i => i.date === datum)
-              const dagVluchten = vluchten.filter(f => f.depart_at?.startsWith(datum) || f.arrive_at?.startsWith(datum))
-              if (dagItems.length === 0 && dagVluchten.length === 0 && view === 'week') {
-                return (
-                  <div key={datum} className="glass-sm px-4 py-3 mb-2 flex items-center justify-between opacity-60">
-                    <p className="text-sm font-medium">{dagNaamNL(datum)}</p>
-                    <p className="text-xs serif-italic" style={{ color: 'var(--brown-soft)' }}>Vrij</p>
-                  </div>
-                )
-              }
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7,1fr)', gap: 2 }}>
+            {dagInMaand(jaar, maand).map((dag, i) => {
+              if (!dag) return <div key={i} />
+              const ds = toStr(dag)
+              const reis = isReis(dag)
+              const dot = hasDots.has(ds)
+              const sel = ds === selDate
+              const tod = toStr(dag) === toStr(now)
               return (
-                <DagKolom key={datum} datum={datum} items={dagItems} vluchten={dagVluchten}
-                           locatie={locatie} budgetPerDag={gemPrijsPerDag} />
+                <button key={i} onClick={() => setSelDate(ds)} style={{ aspectRatio: '1', borderRadius: 8, border: tod ? '2px solid #c9a84c' : sel ? '2px solid #4ecdc4' : 'none', background: sel ? 'rgba(78,205,196,0.18)' : reis ? 'rgba(201,168,76,0.05)' : 'transparent', cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 2 }}>
+                  <span style={{ fontSize: '0.72rem', fontWeight: sel||tod ? 700 : 400, color: sel ? '#4ecdc4' : tod ? '#c9a84c' : reis ? '#f0ece4' : '#8a9ab5' }}>{dag.getDate()}</span>
+                  {dot && <span style={{ width: 4, height: 4, borderRadius: '50%', background: sel ? '#4ecdc4' : '#c9a84c', display: 'block' }} />}
+                </button>
               )
-            })
-          )}
+            })}
+          </div>
+        </div>
+      </div>
 
-          {/* Voeg favorieten toe suggestie */}
-          {!loading && items.length > 0 && (
-            <div className="glass p-4 mb-4">
-              <div className="flex items-center gap-2 mb-2">
-                <span className="text-lg">❤️</span>
-                <p className="font-semibold text-sm serif">Bewaarde plekken toevoegen?</p>
-              </div>
-              <p className="text-xs mb-3" style={{ color: 'var(--brown-soft)' }}>
-                Je hebt plekken bewaard in Ontdek. Wil je ze in het reisschema zetten?
-              </p>
-              <div className="flex gap-2">
-                <a href="/favorieten" className="btn-ghost text-xs px-3 py-1.5 flex-1 text-center">Bekijk favorieten</a>
-                <a href="/reis" className="btn-gold text-xs px-3 py-1.5 flex-1 text-center">Toevoegen aan Reis</a>
-              </div>
-            </div>
-          )}
+      {/* Tijdlijn geselecteerde dag */}
+      <div style={{ padding: '12px 16px 40px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
+          <div>
+            <p style={{ color: '#f0ece4', fontWeight: 700, fontSize: '1rem', margin: 0, fontFamily: "'Cormorant Garamond',serif" }}>
+              {selDateObj.toLocaleDateString('nl', { weekday: 'long', day: 'numeric', month: 'long' })}
+            </p>
+            <p style={{ color: '#8a9ab5', fontSize: '0.65rem', margin: 0 }}>
+              {isReis(selDateObj) ? '🏝️ Reisdag' : '📅 Buiten reis'}{dagItems.length > 0 ? ' · ' + dagItems.length + ' activiteit' + (dagItems.length>1?'en':'') : ''}
+            </p>
+          </div>
+          <button onClick={openNew} className="btn btn-ghost btn-sm" style={{ fontSize: '0.7rem', padding: '5px 12px' }}>+ Toevoegen</button>
         </div>
 
-        <BottomNav />
-        <FloatingAI currentUser={user} pagina="agenda" />
+        {dagItems.length > 0 ? (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            {dagItems.map((item, i) => {
+              const cat = ACT_CATS.find(c => c.id === item.type) || ACT_CATS[5]
+              return (
+                <motion.div key={item.id} initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i*0.06 }}>
+                  <div style={{ display: 'flex', gap: 10 }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: 44, flexShrink: 0 }}>
+                      <p style={{ fontFamily: "'DM Mono',monospace", fontSize: '0.68rem', color: '#8a9ab5', margin: '8px 0 4px', fontWeight: 600 }}>{item.time||'--:--'}</p>
+                      <div style={{ width: 2, flex: 1, background: cat.color+'35', borderRadius: 1, minHeight: 16 }} />
+                    </div>
+                    <div className="card" style={{ flex: 1, padding: '10px 14px', borderLeft: '3px solid ' + cat.color, cursor: 'pointer' }} onClick={() => openEdit(item)}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                        <div style={{ flex: 1 }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 2 }}>
+                            <span>{cat.emoji}</span>
+                            <p style={{ color: '#f0ece4', fontSize: '0.88rem', fontWeight: 600, margin: 0 }}>{item.title||item.naam}</p>
+                          </div>
+                          <div style={{ display: 'flex', gap: 8 }}>
+                            {item.duur && <span style={{ color: '#8a9ab5', fontSize: '0.62rem' }}>⏱️{item.duur}u</span>}
+                            {item.prijs && <span style={{ color: '#c9a84c', fontSize: '0.62rem', fontFamily: "'DM Mono',monospace" }}>€{item.prijs}</span>}
+                            <span style={{ fontSize: '0.6rem', color: cat.color, fontWeight: 600 }}>{cat.label}</span>
+                          </div>
+                          {item.notitie && <p style={{ color: '#8a9ab5', fontSize: '0.68rem', margin: '3px 0 0' }}>{item.notitie}</p>}
+                        </div>
+                        <button onClick={e=>{e.stopPropagation();del(item.id)}} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#ef4444', padding: '0 0 0 8px', fontSize: '0.9rem', flexShrink: 0 }}>×</button>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              )
+            })}
+          </div>
+        ) : (
+          <div className="card" style={{ padding: 24, textAlign: 'center' }}>
+            <p style={{ fontSize: '1.8rem', margin: '0 0 8px' }}>{isReis(selDateObj) ? '🌴' : '📅'}</p>
+            <p style={{ color: '#f0ece4', fontFamily: "'Cormorant Garamond',serif", fontSize: '1rem', margin: '0 0 4px' }}>
+              {isReis(selDateObj) ? 'Vrije dag!' : 'Buiten reisperiode'}
+            </p>
+            {isReis(selDateObj) && (
+              <button onClick={openNew} className="btn btn-primary" style={{ fontSize: '0.8rem', padding: '8px 16px', marginTop: 10 }}>+ Activiteit plannen</button>
+            )}
+          </div>
+        )}
       </div>
+
+      {/* Formulier */}
+      <AnimatePresence>
+        {showForm && (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="overlay" onClick={() => setShowForm(false)}>
+            <motion.div initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }} transition={{ type: 'spring', stiffness: 300, damping: 30 }} className="sheet" onClick={e => e.stopPropagation()}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 14 }}>
+                <h2 className="serif" style={{ fontSize: '1.1rem', fontWeight: 700, color: '#f0ece4', margin: 0 }}>{editItem ? 'Bewerk' : 'Nieuwe activiteit'}</h2>
+                <button onClick={() => { setShowForm(false); setEditItem(null) }} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#8a9ab5', fontSize: '1.2rem' }}>x</button>
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                <input className="input" placeholder="Naam activiteit" value={form.title} onChange={e => setForm(p => ({ ...p, title: e.target.value }))} />
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 8 }}>
+                  <input className="input" type="time" value={form.time} onChange={e => setForm(p => ({ ...p, time: e.target.value }))} />
+                  <input className="input" type="number" placeholder="Uren" value={form.duur} onChange={e => setForm(p => ({ ...p, duur: e.target.value }))} min="0.5" step="0.5" />
+                  <input className="input" type="number" placeholder="Prijs" value={form.prijs} onChange={e => setForm(p => ({ ...p, prijs: e.target.value }))} />
+                </div>
+                <input className="input" type="date" value={form.datum} onChange={e => setForm(p => ({ ...p, datum: e.target.value }))} />
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5 }}>
+                  {ACT_CATS.map(cat => (
+                    <button key={cat.id} onClick={() => setForm(p => ({ ...p, type: cat.id }))}
+                      style={{ padding: '4px 10px', borderRadius: 100, border: '1px solid ' + (form.type===cat.id ? cat.color : 'rgba(255,255,255,0.10)'), background: form.type===cat.id ? cat.color+'20' : 'transparent', color: form.type===cat.id ? cat.color : '#8a9ab5', fontSize: '0.7rem', fontWeight: 600, cursor: 'pointer' }}>
+                      {cat.emoji} {cat.label}
+                    </button>
+                  ))}
+                </div>
+                <textarea className="input" placeholder="Notitie" rows={2} value={form.notitie} onChange={e => setForm(p => ({ ...p, notitie: e.target.value }))} style={{ resize: 'none' }} />
+                <button onClick={save} className="btn btn-primary" style={{ padding: 13 }}>{editItem ? 'Opslaan' : '+ Toevoegen'}</button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   )
-}
+  }

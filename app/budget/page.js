@@ -1,352 +1,246 @@
 'use client'
-import { useState, useEffect, useRef } from 'react'
-import BottomNav, { Sidebar } from '@/components/BottomNav'
-import FloatingAI from '@/components/FloatingAI'
-import { getBudget, upsertBudget, getExpenses, addExpense, deleteExpense } from '@/lib/supabase'
+import { useState, useEffect } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, LineChart, Line, XAxis, YAxis, CartesianGrid } from 'recharts'
+import { useLanguage } from '@/lib/i18n'
+import { supabase } from '@/lib/supabase'
 
 const CATS = [
-  { key:'Hotel',       icon:'🏨' },
-  { key:'Vlucht',      icon:'✈️' },
-  { key:'Eten',        icon:'🍽️' },
-  { key:'Activiteiten',icon:'🎭' },
-  { key:'Shopping',    icon:'🛍️' },
-  { key:'Transport',   icon:'🚕' },
-  { key:'Overig',      icon:'🎁' },
+  { id: 'verblijf', label: 'Verblijf', emoji: '🏨', color: '#c9a84c' },
+  { id: 'eten', label: 'Eten', emoji: '🍜', color: '#4ecdc4' },
+  { id: 'activiteiten', label: 'Activiteiten', emoji: '🏄', color: '#e8813a' },
+  { id: 'transport', label: 'Transport', emoji: '🚗', color: '#9b59b6' },
+  { id: 'shopping', label: 'Shopping', emoji: '🛍️', color: '#e74c3c' },
+  { id: 'diversen', label: 'Diversen', emoji: '✨', color: '#3498db' },
 ]
-const CURRENCIES = ['EUR','USD','GBP','TRY','MAD','THB','JPY','AED']
+const IDR_RATE = 17500
+const TOTAAL = 10000
 
-function CurrencyConverter({ base }) {
-  const [amount, setAmount] = useState('')
-  const [from, setFrom] = useState(base || 'EUR')
-  const [to, setTo] = useState('TRY')
-  const [rates, setRates] = useState(null)
-  const [result, setResult] = useState(null)
-
-  useEffect(() => {
-    fetch(`/api/currency?base=${from}&symbols=${CURRENCIES.join(',')}`)
-      .then(r => r.json()).then(d => setRates(d.rates)).catch(() => {})
-  }, [from])
-
-  function convert() {
-    if (!rates || !amount) return
-    const rate = to === from ? 1 : (rates[to] || 1)
-    setResult((parseFloat(amount) * rate).toFixed(2))
-  }
-
-  return (
-    <div className="glass p-4 mb-4">
-      <h3 className="serif font-semibold mb-3">💱 Valuta-omrekenen</h3>
-      <div className="flex gap-2 mb-3">
-        <input type="number" value={amount} onChange={e => setAmount(e.target.value)}
-               placeholder="Bedrag" className="input flex-1" inputMode="decimal" />
-        <select value={from} onChange={e => setFrom(e.target.value)} className="input w-24">
-          {CURRENCIES.map(c => <option key={c}>{c}</option>)}
-        </select>
-        <span className="flex items-center text-lg" style={{ color:'var(--gold)' }}>→</span>
-        <select value={to} onChange={e => setTo(e.target.value)} className="input w-24">
-          {CURRENCIES.map(c => <option key={c}>{c}</option>)}
-        </select>
-      </div>
-      <button onClick={convert} className="btn-gold w-full py-2.5 mb-3">Bereken</button>
-      {result && (
-        <div className="text-center p-3 rounded-2xl" style={{ background:'rgba(201,162,75,0.1)' }}>
-          <p className="serif text-2xl font-bold gold-text">{result} {to}</p>
-          <p className="text-xs mt-1" style={{ color:'var(--brown-soft)' }}>
-            {amount} {from} = {result} {to}
-          </p>
-        </div>
-      )}
-      {!rates && <p className="text-xs text-center" style={{ color:'var(--brown-soft)' }}>Koersen laden...</p>}
-    </div>
-  )
-}
-
-function PieChart({ expenses }) {
-  const totals = {}
-  for (const e of expenses) totals[e.category] = (totals[e.category] || 0) + Number(e.amount)
-  const total = Object.values(totals).reduce((a,b) => a+b, 0)
-  if (total === 0) return null
-
-  const colors = { Hotel:'#E3A6B5', Vlucht:'#C9A24B', Eten:'#F0C0CC', Activiteiten:'#B8960C', Shopping:'#F0D060', Transport:'#C8A8B0', Overig:'#D9C7B0' }
-
-  return (
-    <div className="flex gap-4 items-center">
-      <svg viewBox="0 0 100 100" className="w-24 h-24 flex-shrink-0">
-        {(() => {
-          let angle = -90
-          return Object.entries(totals).map(([cat, amt]) => {
-            const pct = amt / total
-            const sweep = pct * 360
-            const r = 40, cx = 50, cy = 50
-            const start = { x: cx + r*Math.cos(angle*Math.PI/180), y: cy + r*Math.sin(angle*Math.PI/180) }
-            angle += sweep
-            const end = { x: cx + r*Math.cos(angle*Math.PI/180), y: cy + r*Math.sin(angle*Math.PI/180) }
-            const lg = sweep > 180 ? 1 : 0
-            return (
-              <path key={cat} d={`M${cx},${cy} L${start.x},${start.y} A${r},${r} 0 ${lg},1 ${end.x},${end.y} Z`}
-                    fill={colors[cat]||'#ccc'} stroke="rgba(251,246,239,0.8)" strokeWidth="1" />
-            )
-          })
-        })()}
-        <circle cx="50" cy="50" r="22" fill="rgba(251,246,239,0.95)" />
-      </svg>
-      <div className="flex flex-col gap-1 flex-1 min-w-0">
-        {Object.entries(totals).map(([cat, amt]) => (
-          <div key={cat} className="flex items-center gap-1.5">
-            <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ background:colors[cat]||'#ccc' }} />
-            <span className="text-xs truncate flex-1" style={{ color:'var(--brown-soft)' }}>{cat}</span>
-            <span className="text-xs font-semibold" style={{ color:'var(--brown)' }}>{(amt/total*100).toFixed(0)}%</span>
-          </div>
-        ))}
-      </div>
-    </div>
-  )
+function fmt(amount, currency) {
+  if (currency === 'IDR') return 'Rp ' + Math.round(amount * IDR_RATE).toLocaleString('nl')
+  return '\u20ac' + amount.toFixed(2).replace('.', ',')
 }
 
 export default function BudgetPage() {
-  const [user] = useState(() => typeof window !== 'undefined' ? localStorage.getItem('honeymoon_user') || 'abdul' : 'abdul')
-  const [budget, setBudgetData] = useState(null)
+  const [currency, setCurrency] = useState('EUR')
+  const [tab, setTab] = useState('overzicht')
   const [expenses, setExpenses] = useState([])
   const [loading, setLoading] = useState(true)
-  const [showExpForm, setShowExpForm] = useState(false)
-  const [showBudForm, setShowBudForm] = useState(false)
-  const [scanning, setScanning] = useState(false)
-  const [form, setForm] = useState({ amount:'', category:'Eten', description:'', date:'' })
-  const scanRef = useRef(null)
+  const [showForm, setShowForm] = useState(false)
+  const [editItem, setEditItem] = useState(null)
+  const [form, setForm] = useState({ omschrijving: '', bedrag: '', categorie: 'eten', datum: new Date().toISOString().split('T')[0], notitie: '' })
 
-  async function handleBonnetjeScan(e) {
-    const file = e.target.files?.[0]
-    if (!file) return
-    setScanning(true)
-    try {
-      const fd = new FormData()
-      fd.append('file', file)
-      const res = await fetch('/api/budget/scan', { method:'POST', body:fd })
-      const data = await res.json()
-      if (!data.error) {
-        setForm(prev => ({
-          ...prev,
-          amount: data.amount ? String(data.amount) : prev.amount,
-          category: data.category || prev.category,
-          description: data.description || prev.description,
-          date: data.date || prev.date,
-        }))
-        setShowExpForm(true)
-      }
-    } finally { setScanning(false); e.target.value = '' }
+  const load = async () => {
+    setLoading(true)
+    const { data } = await supabase.from('expenses').select('*').order('datum', { ascending: false })
+    setExpenses(data || [])
+    setLoading(false)
   }
-  const [budForm, setBudForm] = useState({ total:'', currency:'EUR' })
-  const [activeTab, setActiveTab] = useState('overzicht')
+  useEffect(() => { load() }, [])
 
-  useEffect(() => {
-    Promise.all([getBudget(), getExpenses()]).then(([b, e]) => {
-      setBudgetData(b)
-      setExpenses(e)
-      if (b) setBudForm({ total: b.total_budget, currency: b.currency })
-      setLoading(false)
-    })
-  }, [])
+  const totaalUit = expenses.reduce((s, e) => s + (e.bedrag || 0), 0)
+  const rest = TOTAAL - totaalUit
+  const pct = Math.min((totaalUit / TOTAAL) * 100, 100)
 
-  async function handleSaveBudget() {
-    const data = await upsertBudget(Number(budForm.total), budForm.currency)
-    setBudgetData(data)
-    setShowBudForm(false)
+  const perCat = CATS.map(cat => ({ ...cat, total: expenses.filter(e => e.categorie === cat.id).reduce((s, e) => s + (e.bedrag || 0), 0) })).filter(c => c.total > 0)
+
+  const perDag = []
+  for (let i = 13; i >= 0; i--) {
+    const d = new Date(); d.setDate(d.getDate() - i)
+    const ds = d.toISOString().split('T')[0]
+    perDag.push({ datum: d.toLocaleDateString('nl', { day: 'numeric', month: 'short' }), total: expenses.filter(e => e.datum === ds).reduce((s, e) => s + (e.bedrag || 0), 0) })
   }
 
-  async function handleAddExpense() {
-    if (!form.amount) return
-    const exp = await addExpense({
-      amount: Number(form.amount), category: form.category,
-      description: form.description || null, currency: budget?.currency || 'EUR',
-      date: form.date || new Date().toISOString().split('T')[0],
-      paid_by: user,
-    })
-    if (exp) setExpenses(prev => [exp, ...prev])
-    setForm({ amount:'', category:'Eten', description:'', date:'' })
-    setShowExpForm(false)
+  const grouped = {}
+  expenses.forEach(e => { const d = e.datum || new Date().toISOString().split('T')[0]; if (!grouped[d]) grouped[d] = []; grouped[d].push(e) })
+
+  const save = async () => {
+    if (!form.omschrijving || !form.bedrag) return
+    const data = { omschrijving: form.omschrijving, bedrag: parseFloat(form.bedrag), categorie: form.categorie, datum: form.datum, notitie: form.notitie }
+    if (editItem) await supabase.from('expenses').update(data).eq('id', editItem.id)
+    else await supabase.from('expenses').insert(data)
+    setForm({ omschrijving: '', bedrag: '', categorie: 'eten', datum: new Date().toISOString().split('T')[0], notitie: '' })
+    setShowForm(false); setEditItem(null); load()
   }
 
-  async function handleDelete(id) {
-    await deleteExpense(id)
-    setExpenses(prev => prev.filter(e => e.id !== id))
-  }
-
-  const total = budget?.total_budget || 0
-  const spent = expenses.reduce((s,e) => s + Number(e.amount), 0)
-  const over = total - spent
-  const pct = total > 0 ? Math.min((spent/total)*100, 100) : 0
-  const barColor = pct < 50 ? '#4CAF50' : pct < 80 ? 'var(--gold)' : 'var(--rose)'
-  const curr = budget?.currency || 'EUR'
-
-  const TABS = [{ key:'overzicht', label:'📊 Overzicht' }, { key:'uitgaven', label:'📋 Lijst' }, { key:'valuta', label:'💱 Valuta' }]
+  const del = async (id) => { if (!confirm('Verwijderen?')) return; await supabase.from('expenses').delete().eq('id', id); load() }
+  const edit = (item) => { setEditItem(item); setForm({ omschrijving: item.omschrijving, bedrag: String(item.bedrag), categorie: item.categorie || 'eten', datum: item.datum || '', notitie: item.notitie || '' }); setShowForm(true) }
 
   return (
-    <div className="app-shell">
-      <Sidebar currentUser={user} />
-      <div className="main-area">
-        <div className="page-content px-4 max-w-xl mx-auto">
-          {/* Header */}
-          <div className="flex items-center justify-between mb-4">
+    <div className="page-content">
+      <div style={{ padding: '20px 18px 0', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <div>
+          <p style={{ color: '#8a9ab5', fontSize: '0.68rem', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', margin: 0 }}>Budget</p>
+          <h1 style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: '1.7rem', fontWeight: 700, color: '#f0ece4', margin: 0 }}>Huwelijksreis</h1>
+        </div>
+        <div style={{ display: 'flex', gap: 8 }}>
+          <button onClick={() => setCurrency(c => c === 'EUR' ? 'IDR' : 'EUR')} style={{ padding: '6px 14px', borderRadius: 100, background: 'rgba(201,168,76,0.12)', border: '1px solid rgba(201,168,76,0.30)', color: '#c9a84c', fontSize: '0.75rem', fontWeight: 700, cursor: 'pointer' }}>{currency === 'EUR' ? '\u20ac EUR' : 'Rp IDR'}</button>
+          <button onClick={() => { setEditItem(null); setForm({ omschrijving: '', bedrag: '', categorie: 'eten', datum: new Date().toISOString().split('T')[0], notitie: '' }); setShowForm(true) }} style={{ width: 36, height: 36, borderRadius: '50%', background: 'linear-gradient(135deg,#c9a84c,#e8c97a)', border: 'none', cursor: 'pointer', color: '#0a1628', fontSize: '1.3rem', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700 }}>+</button>
+        </div>
+      </div>
+
+      {/* Dashboard kaart */}
+      <div style={{ margin: '16px 16px 0' }}>
+        <div className="card" style={{ padding: 20, background: 'linear-gradient(135deg,rgba(201,168,76,0.10),rgba(10,22,40,0.9))', borderColor: 'rgba(201,168,76,0.35)' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 16 }}>
             <div>
-              <h1 className="serif text-2xl font-bold">💰 Budget</h1>
-              <p className="serif-italic text-xs mt-0.5" style={{ color:'var(--brown-soft)' }}>Financieel overzicht</p>
+              <p style={{ color: '#8a9ab5', fontSize: '0.65rem', fontWeight: 600, textTransform: 'uppercase', margin: '0 0 4px' }}>Resterend</p>
+              <p style={{ fontFamily: "'DM Mono',monospace", fontSize: '2.2rem', fontWeight: 700, color: rest > 2000 ? '#4ecdc4' : rest > 0 ? '#c9a84c' : '#ef4444', margin: 0, lineHeight: 1 }}>{fmt(rest, currency)}</p>
             </div>
-            <div className="flex gap-2">
-              <input ref={scanRef} type="file" accept="image/*" capture="environment" onChange={handleBonnetjeScan} className="hidden" />
-              <button onClick={() => scanRef.current?.click()} disabled={scanning} className="btn-ghost px-3 py-2 text-sm" title="Scan bonnetje">
-                {scanning ? '⏳' : '📷'}
-              </button>
-              <button onClick={() => setShowExpForm(true)} className="btn-gold px-4 py-2 text-sm">+ Uitgave</button>
+            <div style={{ textAlign: 'right' }}>
+              <p style={{ color: '#8a9ab5', fontSize: '0.65rem', fontWeight: 600, textTransform: 'uppercase', margin: '0 0 4px' }}>Uitgegeven</p>
+              <p style={{ fontFamily: "'DM Mono',monospace", fontSize: '1.3rem', fontWeight: 600, color: '#f0ece4', margin: 0 }}>{fmt(totaalUit, currency)}</p>
+              <p style={{ color: '#8a9ab5', fontSize: '0.65rem', margin: '2px 0 0' }}>van {fmt(TOTAAL, currency)}</p>
             </div>
           </div>
-
-          {/* Tabs */}
-          <div className="flex gap-2 mb-4">
-            {TABS.map(t => (
-              <button key={t.key} onClick={() => setActiveTab(t.key)}
-                      className={`chip flex-1 justify-center ${activeTab===t.key?'active':''}`}>
-                {t.label}
-              </button>
-            ))}
+          <div style={{ height: 8, background: 'rgba(255,255,255,0.08)', borderRadius: 4, overflow: 'hidden', marginBottom: 6 }}>
+            <motion.div initial={{ width: 0 }} animate={{ width: pct + '%' }} transition={{ duration: 1, delay: 0.3 }}
+              style={{ height: '100%', background: pct > 85 ? 'linear-gradient(90deg,#ef4444,#f87171)' : pct > 60 ? 'linear-gradient(90deg,#c9a84c,#e8c97a)' : 'linear-gradient(90deg,#4ecdc4,#c9a84c)', borderRadius: 4 }} />
           </div>
+          <p style={{ color: '#8a9ab5', fontSize: '0.62rem', margin: 0, fontFamily: "'DM Mono',monospace" }}>{Math.round(pct)}% gebruikt</p>
+        </div>
+      </div>
 
-          {/* Overzicht tab */}
-          {activeTab === 'overzicht' && (
-            <>
-              <div className="glass p-5 mb-4">
-                <div className="flex items-center justify-between mb-4">
-                  <div>
-                    <p className="serif text-3xl font-bold gold-text">{curr} {over.toFixed(0)}</p>
-                    <p className="text-sm" style={{ color:'var(--brown-soft)' }}>nog beschikbaar</p>
-                  </div>
-                  <button onClick={() => setShowBudForm(true)} className="text-xl opacity-50 hover:opacity-100 transition-opacity">✏️</button>
-                </div>
+      {/* Tabs */}
+      <div style={{ display: 'flex', margin: '12px 16px 0', background: 'rgba(255,255,255,0.04)', borderRadius: 12, padding: 4 }}>
+        {[['overzicht','Overzicht'],['transacties','Transacties'],['grafiek','Grafiek']].map(([id, lbl]) => (
+          <button key={id} onClick={() => setTab(id)} style={{ flex: 1, padding: 8, borderRadius: 10, border: 'none', cursor: 'pointer', fontSize: '0.72rem', fontWeight: 600, background: tab === id ? 'rgba(201,168,76,0.18)' : 'transparent', color: tab === id ? '#c9a84c' : '#8a9ab5' }}>{lbl}</button>
+        ))}
+      </div>
 
-                {total > 0 ? (
-                  <>
-                    <div className="flex justify-between text-sm mb-1.5">
-                      <span style={{ color:'var(--brown-soft)' }}>Uitgegeven</span>
-                      <span className="font-semibold" style={{ color:barColor }}>{curr} {spent.toFixed(2)} / {total.toFixed(2)}</span>
+      <div style={{ padding: '12px 16px 40px' }}>
+        {tab === 'overzicht' && (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+            {perCat.length > 0 ? (
+              <>
+                <div className="card" style={{ padding: 16, marginBottom: 10 }}>
+                  <p style={{ color: '#8a9ab5', fontSize: '0.62rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', margin: '0 0 10px' }}>Verdeling</p>
+                  <div style={{ height: 160, position: 'relative' }}>
+                    <ResponsiveContainer width="100%" height="100%">
+                      <PieChart><Pie data={perCat} cx="50%" cy="50%" innerRadius={45} outerRadius={70} paddingAngle={2} dataKey="total">
+                        {perCat.map((c, i) => <Cell key={i} fill={c.color} />)}
+                      </Pie><Tooltip formatter={v => fmt(v, currency)} /></PieChart>
+                    </ResponsiveContainer>
+                    <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', textAlign: 'center', pointerEvents: 'none' }}>
+                      <p style={{ fontFamily: "'DM Mono',monospace", fontSize: '1rem', fontWeight: 700, color: '#f0ece4', margin: 0 }}>{Math.round(pct)}%</p>
+                      <p style={{ color: '#8a9ab5', fontSize: '0.58rem', margin: 0 }}>gebruikt</p>
                     </div>
-                    <div className="progress-track">
-                      <div className="progress-fill" style={{ width:`${pct}%`, background:barColor }} />
-                    </div>
-                    <p className="text-xs text-right mt-1" style={{ color:'var(--brown-soft)' }}>{pct.toFixed(0)}% gebruikt</p>
-                  </>
-                ) : (
-                  <button onClick={() => setShowBudForm(true)} className="btn-ghost w-full">Totaalbudget instellen</button>
-                )}
-              </div>
-
-              {/* Pie chart */}
-              {expenses.length > 0 && (
-                <div className="glass p-4 mb-4">
-                  <h3 className="serif font-semibold mb-3">Per categorie</h3>
-                  <PieChart expenses={expenses} />
-                  <div className="gold-line mt-3" />
-                  <div className="grid grid-cols-2 gap-2 mt-3">
-                    {CATS.map(c => {
-                      const catTotal = expenses.filter(e=>e.category===c.key).reduce((s,e)=>s+Number(e.amount),0)
-                      if (!catTotal) return null
-                      return (
-                        <div key={c.key} className="flex items-center gap-2 text-sm">
-                          <span>{c.icon}</span>
-                          <span style={{ color:'var(--brown-soft)' }}>{c.key}</span>
-                          <span className="ml-auto font-semibold" style={{ color:'var(--brown)' }}>{curr} {catTotal.toFixed(0)}</span>
-                        </div>
-                      )
-                    })}
                   </div>
                 </div>
-              )}
-            </>
-          )}
-
-          {/* Lijst tab */}
-          {activeTab === 'uitgaven' && (
-            <div>
-              {loading ? (
-                <div className="flex flex-col gap-2">{[1,2,3,4].map(i => <div key={i} className="skeleton h-16" />)}</div>
-              ) : expenses.length === 0 ? (
-                <div className="text-center py-12">
-                  <p className="text-4xl mb-3">💸</p>
-                  <p className="serif-italic" style={{ color:'var(--brown-soft)' }}>Nog geen uitgaven</p>
-                </div>
-              ) : (
-                <div className="flex flex-col gap-2">
-                  {expenses.map(exp => (
-                    <div key={exp.id} className="glass-sm p-3 flex items-center gap-3">
-                      <span className="text-xl flex-shrink-0">{CATS.find(c=>c.key===exp.category)?.icon||'🎁'}</span>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex justify-between">
-                          <p className="font-semibold text-sm truncate">{exp.description || exp.category}</p>
-                          <span className="font-bold text-sm ml-2" style={{ color:'var(--gold)' }}>{curr} {Number(exp.amount).toFixed(2)}</span>
-                        </div>
-                        <p className="text-xs" style={{ color:'var(--brown-soft)' }}>
-                          {exp.category} · {new Date(exp.date).toLocaleDateString('nl-NL')} · {exp.paid_by==='lilia'?'👰':'🤵'}
-                        </p>
+                <div className="card" style={{ padding: 16 }}>
+                  {perCat.sort((a,b) => b.total - a.total).map((cat, i) => (
+                    <div key={cat.id} style={{ marginBottom: i < perCat.length-1 ? 12 : 0 }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 5 }}>
+                        <span style={{ color: '#f0ece4', fontSize: '0.8rem' }}>{cat.emoji} {cat.label}</span>
+                        <span style={{ fontFamily: "'DM Mono',monospace", fontSize: '0.8rem', color: cat.color, fontWeight: 700 }}>{fmt(cat.total, currency)}</span>
                       </div>
-                      <button onClick={() => handleDelete(exp.id)} className="text-sm opacity-40 hover:opacity-80 flex-shrink-0">🗑️</button>
+                      <div style={{ height: 5, background: 'rgba(255,255,255,0.06)', borderRadius: 3, overflow: 'hidden' }}>
+                        <motion.div initial={{ width: 0 }} animate={{ width: (cat.total/totaalUit*100)+'%' }} transition={{ duration: 0.8, delay: i*0.1 }} style={{ height: '100%', background: cat.color, borderRadius: 3 }} />
+                      </div>
                     </div>
                   ))}
                 </div>
-              )}
+              </>
+            ) : (
+              <div className="card" style={{ padding: 32, textAlign: 'center' }}>
+                <p style={{ fontSize: '2rem', margin: '0 0 10px' }}>💰</p>
+                <p style={{ color: '#f0ece4', fontFamily: "'Cormorant Garamond',serif", fontSize: '1.1rem', margin: '0 0 6px' }}>Nog geen uitgaven</p>
+                <button onClick={() => setShowForm(true)} className="btn btn-primary">+ Toevoegen</button>
+              </div>
+            )}
+          </motion.div>
+        )}
+
+        {tab === 'transacties' && (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+            {Object.keys(grouped).sort((a,b)=>b.localeCompare(a)).map(dag => (
+              <div key={dag} style={{ marginBottom: 14 }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
+                  <p style={{ color: '#8a9ab5', fontSize: '0.65rem', fontWeight: 700, textTransform: 'uppercase', margin: 0 }}>{new Date(dag).toLocaleDateString('nl', { weekday: 'short', day: 'numeric', month: 'long' })}</p>
+                  <p style={{ color: '#8a9ab5', fontSize: '0.65rem', fontFamily: "'DM Mono',monospace", margin: 0 }}>{fmt(grouped[dag].reduce((s,e)=>s+(e.bedrag||0),0), currency)}</p>
+                </div>
+                <div className="card" style={{ padding: '2px 0', overflow: 'hidden' }}>
+                  {grouped[dag].map((exp, i) => {
+                    const cat = CATS.find(c => c.id === exp.categorie) || CATS[5]
+                    return (
+                      <div key={exp.id} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '11px 14px', borderBottom: i < grouped[dag].length-1 ? '1px solid rgba(255,255,255,0.04)' : 'none', cursor: 'pointer' }} onClick={() => edit(exp)}>
+                        <div style={{ width: 36, height: 36, borderRadius: 9, background: cat.color+'18', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1rem', flexShrink: 0 }}>{cat.emoji}</div>
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <p style={{ color: '#f0ece4', fontSize: '0.82rem', fontWeight: 500, margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{exp.omschrijving}</p>
+                          <span style={{ fontSize: '0.62rem', color: cat.color, fontWeight: 600 }}>{cat.label}</span>
+                        </div>
+                        <div style={{ textAlign: 'right', flexShrink: 0 }}>
+                          <p style={{ fontFamily: "'DM Mono',monospace", fontSize: '0.9rem', fontWeight: 700, color: '#f0ece4', margin: 0 }}>{fmt(exp.bedrag, currency)}</p>
+                          <button onClick={e=>{e.stopPropagation();del(exp.id)}} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#ef4444', fontSize: '0.62rem', padding: 0 }}>verwijder</button>
+                        </div>
+                      </div>
+                    )
+                  })}
+                </div>
+              </div>
+            ))}
+            {expenses.length === 0 && <div className="card" style={{ padding: 24, textAlign: 'center' }}><p style={{ color: '#8a9ab5', fontSize: '0.82rem', margin: 0 }}>Geen transacties</p></div>}
+          </motion.div>
+        )}
+
+        {tab === 'grafiek' && (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+            <div className="card" style={{ padding: 16, marginBottom: 10 }}>
+              <p style={{ color: '#8a9ab5', fontSize: '0.62rem', fontWeight: 700, textTransform: 'uppercase', margin: '0 0 10px' }}>Afgelopen 14 dagen</p>
+              <div style={{ height: 170 }}>
+                <ResponsiveContainer width="100%" height="100%">
+                  <LineChart data={perDag}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
+                    <XAxis dataKey="datum" tick={{ fill: '#8a9ab5', fontSize: 8 }} axisLine={false} tickLine={false} interval={3} />
+                    <YAxis tick={{ fill: '#8a9ab5', fontSize: 8 }} axisLine={false} tickLine={false} tickFormatter={v => '\u20ac'+v} />
+                    <Tooltip formatter={v => fmt(v, currency)} contentStyle={{ background: '#111f3a', border: '1px solid rgba(201,168,76,0.2)', borderRadius: 8, color: '#f0ece4', fontSize: '0.72rem' }} />
+                    <Line type="monotone" dataKey="total" stroke="#c9a84c" strokeWidth={2} dot={{ fill: '#c9a84c', r: 3 }} activeDot={{ r: 5, fill: '#e8c97a' }} />
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
             </div>
-          )}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
+              {[['Totaal uitgegeven', fmt(totaalUit,currency),'💰'],['Resterend', fmt(rest,currency),'🎯'],['Daggemiddelde', fmt(totaalUit/Math.max(perDag.filter(d=>d.total>0).length,1),currency),'📅'],['Categorien', perCat.length+'x','📊']].map(([l,v,e],i) => (
+                <div key={i} className="card" style={{ padding: 12 }}>
+                  <p style={{ fontSize: '1.1rem', margin: '0 0 3px' }}>{e}</p>
+                  <p style={{ color: '#8a9ab5', fontSize: '0.6rem', fontWeight: 600, textTransform: 'uppercase', margin: '0 0 2px' }}>{l}</p>
+                  <p style={{ fontFamily: "'DM Mono',monospace", fontSize: '0.9rem', fontWeight: 700, color: '#f0ece4', margin: 0 }}>{v}</p>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </div>
 
-          {/* Valuta tab */}
-          {activeTab === 'valuta' && <CurrencyConverter base={curr} />}
-        </div>
-
-        {/* Uitgave modal */}
-        {showExpForm && (
-          <div className="overlay" onClick={() => setShowExpForm(false)}>
-            <div className="sheet" onClick={e => e.stopPropagation()}>
-              <h2 className="serif text-xl mb-4">Uitgave toevoegen</h2>
-              <div className="flex flex-col gap-3">
-                <input type="number" placeholder="Bedrag" value={form.amount} onChange={e => setForm(p=>({...p,amount:e.target.value}))} className="input" inputMode="decimal" />
-                <div className="flex flex-wrap gap-2">
-                  {CATS.map(c => (
-                    <button key={c.key} onClick={() => setForm(p=>({...p,category:c.key}))}
-                            className={`chip ${form.category===c.key?'active':''}`}>
-                      {c.icon} {c.key}
+      {/* Formulier */}
+      <AnimatePresence>
+        {showForm && (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="overlay" onClick={() => setShowForm(false)}>
+            <motion.div initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }} transition={{ type: 'spring', stiffness: 300, damping: 30 }} className="sheet" onClick={e => e.stopPropagation()}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 18 }}>
+                <h2 className="serif" style={{ fontSize: '1.15rem', fontWeight: 700, color: '#f0ece4', margin: 0 }}>{editItem ? 'Bewerk' : 'Nieuwe uitgave'}</h2>
+                <button onClick={() => { setShowForm(false); setEditItem(null) }} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#8a9ab5', fontSize: '1.2rem' }}>x</button>
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                <input className="input" placeholder="Omschrijving" value={form.omschrijving} onChange={e => setForm(p => ({ ...p, omschrijving: e.target.value }))} />
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
+                  <input className="input" type="number" placeholder="Bedrag (EUR)" value={form.bedrag} onChange={e => setForm(p => ({ ...p, bedrag: e.target.value }))} />
+                  <input className="input" type="date" value={form.datum} onChange={e => setForm(p => ({ ...p, datum: e.target.value }))} />
+                </div>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+                  {CATS.map(cat => (
+                    <button key={cat.id} onClick={() => setForm(p => ({ ...p, categorie: cat.id }))}
+                      style={{ padding: '5px 11px', borderRadius: 100, border: '1px solid ' + (form.categorie === cat.id ? cat.color : 'rgba(255,255,255,0.10)'), background: form.categorie === cat.id ? cat.color+'20' : 'transparent', color: form.categorie === cat.id ? cat.color : '#8a9ab5', fontSize: '0.72rem', fontWeight: 600, cursor: 'pointer' }}>
+                      {cat.emoji} {cat.label}
                     </button>
                   ))}
                 </div>
-                <input type="text" placeholder="Omschrijving (optioneel)" value={form.description} onChange={e => setForm(p=>({...p,description:e.target.value}))} className="input" />
-                <input type="date" value={form.date} onChange={e => setForm(p=>({...p,date:e.target.value}))} className="input" />
+                <button onClick={save} className="btn btn-primary" style={{ padding: 13 }}>{editItem ? 'Opslaan' : '+ Toevoegen'}</button>
               </div>
-              <div className="flex gap-3 mt-4">
-                <button onClick={() => setShowExpForm(false)} className="flex-1 btn-ghost">Annuleer</button>
-                <button onClick={handleAddExpense} disabled={!form.amount} className="flex-1 btn-gold disabled:opacity-40">Toevoegen</button>
-              </div>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         )}
-
-        {/* Budget modal */}
-        {showBudForm && (
-          <div className="overlay" onClick={() => setShowBudForm(false)}>
-            <div className="sheet" onClick={e => e.stopPropagation()}>
-              <h2 className="serif text-xl mb-4">Budget instellen</h2>
-              <input type="number" placeholder="Totaal budget" value={budForm.total} onChange={e => setBudForm(p=>({...p,total:e.target.value}))} className="input mb-3" inputMode="decimal" />
-              <div className="flex flex-wrap gap-2 mb-4">
-                {CURRENCIES.map(c => (
-                  <button key={c} onClick={() => setBudForm(p=>({...p,currency:c}))}
-                          className={`chip ${budForm.currency===c?'active':''}`}>{c}</button>
-                ))}
-              </div>
-              <div className="flex gap-3">
-                <button onClick={() => setShowBudForm(false)} className="flex-1 btn-ghost">Annuleer</button>
-                <button onClick={handleSaveBudget} className="flex-1 btn-gold">Opslaan</button>
-              </div>
-            </div>
-          </div>
-        )}
-
-        <BottomNav />
-        <FloatingAI currentUser={user} />
-      </div>
+      </AnimatePresence>
     </div>
   )
-}
+  }
